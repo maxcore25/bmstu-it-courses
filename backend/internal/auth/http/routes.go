@@ -3,16 +3,23 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
-func RegisterAuthRoutes(r *gin.Engine, us service.UserService) {
-	userHandler := NewUserHandler(us)
+func RegisterAuthRoutes(r *gin.Engine, userService service.UserService, authService service.AuthService, jwtManager *utils.JWTManager) {
+	userHandler := NewUserHandler(userService)
+	authHandler := NewAuthHandler(authService)
 
-	g := r.Group("/users")
+	authGroup := r.Group("/auth")
 	{
-		g.POST("", userHandler.CreateUser)
-		g.GET("/:id", userHandler.GetUser)
+		authGroup.POST("/login", authHandler.Login)
+		authGroup.POST("/refresh", authHandler.Refresh)
+		authGroup.POST("/logout", authHandler.Logout)
 	}
 
-	// TODO: add login, refresh, logout routes later
+	userGroup := r.Group("/users")
+	{
+		userGroup.POST("", userHandler.CreateUser)
+		userGroup.GET("/:id", userHandler.GetUser)
+	}
 }

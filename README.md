@@ -27,7 +27,7 @@ go install github.com/swaggo/swag/cmd/swag@latest
 air init
 
 # Init Swagger API docs
-swag init
+swag init --parseDependency --parseInternal
 ```
 
 ## Windows
