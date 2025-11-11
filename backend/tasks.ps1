@@ -21,14 +21,14 @@ function Build {
     if (-Not (Test-Path "bin")) {
         New-Item -ItemType Directory -Path "bin" | Out-Null
     }
-    go build -o bin/app .
+    go build -o bin/app ./cmd/app
     Write-Host "Build complete: bin/app" -ForegroundColor Green
 }
 
 function Run {
     Swagger
     Write-Host "Running Go application..." -ForegroundColor Cyan
-    go run .
+    go run ./cmd/app
 }
 
 function Help {

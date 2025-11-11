@@ -13,7 +13,7 @@ build:
 	@echo "Swagger docs generated"
 	@echo "Building Go application..."
 	@mkdir -p bin
-	go build -o bin/app .
+	go build -o bin/app ./cmd/app
 	@echo "Build complete: bin/app"
 
 run:
@@ -21,7 +21,7 @@ run:
 	@swag init --parseDependency --parseInternal
 	@echo "Swagger docs generated"
 	@echo "Running Go application..."
-	go run .
+	go run ./cmd/app
 
 swag:
 	@echo "Generating Swagger docs..."
