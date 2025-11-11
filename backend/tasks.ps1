@@ -6,7 +6,7 @@ param(
 function Swagger {
     Write-Host "Generating Swagger docs..." -ForegroundColor Cyan
     swag init --parseDependency --parseInternal
-    Write-Host "Swagger docs generated!" -ForegroundColor Green
+    Write-Host "Swagger docs generated" -ForegroundColor Green
 }
 
 function Dev {
@@ -32,7 +32,7 @@ function Run {
 }
 
 function Help {
-    Write-Host "Available commands:" -ForegroundColor Yellow
+    Write-Host "Available commands:" -ForegroundColor Yellow    
     Write-Host "  dev      - Start Air hot reload (with Swagger hot reload)"
     Write-Host "  build    - Build Go app into ./bin/app (Swagger updated first)"
     Write-Host "  run      - Run Go app (no reload)"
@@ -43,6 +43,7 @@ switch ($Command.ToLower()) {
     "dev"   { Dev }
     "build" { Build }
     "run"   { Run }
+    "swag"  { Swagger }
     "help"  { Help }
     default {
         Write-Host "Unknown command: $Command" -ForegroundColor Red
