@@ -8,6 +8,7 @@ import (
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/mapper"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	httphelper "github.com/maxcore25/bmstu-it-courses/backend/internal/shared/http"
 )
 
 type UserHandler struct {
@@ -31,8 +32,7 @@ func NewUserHandler(s service.UserService) *UserHandler {
 func (h *UserHandler) CreateUser(c *gin.Context) {
 	var req dto.CreateUserRequest
 
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
 
@@ -113,9 +113,8 @@ func (h *UserHandler) UpdateUserByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid uuid"})
 		return
 	}
-	var updateData map[string]interface{}
-	if err := c.ShouldBindJSON(&updateData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	var updateData map[string]any
+	if !httphelper.BindJSON(c, &updateData) {
 		return
 	}
 	if err := h.service.UpdateUserByID(id, updateData); err != nil {

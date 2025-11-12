@@ -29,8 +29,7 @@ func NewAuthHandler(s service.AuthService) *AuthHandler {
 // @Router /auth/register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req dto.RegisterRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		httphelper.JSONError(c, http.StatusBadRequest, err)
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
 
@@ -60,8 +59,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 // @Router /auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req dto.LoginRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		httphelper.JSONError(c, http.StatusBadRequest, err)
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
 
@@ -87,8 +85,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 // @Router /auth/refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var req dto.RefreshRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		httphelper.JSONError(c, http.StatusBadRequest, err)
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
 
@@ -113,8 +110,7 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 // @Router /auth/logout [post]
 func (h *AuthHandler) Logout(c *gin.Context) {
 	var req dto.RefreshRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		httphelper.JSONError(c, http.StatusBadRequest, err)
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
 

@@ -11,7 +11,7 @@ type UserRepository interface {
 	GetByID(id uuid.UUID) (*model.User, error)
 	GetByEmail(email string) (*model.User, error)
 	GetAll() ([]*model.User, error)
-	UpdateByID(id uuid.UUID, updateData map[string]interface{}) error
+	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
 }
 

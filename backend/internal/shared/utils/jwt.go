@@ -60,7 +60,7 @@ func (j *JWTManager) GenerateRefreshToken(userID uuid.UUID) (string, error) {
 }
 
 func (j *JWTManager) VerifyAccessToken(tokenString string) (*AccessTokenClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &AccessTokenClaims{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &AccessTokenClaims{}, func(t *jwt.Token) (any, error) {
 		return []byte(j.AccessSecret), nil
 	})
 	if err != nil || !token.Valid {
@@ -70,7 +70,7 @@ func (j *JWTManager) VerifyAccessToken(tokenString string) (*AccessTokenClaims, 
 }
 
 func (j *JWTManager) VerifyRefreshToken(tokenString string) (*RefreshTokenClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &RefreshTokenClaims{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &RefreshTokenClaims{}, func(t *jwt.Token) (any, error) {
 		return []byte(j.RefreshSecret), nil
 	})
 	if err != nil || !token.Valid {
