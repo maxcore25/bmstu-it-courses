@@ -7,6 +7,7 @@ import (
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
 type UserService interface {
@@ -26,8 +27,17 @@ func NewUserService(r repository.UserRepository) UserService {
 }
 
 func (s *userService) CreateUser(req dto.CreateUserRequest) (*model.User, error) {
-	// TODO: validate if email already exists before creation
-	// TODO: hash password instead of storing plain string
+	// 1. Check if email already exists
+	existingUser, err := s.repo.GetByEmail(req.Email)
+	if err == nil && existingUser != nil {
+		return nil, errors.New("user with this email already exists")
+	}
+
+	// 2. Hash password before storing
+	hashedPassword, err := utils.HashPassword(req.Password)
+	if err != nil {
+		return nil, errors.New("failed to hash password")
+	}
 
 	var middleNamePtr *string
 	if req.MiddleName != "" {
@@ -44,7 +54,7 @@ func (s *userService) CreateUser(req dto.CreateUserRequest) (*model.User, error)
 		LastName:       req.LastName,
 		MiddleName:     middleNamePtr,
 		Email:          req.Email,
-		Password:       req.Password, // TODO: hash before storing
+		Password:       hashedPassword,
 		Phone:          phonePtr,
 		KnowledgeLevel: model.KnowledgeLevel(req.KnowledgeLevel),
 	}
