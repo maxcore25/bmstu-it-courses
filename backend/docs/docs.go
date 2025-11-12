@@ -450,12 +450,16 @@ const docTemplate = `{
             }
         },
         "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse": {
-            "description": "User response payload",
+            "description": "User response payload.",
             "type": "object",
             "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2025-11-12T19:45:00Z"
+                },
                 "email": {
                     "type": "string",
-                    "example": "john.doe@example.com"
+                    "example": "user@mail.ru"
                 },
                 "first_name": {
                     "type": "string",
@@ -480,6 +484,27 @@ const docTemplate = `{
                 "phone": {
                     "type": "string",
                     "example": "+77010000000"
+                },
+                "portfolio": {
+                    "type": "string",
+                    "example": "Experienced backend developer with 5+ years in Go."
+                },
+                "rating": {
+                    "description": "Tutor-specific fields (optional)",
+                    "type": "number",
+                    "example": 4.8
+                },
+                "role": {
+                    "type": "string",
+                    "example": "tutor"
+                },
+                "testimonials_count": {
+                    "type": "integer",
+                    "example": 12
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2025-11-12T19:45:00Z"
                 }
             }
         }

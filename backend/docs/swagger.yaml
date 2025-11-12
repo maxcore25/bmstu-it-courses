@@ -76,10 +76,13 @@ definitions:
     - refresh_token
     type: object
   github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse:
-    description: User response payload
+    description: User response payload.
     properties:
+      created_at:
+        example: "2025-11-12T19:45:00Z"
+        type: string
       email:
-        example: john.doe@example.com
+        example: user@mail.ru
         type: string
       first_name:
         example: John
@@ -98,6 +101,22 @@ definitions:
         type: string
       phone:
         example: "+77010000000"
+        type: string
+      portfolio:
+        example: Experienced backend developer with 5+ years in Go.
+        type: string
+      rating:
+        description: Tutor-specific fields (optional)
+        example: 4.8
+        type: number
+      role:
+        example: tutor
+        type: string
+      testimonials_count:
+        example: 12
+        type: integer
+      updated_at:
+        example: "2025-11-12T19:45:00Z"
         type: string
     type: object
 host: localhost:8080

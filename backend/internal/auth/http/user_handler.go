@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/mapper"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
 )
 
@@ -41,15 +42,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	resp := dto.UserResponse{
-		ID:             user.ID,
-		FirstName:      user.FirstName,
-		LastName:       user.LastName,
-		MiddleName:     user.MiddleName,
-		Email:          user.Email,
-		Phone:          user.Phone,
-		KnowledgeLevel: string(user.KnowledgeLevel),
-	}
+	resp := mapper.NewUserResponse(user)
 
 	c.JSON(http.StatusCreated, resp)
 }
@@ -77,15 +70,7 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 		return
 	}
 
-	resp := dto.UserResponse{
-		ID:             user.ID,
-		FirstName:      user.FirstName,
-		LastName:       user.LastName,
-		MiddleName:     user.MiddleName,
-		Email:          user.Email,
-		Phone:          user.Phone,
-		KnowledgeLevel: string(user.KnowledgeLevel),
-	}
+	resp := mapper.NewUserResponse(user)
 
 	c.JSON(http.StatusOK, resp)
 }
@@ -102,17 +87,9 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	resp := make([]dto.UserResponse, len(users))
+	resp := make([]*dto.UserResponse, len(users))
 	for i, user := range users {
-		resp[i] = dto.UserResponse{
-			ID:             user.ID,
-			FirstName:      user.FirstName,
-			LastName:       user.LastName,
-			MiddleName:     user.MiddleName,
-			Email:          user.Email,
-			Phone:          user.Phone,
-			KnowledgeLevel: string(user.KnowledgeLevel),
-		}
+		resp[i] = mapper.NewUserResponse(user)
 	}
 	c.JSON(http.StatusOK, resp)
 }
