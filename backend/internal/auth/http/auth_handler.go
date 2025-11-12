@@ -2,11 +2,11 @@ package http
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	httphelper "github.com/maxcore25/bmstu-it-courses/backend/internal/shared/http"
 )
 
 type AuthHandler struct {
@@ -30,35 +30,22 @@ func NewAuthHandler(s service.AuthService) *AuthHandler {
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req dto.RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	tokens, err := h.service.Register(req)
 	if err != nil {
 		if err.Error() == "user with this email already exists" {
-			c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+			httphelper.JSONError(c, http.StatusConflict, err)
 		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			httphelper.JSONError(c, http.StatusBadRequest, err)
 		}
 		return
 	}
 
-	// Set refresh token as secure, HTTP-only cookie
-	c.SetCookie(
-		"refreshToken",
-		tokens.RefreshToken,
-		int(7*24*time.Hour.Seconds()), // 7 days
-		"/",
-		"",    // domain (empty = current)
-		false, // secure (set to false if testing locally via HTTP)
-		true,  // httpOnly
-	)
-
-	// Return only access token in JSON
-	c.JSON(http.StatusOK, gin.H{
-		"accessToken": tokens.AccessToken,
-	})
+	httphelper.SetRefreshTokenCookie(c, tokens.RefreshToken)
+	httphelper.JSONAccessToken(c, tokens.AccessToken)
 }
 
 // Login godoc
@@ -74,17 +61,18 @@ func (h *AuthHandler) Register(c *gin.Context) {
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req dto.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	tokens, err := h.service.Login(req)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusUnauthorized, err)
 		return
 	}
 
-	c.JSON(http.StatusOK, tokens)
+	httphelper.SetRefreshTokenCookie(c, tokens.RefreshToken)
+	httphelper.JSONAccessToken(c, tokens.AccessToken)
 }
 
 // Refresh godoc
@@ -100,17 +88,18 @@ func (h *AuthHandler) Login(c *gin.Context) {
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var req dto.RefreshRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	tokens, err := h.service.Refresh(req.RefreshToken)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusUnauthorized, err)
 		return
 	}
 
-	c.JSON(http.StatusOK, tokens)
+	httphelper.SetRefreshTokenCookie(c, tokens.RefreshToken)
+	httphelper.JSONAccessToken(c, tokens.AccessToken)
 }
 
 // Logout godoc
@@ -125,10 +114,11 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 func (h *AuthHandler) Logout(c *gin.Context) {
 	var req dto.RefreshRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		httphelper.JSONError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	_ = h.service.Logout(req.RefreshToken)
+	httphelper.ClearRefreshTokenCookie(c)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
