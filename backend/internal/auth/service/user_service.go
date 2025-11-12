@@ -12,6 +12,7 @@ import (
 
 type UserService interface {
 	CreateUser(req dto.CreateUserRequest) (*model.User, error)
+	GetByEmail(email string) (*model.User, error)
 	GetUser(id uuid.UUID) (*model.User, error)
 	GetAllUsers() ([]*model.User, error)
 	UpdateUserByID(id uuid.UUID, updateData map[string]any) error
@@ -64,6 +65,10 @@ func (s *userService) CreateUser(req dto.CreateUserRequest) (*model.User, error)
 	}
 
 	return user, nil
+}
+
+func (s *userService) GetByEmail(email string) (*model.User, error) {
+	return s.repo.GetByEmail(email)
 }
 
 func (s *userService) GetUser(id uuid.UUID) (*model.User, error) {

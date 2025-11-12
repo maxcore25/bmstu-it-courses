@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/bootstrap"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
@@ -22,9 +23,9 @@ import (
 	_ "github.com/maxcore25/bmstu-it-courses/backend/docs"
 )
 
-// @title BMSTU IT Courses API
+// @title CodeCraft - IT Courses School API
 // @version 1.0
-// @description This is a sample Gin server with Swagger
+// @description API documentation for CodeCraft IT Courses School.
 // @host localhost:8080
 // @BasePath /api
 
@@ -99,6 +100,11 @@ func main() {
 	userService := service.NewUserService(userRepo)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(db)
 	authService := service.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
+
+	// Seed admin
+	if err := bootstrap.SeedDefaultAdmin(userService); err != nil {
+		log.Fatalf("❌ Failed to seed default admin: %v", err)
+	}
 
 	// main.go
 	api := r.Group("/api")
