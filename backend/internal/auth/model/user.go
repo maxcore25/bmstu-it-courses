@@ -28,7 +28,7 @@ type User struct {
 	LastName       string         `gorm:"type:varchar(50);not null"`
 	MiddleName     *string        `gorm:"type:varchar(50)"`
 	Email          string         `gorm:"type:varchar(100);uniqueIndex;not null"`
-	Password       string         `gorm:"type:varchar(255);not null"` // TODO: hash before save
+	Password       string         `gorm:"type:varchar(255);not null"`
 	Phone          *string        `gorm:"type:varchar(20)"`
 	KnowledgeLevel KnowledgeLevel `gorm:"type:varchar(20);not null"`
 	Role           UserRole       `gorm:"type:varchar(20);not null;default:'client'" json:"role"`

@@ -11,6 +11,7 @@ import (
 )
 
 type AuthService interface {
+	Register(req dto.RegisterRequest) (*dto.AuthTokens, error)
 	Login(req dto.LoginRequest) (*dto.AuthTokens, error)
 	Refresh(refreshToken string) (*dto.AuthTokens, error)
 	Logout(refreshToken string) error
@@ -24,6 +25,63 @@ type authService struct {
 
 func NewAuthService(u repository.UserRepository, r repository.RefreshTokenRepository, j *utils.JWTManager) AuthService {
 	return &authService{userRepo: u, refreshRepo: r, jwt: j}
+}
+
+func (s *authService) Register(req dto.RegisterRequest) (*dto.AuthTokens, error) {
+	// 1. Check if user already exists
+	existing, _ := s.userRepo.GetByEmail(req.Email)
+	if existing != nil {
+		return nil, errors.New("user with this email already exists")
+	}
+
+	// 2. Hash password
+	hashed, err := utils.HashPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. Create user model
+	user := &model.User{
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		MiddleName:     req.MiddleName,
+		Email:          req.Email,
+		Password:       hashed,
+		Phone:          req.Phone,
+		KnowledgeLevel: model.KnowledgeLevel(req.KnowledgeLevel),
+		Role:           model.RoleClient, // default for new users
+	}
+
+	// 4. Save to DB
+	if err := s.userRepo.Create(user); err != nil {
+		return nil, err
+	}
+
+	// 5. Generate JWTs
+	access, err := s.jwt.GenerateAccessToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	refresh, err := s.jwt.GenerateRefreshToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 6. Store refresh token
+	tokenModel := &model.RefreshToken{
+		UserID:    user.ID,
+		Token:     refresh,
+		ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+	}
+	if err := s.refreshRepo.Save(tokenModel); err != nil {
+		return nil, err
+	}
+
+	return &dto.AuthTokens{
+		AccessToken:  access,
+		RefreshToken: refresh,
+	}, nil
 }
 
 func (s *authService) Login(req dto.LoginRequest) (*dto.AuthTokens, error) {
