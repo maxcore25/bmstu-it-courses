@@ -8,8 +8,10 @@ import (
 )
 
 type JWTManager struct {
-	AccessSecret  string
-	RefreshSecret string
+	AccessSecret    string
+	RefreshSecret   string
+	AccessTokenTTL  time.Duration
+	RefreshTokenTTL time.Duration
 }
 
 type AccessTokenClaims struct {
@@ -24,8 +26,10 @@ type RefreshTokenClaims struct {
 
 func NewJWTManager(accessSecret, refreshSecret string) *JWTManager {
 	return &JWTManager{
-		AccessSecret:  accessSecret,
-		RefreshSecret: refreshSecret,
+		AccessSecret:    accessSecret,
+		RefreshSecret:   refreshSecret,
+		AccessTokenTTL:  time.Minute * 15,
+		RefreshTokenTTL: time.Hour * 24 * 7,
 	}
 }
 
