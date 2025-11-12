@@ -14,6 +14,14 @@ const (
 	LevelAdvanced     KnowledgeLevel = "advanced"
 )
 
+type UserRole string
+
+const (
+	RoleClient UserRole = "client"
+	RoleTutor  UserRole = "tutor"
+	RoleAdmin  UserRole = "admin"
+)
+
 type User struct {
 	ID             uuid.UUID      `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	FirstName      string         `gorm:"type:varchar(50);not null"`
@@ -23,6 +31,13 @@ type User struct {
 	Password       string         `gorm:"type:varchar(255);not null"` // TODO: hash before save
 	Phone          *string        `gorm:"type:varchar(20)"`
 	KnowledgeLevel KnowledgeLevel `gorm:"type:varchar(20);not null"`
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
+	Role           UserRole       `gorm:"type:varchar(20);not null;default:'client'" json:"role"`
+
+	// Tutor-specific fields (optional)
+	Rating            *float64 `gorm:"type:decimal(3,2)" json:"rating,omitempty"`
+	Portfolio         *string  `gorm:"type:text" json:"portfolio,omitempty"`
+	TestimonialsCount *int     `gorm:"type:int" json:"testimonials_count,omitempty"`
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
