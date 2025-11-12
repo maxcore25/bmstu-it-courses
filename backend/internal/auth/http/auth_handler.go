@@ -16,6 +16,8 @@ func NewAuthHandler(s service.AuthService) *AuthHandler {
 	return &AuthHandler{service: s}
 }
 
+func (h *AuthHandler) Register(c *gin.Context) {}
+
 // Login godoc
 // @Summary Login user
 // @Tags Auth
