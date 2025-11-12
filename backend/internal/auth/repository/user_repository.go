@@ -10,6 +10,9 @@ type UserRepository interface {
 	Create(user *model.User) error
 	GetByID(id uuid.UUID) (*model.User, error)
 	GetByEmail(email string) (*model.User, error)
+	GetAll() ([]*model.User, error)
+	UpdateByID(id uuid.UUID, updateData map[string]interface{}) error
+	DeleteByID(id uuid.UUID) error
 }
 
 type userRepository struct {
@@ -38,4 +41,20 @@ func (r *userRepository) GetByEmail(email string) (*model.User, error) {
 		return nil, err
 	}
 	return &u, nil
+}
+
+func (r *userRepository) GetAll() ([]*model.User, error) {
+	var users []*model.User
+	if err := r.db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (r *userRepository) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+	return r.db.Model(&model.User{}).Where("id = ?", id).Updates(updateData).Error
+}
+
+func (r *userRepository) DeleteByID(id uuid.UUID) error {
+	return r.db.Where("id = ?", id).Delete(&model.User{}).Error
 }

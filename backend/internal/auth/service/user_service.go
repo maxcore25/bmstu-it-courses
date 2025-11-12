@@ -12,6 +12,9 @@ import (
 type UserService interface {
 	CreateUser(req dto.CreateUserRequest) (*model.User, error)
 	GetUser(id uuid.UUID) (*model.User, error)
+	GetAllUsers() ([]*model.User, error)
+	UpdateUserByID(id uuid.UUID, updateData map[string]any) error
+	DeleteUserByID(id uuid.UUID) error
 }
 
 type userService struct {
@@ -59,4 +62,21 @@ func (s *userService) GetUser(id uuid.UUID) (*model.User, error) {
 		return nil, errors.New("user not found")
 	}
 	return user, nil
+}
+
+func (s *userService) GetAllUsers() ([]*model.User, error) {
+	users, err := s.repo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (s *userService) UpdateUserByID(id uuid.UUID, updateData map[string]any) error {
+	// Could add additional validation here
+	return s.repo.UpdateByID(id, updateData)
+}
+
+func (s *userService) DeleteUserByID(id uuid.UUID) error {
+	return s.repo.DeleteByID(id)
 }
