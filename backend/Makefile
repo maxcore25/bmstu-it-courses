@@ -25,7 +25,7 @@ run:
 
 swag:
 	@echo "Generating Swagger docs..."
-	@swag init --parseDependency --parseInternal
+	@swag init --parseDependency --parseInternal -g ./cmd/app/main.go
 	@echo "Swagger docs generated"
 
 help:

@@ -5,7 +5,7 @@ param(
 
 function Swagger {
     Write-Host "Generating Swagger docs..." -ForegroundColor Cyan
-    swag init --parseDependency --parseInternal
+    swag init --parseDependency --parseInternal -g ./cmd/app/main.go
     Write-Host "Swagger docs generated" -ForegroundColor Green
 }
 

@@ -34,7 +34,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.LoginRequest"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.LoginRequest"
                         }
                     }
                 ],
@@ -42,7 +42,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.AuthTokens"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.AuthTokens"
                         }
                     },
                     "400": {
@@ -79,7 +79,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RefreshRequest"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.RefreshRequest"
                         }
                     }
                 ],
@@ -118,7 +118,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RefreshRequest"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.RefreshRequest"
                         }
                     }
                 ],
@@ -126,7 +126,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.AuthTokens"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.AuthTokens"
                         }
                     },
                     "400": {
@@ -145,6 +145,26 @@ const docTemplate = `{
             }
         },
         "/users": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -163,7 +183,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateUserRequest"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.CreateUserRequest"
                         }
                     }
                 ],
@@ -171,7 +191,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/dto.UserResponse"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse"
                         }
                     },
                     "400": {
@@ -211,7 +231,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.UserResponse"
+                            "$ref": "#/definitions/github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
                         }
                     },
                     "404": {
@@ -221,11 +247,113 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID (uuid)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID (uuid)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User update data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
-        "dto.AuthTokens": {
+        "gin.H": {
+            "type": "object",
+            "additionalProperties": {}
+        },
+        "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.AuthTokens": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -236,7 +364,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.CreateUserRequest": {
+        "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.CreateUserRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -286,7 +414,8 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.LoginRequest": {
+        "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.LoginRequest": {
+            "description": "Login request payload",
             "type": "object",
             "required": [
                 "email",
@@ -294,14 +423,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "admin@mai.ru"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "qwe123"
                 }
             }
         },
-        "dto.RefreshRequest": {
+        "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.RefreshRequest": {
             "type": "object",
             "required": [
                 "refresh_token"
@@ -312,7 +443,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UserResponse": {
+        "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse": {
             "type": "object",
             "properties": {
                 "email": {
@@ -337,10 +468,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "gin.H": {
-            "type": "object",
-            "additionalProperties": {}
         }
     }
 }`
@@ -351,7 +478,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "Gin Example API",
+	Title:            "BMSTU IT Courses API",
 	Description:      "This is a sample Gin server with Swagger",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
