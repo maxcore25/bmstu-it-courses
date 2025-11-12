@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
@@ -75,6 +76,20 @@ func main() {
 
 	// Initialize router and services
 	r := gin.Default()
+
+	// Enable CORS
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"http://localhost", "http://127.0.0.1"},
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://localhost" || origin == "http://127.0.0.1" ||
+				len(origin) > 0 && (origin[:16] == "http://localhost:" || origin[:17] == "http://127.0.0.1:")
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * 60 * 60,
+	}))
 
 	jwtManager := utils.NewJWTManager(jwtAccessSecret, jwtRefreshSecret)
 	jwtManager.AccessTokenTTL = accessExp
