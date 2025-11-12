@@ -3,10 +3,9 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
-func RegisterAuthRoutes(r *gin.Engine, userService service.UserService, authService service.AuthService, jwtManager *utils.JWTManager) {
+func RegisterAuthRoutes(r *gin.Engine, userService service.UserService, authService service.AuthService) {
 	userHandler := NewUserHandler(userService)
 	authHandler := NewAuthHandler(authService)
 

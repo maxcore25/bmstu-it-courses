@@ -39,6 +39,17 @@ func main() {
 
 	jwtAccessSecret := os.Getenv("JWT_ACCESS_SECRET")
 	jwtRefreshSecret := os.Getenv("JWT_REFRESH_SECRET")
+	accessExpStr := os.Getenv("JWT_ACCESS_EXPIRATION")
+	refreshExpStr := os.Getenv("JWT_REFRESH_EXPIRATION")
+
+	accessExp, err := utils.ParseDuration(accessExpStr)
+	if err != nil {
+		log.Fatalf("Invalid JWT_ACCESS_EXPIRATION: %v", err)
+	}
+	refreshExp, err := utils.ParseDuration(refreshExpStr)
+	if err != nil {
+		log.Fatalf("Invalid JWT_REFRESH_EXPIRATION: %v", err)
+	}
 
 	// Build DSN
 	dsn := fmt.Sprintf(
@@ -56,12 +67,15 @@ func main() {
 	r := gin.Default()
 
 	jwtManager := utils.NewJWTManager(jwtAccessSecret, jwtRefreshSecret)
+	jwtManager.AccessTokenTTL = accessExp
+	jwtManager.RefreshTokenTTL = refreshExp
+
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(db)
 	authService := service.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
 
-	http.RegisterAuthRoutes(r, userService, authService, nil)
+	http.RegisterAuthRoutes(r, userService, authService)
 
 	// Swagger docs
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
