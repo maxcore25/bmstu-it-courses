@@ -348,17 +348,21 @@
             "additionalProperties": {}
         },
         "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.AuthTokens": {
+            "description": "Authentication tokens response payload",
             "type": "object",
             "properties": {
                 "access_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                 },
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "dGhpc2lzYXJlZnJlc2h0b2tlbg==..."
                 }
             }
         },
         "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.CreateUserRequest": {
+            "description": "User registration request payload",
             "type": "object",
             "required": [
                 "email",
@@ -427,39 +431,49 @@
             }
         },
         "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.RefreshRequest": {
+            "description": "Refresh token request payload",
             "type": "object",
             "required": [
                 "refresh_token"
             ],
             "properties": {
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "dGhpc2lzYXJlZnJlc2h0b2tlbg==..."
                 }
             }
         },
         "github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse": {
+            "description": "User response payload",
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john.doe@example.com"
                 },
                 "first_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a8098c1a-f86e-11da-bd1a-00112444be1e"
                 },
                 "knowledge_level": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "beginner"
                 },
                 "last_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Doe"
                 },
                 "middle_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Michael"
                 },
                 "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "+77010000000"
                 }
             }
         }

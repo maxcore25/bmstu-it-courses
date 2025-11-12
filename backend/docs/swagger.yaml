@@ -4,13 +4,17 @@ definitions:
     additionalProperties: {}
     type: object
   github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.AuthTokens:
+    description: Authentication tokens response payload
     properties:
       access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         type: string
       refresh_token:
+        example: dGhpc2lzYXJlZnJlc2h0b2tlbg==...
         type: string
     type: object
   github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.CreateUserRequest:
+    description: User registration request payload
     properties:
       email:
         example: john.doe@example.com
@@ -63,27 +67,37 @@ definitions:
     - password
     type: object
   github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.RefreshRequest:
+    description: Refresh token request payload
     properties:
       refresh_token:
+        example: dGhpc2lzYXJlZnJlc2h0b2tlbg==...
         type: string
     required:
     - refresh_token
     type: object
   github_com_maxcore25_bmstu-it-courses_backend_internal_auth_dto.UserResponse:
+    description: User response payload
     properties:
       email:
+        example: john.doe@example.com
         type: string
       first_name:
+        example: John
         type: string
       id:
+        example: a8098c1a-f86e-11da-bd1a-00112444be1e
         type: string
       knowledge_level:
+        example: beginner
         type: string
       last_name:
+        example: Doe
         type: string
       middle_name:
+        example: Michael
         type: string
       phone:
+        example: "+77010000000"
         type: string
     type: object
 host: localhost:8080

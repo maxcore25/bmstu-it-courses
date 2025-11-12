@@ -1,5 +1,8 @@
 package dto
 
+// CreateUserRequest represents a user registration request.
+// @Description User registration request payload
+// @Name CreateUserRequest
 type CreateUserRequest struct {
 	FirstName      string `json:"first_name" binding:"required,min=2,max=50" example:"John"`
 	LastName       string `json:"last_name" binding:"required,min=2,max=50" example:"Doe"`
