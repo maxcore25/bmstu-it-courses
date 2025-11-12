@@ -5,7 +5,7 @@ import (
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
 )
 
-func RegisterAuthRoutes(r *gin.Engine, userService service.UserService, authService service.AuthService) {
+func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, authService service.AuthService) {
 	userHandler := NewUserHandler(userService)
 	authHandler := NewAuthHandler(authService)
 

@@ -75,7 +75,11 @@ func main() {
 	refreshTokenRepo := repository.NewRefreshTokenRepository(db)
 	authService := service.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
 
-	http.RegisterAuthRoutes(r, userService, authService)
+	// main.go
+	api := r.Group("/api")
+	{
+		http.RegisterAuthRoutes(api, userService, authService)
+	}
 
 	// Swagger docs
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
