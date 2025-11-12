@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/config"
@@ -62,6 +63,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("❌ Failed to connect database: %v", err)
 	}
+
+	// Run AutoMigrate
+	if err := db.AutoMigrate(
+		&model.User{},
+		&model.RefreshToken{},
+	); err != nil {
+		log.Fatalf("❌ Failed to migrate database: %v", err)
+	}
+	fmt.Println("✅ Database migrated successfully")
 
 	// Initialize router and services
 	r := gin.Default()
