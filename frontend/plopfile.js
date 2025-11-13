@@ -1,5 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pluralize = require('pluralize');
+
 module.exports = function (plop) {
-  // Helpers
+  // ---------------- HELPERS ----------------
+
+  // kebab-case
   plop.setHelper('kebabCase', text =>
     text
       .replace(/([a-z])([A-Z])/g, '$1-$2')
@@ -7,16 +12,26 @@ module.exports = function (plop) {
       .toLowerCase()
   );
 
+  // PascalCase
   plop.setHelper('pascalCase', text =>
     text.replace(/(^\w|-\w)/g, clear => clear.replace('-', '').toUpperCase())
   );
 
-  plop.setHelper('plural', text => {
-    // primitive pluralizer, can be improved
-    return text.endsWith('s') ? text : text + 's';
-  });
+  // snake_case
+  plop.setHelper('snakeCase', text =>
+    text
+      .replace(/([a-z])([A-Z])/g, '$1_$2')
+      .replace(/\s+/g, '_')
+      .toLowerCase()
+  );
 
-  // Generator
+  // UPPERCASE
+  plop.setHelper('upperCase', text => text.toUpperCase());
+
+  // pluralize
+  plop.setHelper('plural', text => pluralize(text));
+
+  // ---------------- GENERATOR ----------------
   plop.setGenerator('entity', {
     description: 'Generate an FSD entity',
     prompts: [
@@ -26,7 +41,7 @@ module.exports = function (plop) {
         message: 'Entity name (singular, e.g. topping):',
       },
     ],
-    actions: function () {
+    actions: function (data) {
       const base = 'src/entities/{{kebabCase name}}';
 
       return [
