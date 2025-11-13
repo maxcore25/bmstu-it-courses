@@ -58,19 +58,14 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 // @Failure 404 {object} gin.H
 // @Router /users/me [get]
 func (h *UserHandler) GetCurrentUser(c *gin.Context) {
-	userIDVal, exists := c.Get("user_id")
+	userID, exists := c.Get("user_id")
 	if !exists {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id not found in context"})
 		return
 	}
-	userID, ok := userIDVal.(string)
+	id, ok := userID.(uuid.UUID)
 	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id in context is not a string"})
-		return
-	}
-	id, err := uuid.Parse(userID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id is not a valid uuid"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user_id type"})
 		return
 	}
 
