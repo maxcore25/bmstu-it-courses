@@ -8,10 +8,13 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/bootstrap"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	authHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
+	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
+	authRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
+	authService "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	branchHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/http"
+	branchRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/repository"
+	branchService "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/service"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/config"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 	"gorm.io/driver/postgres"
@@ -68,8 +71,8 @@ func main() {
 
 	// Run AutoMigrate
 	if err := db.AutoMigrate(
-		&model.User{},
-		&model.RefreshToken{},
+		&authModel.User{},
+		&authModel.RefreshToken{},
 	); err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
@@ -96,10 +99,14 @@ func main() {
 	jwtManager.AccessTokenTTL = accessExp
 	jwtManager.RefreshTokenTTL = refreshExp
 
-	userRepo := repository.NewUserRepository(db)
-	userService := service.NewUserService(userRepo)
-	refreshTokenRepo := repository.NewRefreshTokenRepository(db)
-	authService := service.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
+	userRepo := authRepo.NewUserRepository(db)
+	userService := authService.NewUserService(userRepo)
+	refreshTokenRepo := authRepo.NewRefreshTokenRepository(db)
+	authService := authService.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
+
+	// --- Branches dependencies
+	branchRepo := branchRepo.NewBranchRepository(db)
+	branchService := branchService.NewBranchService(branchRepo)
 
 	// Seed admin
 	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
@@ -109,7 +116,8 @@ func main() {
 	// Register routes
 	api := r.Group("/api")
 	{
-		http.RegisterAuthRoutes(api, userService, authService)
+		authHttp.RegisterAuthRoutes(api, userService, authService)
+		branchHttp.RegisterBranchRoutes(api, branchService)
 	}
 
 	// Swagger docs
