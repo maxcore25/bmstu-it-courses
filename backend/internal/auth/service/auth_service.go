@@ -2,8 +2,10 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
@@ -126,12 +128,17 @@ func (s *authService) Refresh(refreshToken string) (*dto.AuthTokens, error) {
 		return nil, errors.New("invalid refresh token")
 	}
 
-	access, err := s.jwt.GenerateAccessToken(claims.UserID)
+	userID, err := uuid.Parse(claims.Subject)
+	if err != nil {
+		return nil, fmt.Errorf("invalid user ID in token: %w", err)
+	}
+
+	access, err := s.jwt.GenerateAccessToken(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	newRefresh, err := s.jwt.GenerateRefreshToken(claims.UserID)
+	newRefresh, err := s.jwt.GenerateRefreshToken(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +146,7 @@ func (s *authService) Refresh(refreshToken string) (*dto.AuthTokens, error) {
 	_ = s.refreshRepo.Delete(refreshToken)
 
 	tokenModel := &model.RefreshToken{
-		UserID:    claims.UserID,
+		UserID:    userID,
 		Token:     newRefresh,
 		ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
 	}

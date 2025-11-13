@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
@@ -30,7 +31,13 @@ func AuthMiddleware(jwtManager *utils.JWTManager) gin.HandlerFunc {
 			return
 		}
 
-		c.Set("user_id", claims.UserID)
+		userID, err := uuid.Parse(claims.Subject)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid subject"})
+			return
+		}
+
+		c.Set("user_id", userID)
 		c.Next()
 	}
 }
