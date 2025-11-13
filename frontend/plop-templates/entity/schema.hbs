@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-export const {{name}}Schema = z.object({
+export const {{camelCase name}}Schema = z.object({
   id: z.uuid(),
   name: z.string(),
   price: z.number().nonnegative(),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
-export type {{pascalCase name}} = z.infer<typeof {{name}}Schema>;
+export type {{pascalCase name}} = z.infer<typeof {{camelCase name}}Schema>;
 
-export const {{plural name}}Schema = z.array({{name}}Schema);
+export const {{plural name}}Schema = z.array({{camelCase name}}Schema);

@@ -1,0 +1,9 @@
+import { useState } from 'react';
+
+export function use{{pascalCase name}}Button(initial?: boolean) {
+  const [active, setActive] = useState(initial ?? false);
+
+  const toggle = () => setActive(!active);
+
+  return { active, toggle };
+}

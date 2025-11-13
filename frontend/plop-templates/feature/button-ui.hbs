@@ -1,0 +1,18 @@
+'use client';
+
+import { Button } from '@/shared/ui/button';
+import { use{{pascalCase name}}Button } from '../model/use-{{kebabCase name}}-button';
+
+type {{pascalCase name}}ButtonProps = {
+  label?: string;
+};
+
+export function {{pascalCase name}}Button({ label }: {{pascalCase name}}ButtonProps) {
+  const { active, toggle } = use{{pascalCase name}}Button();
+
+  return (
+    <Button onClick={toggle} variant={active ? 'primary' : 'secondary'}>
+      {label ?? '{{pascalCase name}}'}
+    </Button>
+  );
+}
