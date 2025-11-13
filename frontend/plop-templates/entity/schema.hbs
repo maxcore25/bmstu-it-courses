@@ -4,8 +4,8 @@ export const {{name}}Schema = z.object({
   id: z.uuid(),
   name: z.string(),
   price: z.number().nonnegative(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export type {{pascalCase name}} = z.infer<typeof {{name}}Schema>;
