@@ -13,8 +13,13 @@ import (
 	authRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	authService "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
 	branchHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/http"
+	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	branchRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/repository"
 	branchService "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/service"
+	courseHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/http"
+	courseModel "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
+	courseRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/repository"
+	courseService "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/service"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/config"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 	"gorm.io/driver/postgres"
@@ -73,6 +78,8 @@ func main() {
 	if err := db.AutoMigrate(
 		&authModel.User{},
 		&authModel.RefreshToken{},
+		&branchModel.Branch{},
+		&courseModel.Course{},
 	); err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
@@ -104,9 +111,11 @@ func main() {
 	refreshTokenRepo := authRepo.NewRefreshTokenRepository(db)
 	authService := authService.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
 
-	// --- Branches dependencies
 	branchRepo := branchRepo.NewBranchRepository(db)
 	branchService := branchService.NewBranchService(branchRepo)
+
+	courseRepo := courseRepo.NewCourseRepository(db)
+	courseService := courseService.NewCourseService(courseRepo)
 
 	// Seed admin
 	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
@@ -118,6 +127,7 @@ func main() {
 	{
 		authHttp.RegisterAuthRoutes(api, userService, authService)
 		branchHttp.RegisterBranchRoutes(api, branchService)
+		courseHttp.RegisterCourseRoutes(api, courseService)
 	}
 
 	// Swagger docs
