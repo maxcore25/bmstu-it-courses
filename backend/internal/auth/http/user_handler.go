@@ -47,6 +47,43 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, resp)
 }
 
+// GetCurrentUser godoc
+// @Summary Get current user
+// @Tags Users
+// @Produce json
+// @Success 200 {object} dto.UserResponse
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Router /users/me [get]
+func (h *UserHandler) GetCurrentUser(c *gin.Context) {
+	userIDVal, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id not found in context"})
+		return
+	}
+	userID, ok := userIDVal.(string)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id in context is not a string"})
+		return
+	}
+	id, err := uuid.Parse(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id is not a valid uuid"})
+		return
+	}
+
+	user, err := h.service.GetUser(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		return
+
+	}
+
+	resp := mapper.NewUserResponse(user)
+
+	c.JSON(http.StatusOK, resp)
+}
+
 // GetUser godoc
 // @Summary Get user by ID
 // @Tags Users

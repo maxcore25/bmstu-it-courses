@@ -24,5 +24,6 @@ func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, aut
 		userGroup.GET("/:id", userHandler.GetUser)
 		userGroup.PATCH("/:id", userHandler.UpdateUserByID)
 		userGroup.DELETE("/:id", userHandler.DeleteUserByID)
+		userGroup.GET("/me", userHandler.GetCurrentUser)
 	}
 }
