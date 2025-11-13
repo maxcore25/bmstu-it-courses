@@ -51,6 +51,13 @@ import (
 // @description API documentation for CodeCraft IT Courses School.
 // @host localhost:8080
 // @BasePath /api
+// @securityDefinitions.type http
+// @securityDefinitions.scheme bearer
+// @securityDefinitions.bearerFormat JWT
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer {your_token}" to authorize
 
 func main() {
 	config.LoadEnv()
@@ -145,7 +152,7 @@ func main() {
 	// Register routes
 	api := r.Group("/api")
 	{
-		authHttp.RegisterAuthRoutes(api, userService, authService)
+		authHttp.RegisterAuthRoutes(api, userService, authService, jwtManager)
 		branchHttp.RegisterBranchRoutes(api, branchService)
 		courseHttp.RegisterCourseRoutes(api, courseService)
 		scheduleHttp.RegisterScheduleRoutes(api, scheduleService)
@@ -153,7 +160,10 @@ func main() {
 	}
 
 	// Swagger docs
-	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/docs/*any", ginSwagger.WrapHandler(
+		swaggerFiles.Handler,
+		ginSwagger.PersistAuthorization(true),
+	))
 
 	fmt.Printf("🚀 Dev server started at http://localhost:%s\n", port)
 	fmt.Printf("📘 Swagger docs at http://localhost:%s/docs/index.html\n", port)

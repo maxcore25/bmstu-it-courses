@@ -49,7 +49,9 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 // GetCurrentUser godoc
 // @Summary Get current user
+// @Description Returns the authenticated user
 // @Tags Users
+// @Security BearerAuth
 // @Produce json
 // @Success 200 {object} dto.UserResponse
 // @Failure 400 {object} gin.H

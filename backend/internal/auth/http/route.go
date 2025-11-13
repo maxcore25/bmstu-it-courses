@@ -2,10 +2,12 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/middleware"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
-func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, authService service.AuthService) {
+func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, authService service.AuthService, jwtManager *utils.JWTManager) {
 	userHandler := NewUserHandler(userService)
 	authHandler := NewAuthHandler(authService)
 
@@ -24,6 +26,6 @@ func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, aut
 		userGroup.GET("/:id", userHandler.GetUser)
 		userGroup.PATCH("/:id", userHandler.UpdateUserByID)
 		userGroup.DELETE("/:id", userHandler.DeleteUserByID)
-		userGroup.GET("/me", userHandler.GetCurrentUser)
+		userGroup.GET("/me", middleware.AuthMiddleware(jwtManager), userHandler.GetCurrentUser)
 	}
 }
