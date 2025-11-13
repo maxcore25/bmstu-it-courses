@@ -4,11 +4,11 @@ package dto
 // @Description Register request payload
 // @Name RegisterRequest
 type RegisterRequest struct {
-	FirstName      string  `json:"first_name" binding:"required,min=2,max=50" example:"John"`
-	LastName       string  `json:"last_name" binding:"required,min=2,max=50" example:"Doe"`
-	MiddleName     *string `json:"middle_name,omitempty" example:"Michael"`
+	FirstName      string  `json:"firstName" binding:"required,min=2,max=50" example:"Иван"`
+	LastName       string  `json:"lastName" binding:"required,min=2,max=50" example:"Иванов"`
+	MiddleName     *string `json:"middleName,omitempty" example:"Иванович"`
 	Email          string  `json:"email" binding:"required,email" example:"user@mail.ru"`
-	Password       string  `json:"password" binding:"required,min=6,max=100" example:"strongpassword123"`
+	Password       string  `json:"password" binding:"required,min=6,max=100" example:"qwe123"`
 	Phone          *string `json:"phone,omitempty" example:"+77010000000"`
-	KnowledgeLevel string  `json:"knowledge_level" binding:"required,oneof=beginner intermediate advanced" example:"beginner"`
+	KnowledgeLevel string  `json:"knowledgeLevel" binding:"required,oneof=beginner intermediate advanced" example:"beginner"`
 }
