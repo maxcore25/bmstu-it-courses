@@ -20,6 +20,10 @@ import (
 	courseModel "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
 	courseRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/repository"
 	courseService "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/service"
+	scheduleHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/http"
+	scheduleModel "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
+	scheduleRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/repository"
+	scheduleService "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/service"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/config"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 	"gorm.io/driver/postgres"
@@ -80,6 +84,7 @@ func main() {
 		&authModel.RefreshToken{},
 		&branchModel.Branch{},
 		&courseModel.Course{},
+		&scheduleModel.Schedule{},
 	); err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
@@ -117,6 +122,9 @@ func main() {
 	courseRepo := courseRepo.NewCourseRepository(db)
 	courseService := courseService.NewCourseService(courseRepo)
 
+	scheduleRepo := scheduleRepo.NewScheduleRepository(db)
+	scheduleService := scheduleService.NewScheduleService(scheduleRepo)
+
 	// Seed admin
 	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
 		log.Fatalf("❌ Failed to seed default admin: %v", err)
@@ -128,6 +136,7 @@ func main() {
 		authHttp.RegisterAuthRoutes(api, userService, authService)
 		branchHttp.RegisterBranchRoutes(api, branchService)
 		courseHttp.RegisterCourseRoutes(api, courseService)
+		scheduleHttp.RegisterScheduleRoutes(api, scheduleService)
 	}
 
 	// Swagger docs
