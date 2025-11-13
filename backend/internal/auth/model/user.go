@@ -9,9 +9,9 @@ import (
 type KnowledgeLevel string
 
 const (
-	LevelBeginner     KnowledgeLevel = "beginner"
-	LevelIntermediate KnowledgeLevel = "intermediate"
-	LevelAdvanced     KnowledgeLevel = "advanced"
+	KnowledgeLevelBeginner     KnowledgeLevel = "beginner"
+	KnowledgeLevelIntermediate KnowledgeLevel = "intermediate"
+	KnowledgeLevelAdvanced     KnowledgeLevel = "advanced"
 )
 
 type UserRole string

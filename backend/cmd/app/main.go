@@ -102,11 +102,11 @@ func main() {
 	authService := service.NewAuthService(userRepo, refreshTokenRepo, jwtManager)
 
 	// Seed admin
-	if err := bootstrap.SeedDefaultAdmin(userService); err != nil {
+	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
 		log.Fatalf("❌ Failed to seed default admin: %v", err)
 	}
 
-	// main.go
+	// Register routes
 	api := r.Group("/api")
 	{
 		http.RegisterAuthRoutes(api, userService, authService)
