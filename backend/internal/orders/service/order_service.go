@@ -1,16 +1,23 @@
 package service
 
 import (
-	"github.com/google/uuid"
+	"errors"
+	"fmt"
 
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+
+	courseModel "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/model"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/repository"
+	scheduleModel "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 )
 
 type OrderService interface {
 	GetOrder(id uuid.UUID) (*model.Order, error)
-	CreateOrder(req *dto.CreateOrderRequest, price int64) (*model.Order, error)
+	CreateOrder(req *dto.CreateOrderRequest) (*model.Order, error)
 	GetAllOrders() ([]*model.Order, error)
 	UpdateOrderByID(id uuid.UUID, updates map[string]any) error
 	DeleteOrderByID(id uuid.UUID) error
@@ -28,8 +35,51 @@ func (s *orderService) GetOrder(id uuid.UUID) (*model.Order, error) {
 	return s.repo.GetByID(id)
 }
 
-// price is provided externally and should be calculated beforehand
-func (s *orderService) CreateOrder(req *dto.CreateOrderRequest, price int64) (*model.Order, error) {
+func (s *orderService) CreateOrder(req *dto.CreateOrderRequest) (*model.Order, error) {
+	tx := s.repo.DB().Begin()
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			panic(r)
+		}
+	}()
+
+	// --- 1. Validate schedule and lock it (if provided)
+	var schedule scheduleModel.Schedule
+	if req.ScheduleID != nil {
+		if err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).
+			Where("id = ?", *req.ScheduleID).
+			First(&schedule).Error; err != nil {
+			tx.Rollback()
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil, fmt.Errorf("schedule not found")
+			}
+			return nil, err
+		}
+
+		// Check capacity
+		if schedule.Reserved >= schedule.Capacity {
+			tx.Rollback()
+			return nil, fmt.Errorf("no seats available for this schedule")
+		}
+	}
+
+	// --- 2. Get course for price snapshot
+	var course courseModel.Course
+	if err := tx.First(&course, "id = ?", req.CourseID).Error; err != nil {
+		tx.Rollback()
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("course not found")
+		}
+		return nil, err
+	}
+
+	price := course.Price // snapshot current price
+
+	// --- 3. Create order entity
 	order := &model.Order{
 		ClientID:   req.ClientID,
 		CourseID:   req.CourseID,
@@ -37,10 +87,27 @@ func (s *orderService) CreateOrder(req *dto.CreateOrderRequest, price int64) (*m
 		BranchID:   req.BranchID,
 		Price:      price,
 	}
-	err := s.repo.Create(order)
-	if err != nil {
+
+	// --- 4. Save order
+	if err := tx.Create(order).Error; err != nil {
+		tx.Rollback()
+		return nil, fmt.Errorf("failed to create order: %w", err)
+	}
+
+	// --- 5. Increment reserved seats if schedule exists
+	if req.ScheduleID != nil {
+		if err := tx.Model(&schedule).
+			UpdateColumn("reserved", gorm.Expr("reserved + ?", 1)).Error; err != nil {
+			tx.Rollback()
+			return nil, fmt.Errorf("failed to increment reserved seats: %w", err)
+		}
+	}
+
+	// --- 6. Commit transaction
+	if err := tx.Commit().Error; err != nil {
 		return nil, err
 	}
+
 	return order, nil
 }
 

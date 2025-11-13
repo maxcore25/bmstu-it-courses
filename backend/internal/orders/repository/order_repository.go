@@ -12,10 +12,15 @@ type OrderRepository interface {
 	GetAll() ([]*model.Order, error)
 	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
+	DB() *gorm.DB
 }
 
 type orderRepository struct {
 	db *gorm.DB
+}
+
+func (r *orderRepository) DB() *gorm.DB {
+	return r.db
 }
 
 func NewOrderRepository(db *gorm.DB) OrderRepository {

@@ -37,10 +37,7 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 		return
 	}
 
-	// stub
-	var priceInt64 int64 = 0
-
-	order, err := h.service.CreateOrder(&req, priceInt64)
+	order, err := h.service.CreateOrder(&req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
