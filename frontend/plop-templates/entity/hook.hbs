@@ -1,0 +1,10 @@
+import { QUERY_KEYS } from '@/shared/config';
+import { useQuery } from '@tanstack/react-query';
+import { get{{pascalCase (plural name)}} } from '../api/get-{{kebabCase (plural name)}}.api';
+
+export function useGet{{pascalCase (plural name)}}() {
+  return useQuery({
+    queryKey: [QUERY_KEYS.{{upperCase (plural name)}}],
+    queryFn: get{{pascalCase (plural name)}},
+  });
+}

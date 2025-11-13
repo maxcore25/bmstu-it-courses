@@ -1,0 +1,7 @@
+import { axiosInstance } from '@/shared/api';
+import { {{plural name}}Schema } from '../model/{{kebabCase name}}.schema';
+
+export async function get{{pascalCase (plural name)}}() {
+  const { data } = await axiosInstance.get('/{{kebabCase (plural name)}}');
+  return {{plural name}}Schema.parse(data);
+}
