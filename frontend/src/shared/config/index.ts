@@ -1,4 +1,6 @@
-export const BASE_API_URL = 'http://localhost:8000/api';
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8080';
+export const BASE_API_URL = `${BASE_URL}/api`;
 
 export const QUERY_KEYS = {
   CATEGORY: 'CATEGORY',

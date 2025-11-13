@@ -1,6 +1,7 @@
 import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
 import { ReactQueryProvider } from './_providers/react-query-provider';
+import { ThemeProvider } from './_providers/theme-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,8 +18,15 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body className={`antialiased`}>
         <ReactQueryProvider>
-          {children}
-          <Toaster />
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>

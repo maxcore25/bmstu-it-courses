@@ -1,11 +1,10 @@
 import { LOCAL_STORAGE_KEYS } from '@/shared/config';
-import { loginFormSchema } from '@/shared/lib/validations';
-import { LoginFormValues } from '@/shared/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { loginFormSchema, LoginFormValues } from './login.schema';
 import { useLogin } from './use-login';
 
 export const useLoginForm = () => {
