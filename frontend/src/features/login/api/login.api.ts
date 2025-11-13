@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/shared/api';
-import { LoginFormValues, Tokens } from '@/shared/types';
+import { LoginFormValues, LoginResponse } from '../model/login.schema';
 
 export const login = async (data: LoginFormValues) => {
-  const response = await axiosInstance.post<Tokens>('/auth/login', data);
+  const response = await axiosInstance.post<LoginResponse>('/auth/login', data);
   return response.data;
 };

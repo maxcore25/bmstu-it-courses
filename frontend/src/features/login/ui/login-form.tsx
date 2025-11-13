@@ -72,7 +72,7 @@ export function LoginForm({
             />
             <Button
               type='submit'
-              className='!mt-6 h-auto w-full gap-2 py-3'
+              className='mt-6! h-auto w-full gap-2 py-3'
               disabled={isPending}
             >
               {isPending ? <Loader /> : null}

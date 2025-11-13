@@ -1,6 +1,9 @@
 import { BASE_API_URL, LOCAL_STORAGE_KEYS } from '@/shared/config';
-import { Tokens } from '@/shared/types';
 import axios from 'axios';
+
+type Tokens = {
+  accessToken: string;
+};
 
 export const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
