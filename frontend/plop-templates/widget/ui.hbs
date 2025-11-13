@@ -1,0 +1,29 @@
+'use client';
+
+import { Empty{{pascalCase (plural entity)}}, {{pascalCase entity}}Card, useGet{{pascalCase (plural entity)}} } from '@/entities/{{camelCase entity}}';
+
+export const {{pascalCase name}} = () => {
+  const { data, isLoading, error } = useGet{{pascalCase (plural entity)}}();
+
+  if (isLoading)
+    return (
+      <div className='flex flex-1 flex-col gap-4 p-4'>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className='bg-muted/50 aspect-video h-[150px] w-full rounded-lg'
+          ></div>
+        ))}
+      </div>
+    );
+  if (error) return <div>Failed to load {{pascalCase entity}} {error.message}</div>;
+  if (data && !data.length) return <Empty{{pascalCase (plural entity)}} />;
+
+  return (
+    <div className='flex flex-col gap-4'>
+      {data?.map(item => (
+        <{{pascalCase entity}}Card key={item.id} {...item} />
+      ))}
+    </div>
+  );
+};

@@ -132,4 +132,38 @@ module.exports = function (plop) {
       ];
     },
   });
+
+  plop.setGenerator('widget', {
+    description: 'Generate a FSD widget',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Widget name (kebab-case, e.g. order-list):',
+      },
+      {
+        type: 'input',
+        name: 'entity',
+        message: 'Entity name this widget uses (singular, e.g. order):',
+      },
+    ],
+    actions: function (data) {
+      const base = 'src/widgets/{{kebabCase name}}';
+
+      return [
+        // UI component
+        {
+          type: 'add',
+          path: `${base}/ui/{{kebabCase name}}.tsx`,
+          templateFile: 'plop-templates/widget/ui.hbs',
+        },
+        // index.ts
+        {
+          type: 'add',
+          path: `${base}/index.ts`,
+          templateFile: 'plop-templates/widget/index.hbs',
+        },
+      ];
+    },
+  });
 };
