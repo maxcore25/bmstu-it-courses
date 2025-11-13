@@ -8,22 +8,32 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/bootstrap"
+
 	authHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	authRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	authService "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+
 	branchHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/http"
 	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	branchRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/repository"
 	branchService "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/service"
+
 	courseHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/http"
 	courseModel "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
 	courseRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/repository"
 	courseService "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/service"
+
 	scheduleHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/http"
 	scheduleModel "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 	scheduleRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/repository"
 	scheduleService "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/service"
+
+	orderHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/orders/http"
+	orderModel "github.com/maxcore25/bmstu-it-courses/backend/internal/orders/model"
+	orderRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/orders/repository"
+	orderService "github.com/maxcore25/bmstu-it-courses/backend/internal/orders/service"
+
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/config"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 	"gorm.io/driver/postgres"
@@ -85,6 +95,7 @@ func main() {
 		&branchModel.Branch{},
 		&courseModel.Course{},
 		&scheduleModel.Schedule{},
+		&orderModel.Order{},
 	); err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
@@ -100,7 +111,7 @@ func main() {
 			return origin == "http://localhost" || origin == "http://127.0.0.1" ||
 				len(origin) > 0 && (origin[:16] == "http://localhost:" || origin[:17] == "http://127.0.0.1:")
 		},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
@@ -125,6 +136,9 @@ func main() {
 	scheduleRepo := scheduleRepo.NewScheduleRepository(db)
 	scheduleService := scheduleService.NewScheduleService(scheduleRepo)
 
+	orderRepo := orderRepo.NewOrderRepository(db)
+	orderService := orderService.NewOrderService(orderRepo)
+
 	// Seed admin
 	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
 		log.Fatalf("❌ Failed to seed default admin: %v", err)
@@ -137,6 +151,7 @@ func main() {
 		branchHttp.RegisterBranchRoutes(api, branchService)
 		courseHttp.RegisterCourseRoutes(api, courseService)
 		scheduleHttp.RegisterScheduleRoutes(api, scheduleService)
+		orderHttp.RegisterOrderRoutes(api, orderService)
 	}
 
 	// Swagger docs
