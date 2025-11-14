@@ -52,6 +52,7 @@ func (h *ScheduleHandler) CreateSchedule(c *gin.Context) {
 // @Tags Schedules
 // @Produce json
 // @Param id path string true "Schedule ID (uuid)"
+// @Param expand query []string false "Relations to expand. Example: expand=course&expand=branch"
 // @Success 200 {object} dto.ScheduleResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -64,7 +65,9 @@ func (h *ScheduleHandler) GetSchedule(c *gin.Context) {
 		return
 	}
 
-	schedule, err := h.service.GetSchedule(id)
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
+
+	schedule, err := h.service.GetSchedule(id, expand)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "schedule not found"})
 		return
@@ -79,10 +82,13 @@ func (h *ScheduleHandler) GetSchedule(c *gin.Context) {
 // @Summary Get all schedules
 // @Tags Schedules
 // @Produce json
+// @Param expand query []string false "Relations to expand (course, branch). Example: expand=course,branch"
 // @Success 200 {array} dto.ScheduleResponse
 // @Router /schedules [get]
 func (h *ScheduleHandler) GetAllSchedules(c *gin.Context) {
-	schedules, err := h.service.GetAllSchedules()
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
+
+	schedules, err := h.service.GetAllSchedules(expand)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

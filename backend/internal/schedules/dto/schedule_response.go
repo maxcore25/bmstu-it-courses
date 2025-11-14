@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	branchDto "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/dto"
+	courseDto "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/dto"
 )
 
 // ScheduleResponse represents the structure of a schedule returned in API responses.
@@ -19,4 +21,8 @@ type ScheduleResponse struct {
 	Reserved  int        `json:"reserved" example:"12"`
 	CreatedAt time.Time  `json:"createdAt" example:"2025-11-12T19:45:00Z"`
 	UpdatedAt time.Time  `json:"updatedAt" example:"2025-11-13T19:45:00Z"`
+
+	// Expandable fields
+	Course *courseDto.CourseResponse `json:"course,omitempty"`
+	Branch *branchDto.BranchResponse `json:"branch,omitempty"`
 }

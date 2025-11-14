@@ -9,9 +9,9 @@ import (
 )
 
 type ScheduleService interface {
-	GetSchedule(id uuid.UUID) (*model.Schedule, error)
 	CreateSchedule(req *dto.CreateScheduleRequest) (*model.Schedule, error)
-	GetAllSchedules() ([]*model.Schedule, error)
+	GetSchedule(id uuid.UUID, expand map[string]bool) (*model.Schedule, error)
+	GetAllSchedules(expand map[string]bool) ([]*model.Schedule, error)
 	UpdateScheduleByID(id uuid.UUID, updates map[string]any) error
 	DeleteScheduleByID(id uuid.UUID) error
 }
@@ -22,10 +22,6 @@ type scheduleService struct {
 
 func NewScheduleService(r repository.ScheduleRepository) ScheduleService {
 	return &scheduleService{repo: r}
-}
-
-func (s *scheduleService) GetSchedule(id uuid.UUID) (*model.Schedule, error) {
-	return s.repo.GetByID(id)
 }
 
 func (s *scheduleService) CreateSchedule(req *dto.CreateScheduleRequest) (*model.Schedule, error) {
@@ -43,7 +39,17 @@ func (s *scheduleService) CreateSchedule(req *dto.CreateScheduleRequest) (*model
 	return schedule, nil
 }
 
-func (s *scheduleService) GetAllSchedules() ([]*model.Schedule, error) {
+func (s *scheduleService) GetSchedule(id uuid.UUID, expand map[string]bool) (*model.Schedule, error) {
+	if len(expand) > 0 {
+		return s.repo.GetByIDWithExpand(id, expand)
+	}
+	return s.repo.GetByID(id)
+}
+
+func (s *scheduleService) GetAllSchedules(expand map[string]bool) ([]*model.Schedule, error) {
+	if len(expand) > 0 {
+		return s.repo.GetAllWithExpand(expand)
+	}
 	return s.repo.GetAll()
 }
 
