@@ -22,11 +22,11 @@ func RunSeeds(db *gorm.DB) error {
 	}
 
 	// Local / Dev seeders
-	// if env == "development" || env == "local" {
-	// 	if err := SeedSandboxData(); err != nil {
-	// 		return err
-	// 	}
-	// }
+	if env == "development" || env == "local" {
+		if err := SeedSandboxData(db); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
