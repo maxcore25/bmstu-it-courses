@@ -8,8 +8,8 @@ import (
 
 type CourseRepository interface {
 	Create(course *model.Course) error
-	GetByID(id uuid.UUID) (*model.Course, error)
-	GetAll() ([]*model.Course, error)
+	GetByID(id uuid.UUID, preloadAuthor bool) (*model.Course, error)
+	GetAll(preloadAuthor bool) ([]*model.Course, error)
 	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
 }
@@ -26,17 +26,27 @@ func (r *courseRepository) Create(course *model.Course) error {
 	return r.db.Create(course).Error
 }
 
-func (r *courseRepository) GetByID(id uuid.UUID) (*model.Course, error) {
+func (r *courseRepository) GetByID(id uuid.UUID, preloadAuthor bool) (*model.Course, error) {
+	query := r.db
+	if preloadAuthor {
+		query = query.Preload("Author")
+	}
+
 	var c model.Course
-	if err := r.db.First(&c, "id = ?", id).Error; err != nil {
+	if err := query.First(&c, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return &c, nil
 }
 
-func (r *courseRepository) GetAll() ([]*model.Course, error) {
+func (r *courseRepository) GetAll(preloadAuthor bool) ([]*model.Course, error) {
+	query := r.db
+	if preloadAuthor {
+		query = query.Preload("Author")
+	}
+
 	var courses []*model.Course
-	if err := r.db.Find(&courses).Error; err != nil {
+	if err := query.Find(&courses).Error; err != nil {
 		return nil, err
 	}
 	return courses, nil

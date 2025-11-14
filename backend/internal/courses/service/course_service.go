@@ -10,9 +10,9 @@ import (
 )
 
 type CourseService interface {
-	GetCourse(id uuid.UUID) (*model.Course, error)
 	CreateCourse(req *dto.CreateCourseRequest) (*model.Course, error)
-	GetAllCourses() ([]*model.Course, error)
+	GetCourse(id uuid.UUID, includeAuthor bool) (*model.Course, error)
+	GetAllCourses(includeAuthor bool) ([]*model.Course, error)
 	UpdateCourseByID(id uuid.UUID, updates map[string]any) error
 	DeleteCourseByID(id uuid.UUID) error
 }
@@ -23,10 +23,6 @@ type courseService struct {
 
 func NewCourseService(r repository.CourseRepository) CourseService {
 	return &courseService{repo: r}
-}
-
-func (s *courseService) GetCourse(id uuid.UUID) (*model.Course, error) {
-	return s.repo.GetByID(id)
 }
 
 func (s *courseService) CreateCourse(req *dto.CreateCourseRequest) (*model.Course, error) {
@@ -45,8 +41,12 @@ func (s *courseService) CreateCourse(req *dto.CreateCourseRequest) (*model.Cours
 	return course, nil
 }
 
-func (s *courseService) GetAllCourses() ([]*model.Course, error) {
-	return s.repo.GetAll()
+func (s *courseService) GetCourse(id uuid.UUID, includeAuthor bool) (*model.Course, error) {
+	return s.repo.GetByID(id, includeAuthor)
+}
+
+func (s *courseService) GetAllCourses(includeAuthor bool) ([]*model.Course, error) {
+	return s.repo.GetAll(includeAuthor)
 }
 
 func (s *courseService) UpdateCourseByID(id uuid.UUID, updates map[string]any) error {

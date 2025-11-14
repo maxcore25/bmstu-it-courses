@@ -11,6 +11,10 @@ import (
 	httphelper "github.com/maxcore25/bmstu-it-courses/backend/internal/shared/http"
 )
 
+func shouldInclude(c *gin.Context, key string) bool {
+	return c.Query("include") == key
+}
+
 type CourseHandler struct {
 	service service.CourseService
 }
@@ -42,7 +46,7 @@ func (h *CourseHandler) CreateCourse(c *gin.Context) {
 		return
 	}
 
-	resp := mapper.NewCourseResponse(course)
+	resp := mapper.NewCourseResponse(course, false)
 
 	c.JSON(http.StatusCreated, resp)
 }
@@ -52,6 +56,7 @@ func (h *CourseHandler) CreateCourse(c *gin.Context) {
 // @Tags Courses
 // @Produce json
 // @Param id path string true "Course ID (uuid)"
+// @Param include query string false "Include extra related data (allowed: author)" Enums(author)
 // @Success 200 {object} dto.CourseResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -64,14 +69,15 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 		return
 	}
 
-	course, err := h.service.GetCourse(id)
+	includeAuthor := shouldInclude(c, "author")
+
+	course, err := h.service.GetCourse(id, includeAuthor)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "course not found"})
 		return
 	}
 
-	resp := mapper.NewCourseResponse(course)
-
+	resp := mapper.NewCourseResponse(course, includeAuthor)
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -79,18 +85,23 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 // @Summary Get all courses
 // @Tags Courses
 // @Produce json
+// @Param include query string false "Include extra related data (allowed: author)" Enums(author)
 // @Success 200 {array} dto.CourseResponse
 // @Router /courses [get]
 func (h *CourseHandler) GetAllCourses(c *gin.Context) {
-	courses, err := h.service.GetAllCourses()
+	includeAuthor := shouldInclude(c, "author")
+
+	courses, err := h.service.GetAllCourses(includeAuthor)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	resp := make([]*dto.CourseResponse, len(courses))
 	for i, course := range courses {
-		resp[i] = mapper.NewCourseResponse(course)
+		resp[i] = mapper.NewCourseResponse(course, includeAuthor)
 	}
+
 	c.JSON(http.StatusOK, resp)
 }
 
