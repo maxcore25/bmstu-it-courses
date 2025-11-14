@@ -144,9 +144,10 @@ func main() {
 	orderRepo := orderRepo.NewOrderRepository(db)
 	orderService := orderService.NewOrderService(orderRepo)
 
-	// Seed admin
-	if err := bootstrap.SeedDefaultAdmin(userRepo); err != nil {
-		log.Fatalf("❌ Failed to seed default admin: %v", err)
+	// Run seeds
+	if err := bootstrap.RunSeeds(db); err != nil {
+		log.Fatalf("❌ Failed to seed: %v", err)
+		panic(err)
 	}
 
 	// Register routes
