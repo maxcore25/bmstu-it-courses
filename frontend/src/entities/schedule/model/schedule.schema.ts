@@ -1,3 +1,5 @@
+import { branchSchema } from '@/entities/branch';
+import { courseSchema } from '@/entities/course';
 import { z } from 'zod';
 
 export const scheduleSchema = z.object({
@@ -10,6 +12,8 @@ export const scheduleSchema = z.object({
   endAt: z.iso.datetime({ offset: true }),
   createdAt: z.iso.datetime({ offset: true }),
   updatedAt: z.iso.datetime({ offset: true }),
+  course: courseSchema.optional(),
+  branch: branchSchema.optional(),
 });
 
 export type Schedule = z.infer<typeof scheduleSchema>;

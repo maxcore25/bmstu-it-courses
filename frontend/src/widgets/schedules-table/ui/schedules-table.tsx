@@ -95,15 +95,27 @@ const columns: ColumnDef<Schedule>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'id',
-    header: 'ID',
+    accessorKey: 'course',
+    header: 'Course',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
-    accessorKey: 'capacity',
-    header: 'Capacity',
-    cell: ({ row }) => row.original.capacity,
+    accessorKey: 'branch',
+    header: 'Branch',
+    cell: ({ row }) => row.original.branch?.address,
+  },
+  {
+    id: 'availableSeats',
+    header: 'Available Seats',
+    cell: ({ row }) => {
+      const { reserved, capacity } = row.original;
+      return (
+        <span>
+          {reserved} / {capacity}
+        </span>
+      );
+    },
   },
   {
     accessorKey: 'startAt',
@@ -161,7 +173,7 @@ function BasicTableRow({ row }: { row: Row<Schedule> }) {
 }
 
 export function SchedulesTable() {
-  const { data: schedules, isLoading } = useGetSchedules();
+  const { data: schedules, isLoading } = useGetSchedules(['course', 'branch']);
   const [data, setData] = React.useState<Schedule[]>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -399,12 +411,12 @@ function TableCellViewer({ item }: { item: Schedule }) {
     <Drawer direction={isMobile ? 'bottom' : 'right'}>
       <DrawerTrigger asChild>
         <Button variant='link' className='text-foreground w-fit px-0 text-left'>
-          {item.id}
+          {item.course?.name}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>{item.id}</DrawerTitle>
+          <DrawerTitle>{item.course?.name}</DrawerTitle>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <div className='grid grid-cols-2 gap-4'>

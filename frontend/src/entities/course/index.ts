@@ -1,2 +1,2 @@
 export { useGetCourses } from './model/use-get-courses';
-export { type Course } from './model/course.schema';
+export { type Course, courseSchema } from './model/course.schema';
