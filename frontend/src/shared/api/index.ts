@@ -36,7 +36,7 @@ export function clearAuthTokens() {
 function redirectToPublicRout() {
   if (typeof window !== 'undefined') {
     clearAuthTokens();
-    window.location.href = '/';
+    window.location.href = '/login';
   }
 }
 

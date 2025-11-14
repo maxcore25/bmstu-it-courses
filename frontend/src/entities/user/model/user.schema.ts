@@ -10,8 +10,8 @@ export const userSchema = z.object({
   phone: z.string().optional(),
   knowledgeLevel: z.enum(levels),
   role: z.string().min(1),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
+  createdAt: z.iso.datetime({ offset: true }),
+  updatedAt: z.iso.datetime({ offset: true }),
 });
 
 export const tutorSchema = userSchema.extend({

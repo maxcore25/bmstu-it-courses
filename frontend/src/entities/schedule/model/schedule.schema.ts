@@ -6,10 +6,10 @@ export const scheduleSchema = z.object({
   courseId: z.uuid(),
   capacity: z.number().nonnegative(),
   reserved: z.number().nonnegative(),
-  startAt: z.iso.datetime(),
-  endAt: z.iso.datetime(),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
+  startAt: z.iso.datetime({ offset: true }),
+  endAt: z.iso.datetime({ offset: true }),
+  createdAt: z.iso.datetime({ offset: true }),
+  updatedAt: z.iso.datetime({ offset: true }),
 });
 
 export type Schedule = z.infer<typeof scheduleSchema>;

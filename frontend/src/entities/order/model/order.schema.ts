@@ -7,8 +7,8 @@ export const orderSchema = z.object({
   courseId: z.uuid(),
   scheduleId: z.uuid(),
   price: z.number().nonnegative(),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
+  createdAt: z.iso.datetime({ offset: true }),
+  updatedAt: z.iso.datetime({ offset: true }),
 });
 
 export type Order = z.infer<typeof orderSchema>;

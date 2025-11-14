@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect } from 'react';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: user, isError } = useGetMe();
+  const { data: user, isError, error } = useGetMe();
   const { setUser, reset } = useAuthStore();
   const router = useRouter();
 
@@ -17,9 +17,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isError) {
       reset();
+      console.error(error);
       router.push('/login');
     }
-  }, [isError, reset, router]);
+  }, [isError, reset, router, error]);
 
-  return <>{children}</>;
+  return children;
 }
