@@ -11,10 +11,6 @@ import (
 	httphelper "github.com/maxcore25/bmstu-it-courses/backend/internal/shared/http"
 )
 
-func shouldInclude(c *gin.Context, key string) bool {
-	return c.Query("include") == key
-}
-
 type CourseHandler struct {
 	service service.CourseService
 }
@@ -69,7 +65,7 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 		return
 	}
 
-	includeAuthor := shouldInclude(c, "author")
+	includeAuthor := httphelper.ShouldInclude(c, "author")
 
 	course, err := h.service.GetCourse(id, includeAuthor)
 	if err != nil {
@@ -89,7 +85,7 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 // @Success 200 {array} dto.CourseResponse
 // @Router /courses [get]
 func (h *CourseHandler) GetAllCourses(c *gin.Context) {
-	includeAuthor := shouldInclude(c, "author")
+	includeAuthor := httphelper.ShouldInclude(c, "author")
 
 	courses, err := h.service.GetAllCourses(includeAuthor)
 	if err != nil {
