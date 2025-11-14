@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const updateBranchSchema = z
   .object({
-    address: z.string().min(1, 'Name is required'),
-    rooms: z.number().positive(),
+    address: z.string(),
+    rooms: z.number().nonnegative(),
   })
   .partial();
 
