@@ -1,4 +1,4 @@
-import { levels } from '@/shared/lib/levels';
+import { levels } from '@/shared/config';
 import { z } from 'zod';
 
 export const courseSchema = z.object({

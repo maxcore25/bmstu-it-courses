@@ -19,3 +19,6 @@ export const QUERY_KEYS = {
 export const LOCAL_STORAGE_KEYS = {
   ACCESS_TOKEN: 'accessToken',
 } as const;
+
+export const levels = ['beginner', 'intermediate', 'advanced'] as const;
+export type Level = (typeof levels)[number];
