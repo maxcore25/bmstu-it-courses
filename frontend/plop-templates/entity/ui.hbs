@@ -1,38 +1,16 @@
 'use client';
 
-import { cn } from '@/shared/lib/utils';
-import { Label } from '@/shared/ui/label';
-import { Checkbox } from '@/shared/ui/checkbox';
+import { Card } from '@/shared/ui/card';
 import { {{pascalCase name}} } from '../model/{{kebabCase name}}.schema';
-import { useState } from 'react';
 
 type {{pascalCase name}}CardProps = {
   {{name}}: {{pascalCase name}};
-  selected?: boolean;
-  onToggle?: (item: {{pascalCase name}}, checked: boolean) => void;
 };
 
-export function {{pascalCase name}}Card({
-  {{name}},
-  selected = false,
-  onToggle,
-}: {{pascalCase name}}CardProps) {
-  const [checked, setChecked] = useState(selected);
-
-  const handleChange = (value: boolean) => {
-    setChecked(value);
-    onToggle?.({{name}}, value);
-  };
-
+export function {{pascalCase name}}Card({ {{name}} }: {{pascalCase name}}CardProps) {
   return (
-    <Label
-      className={cn(
-        'cursor-pointer rounded-xl border p-3 transition-colors',
-        checked ? 'border-primary' : 'border-border'
-      )}
-    >
-      <Checkbox hidden checked={checked} onCheckedChange={handleChange} />
-      <p>{ {{name}}.name }</p>
-    </Label>
+    <Card>
+      <div>{ {{name}}.id }</div>
+    </Card>
   );
 }
