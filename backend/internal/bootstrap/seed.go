@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	"gorm.io/gorm"
 )
 
@@ -17,7 +16,7 @@ func RunSeeds(db *gorm.DB) error {
 	fmt.Println("Running seeds for environment:", env)
 
 	// Minimal production-safe seeds
-	if err := SeedDefaultAdmin(repository.NewUserRepository(db)); err != nil {
+	if err := SeedDefaultAdmin(db); err != nil {
 		return err
 	}
 

@@ -4,16 +4,19 @@ import (
 	"fmt"
 
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
+	userRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
+	"gorm.io/gorm"
 )
 
 // SeedDefaultAdmin checks if an admin user exists and creates it if missing.
-func SeedDefaultAdmin(userRepo repository.UserRepository) error {
+func SeedDefaultAdmin(db *gorm.DB) error {
+	usrRepo := userRepo.NewUserRepository(db)
+
 	const defaultEmail = "admin@mail.ru"
 	const defaultPassword = "qwe123"
 
-	admin, _ := userRepo.GetByEmail(defaultEmail)
+	admin, _ := usrRepo.GetByEmail(defaultEmail)
 	if admin != nil {
 		fmt.Println("✅ Admin user already exists:", admin.Email)
 		return nil
@@ -33,7 +36,7 @@ func SeedDefaultAdmin(userRepo repository.UserRepository) error {
 		KnowledgeLevel: model.KnowledgeLevelAdvanced,
 	}
 
-	if err := userRepo.Create(adminUser); err != nil {
+	if err := usrRepo.Create(adminUser); err != nil {
 		return fmt.Errorf("failed to create default admin: %w", err)
 	}
 
