@@ -10,7 +10,7 @@ import {
 import { NavMain } from '@/widgets/app-sidebar/ui/nav-main';
 import { NavUser } from '@/widgets/app-sidebar/ui/nav-user';
 import { TeamSwitcher } from '@/widgets/app-sidebar/ui/team-switcher';
-import { BookOpen, Home, Pizza, Settings } from 'lucide-react';
+import { Home, Pizza } from 'lucide-react';
 import * as React from 'react';
 
 const data = {
@@ -28,40 +28,6 @@ const data = {
         {
           title: 'Main',
           url: '/',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings,
-      items: [
-        {
-          title: 'General',
-          url: '/settings/general',
         },
       ],
     },
