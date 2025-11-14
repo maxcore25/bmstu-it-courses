@@ -101,6 +101,11 @@ const columns: ColumnDef<Course>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'author',
+    header: 'Author',
+    cell: ({ row }) => row.original.author?.email,
+  },
+  {
     accessorKey: 'format',
     header: 'Format',
     cell: ({ row }) => row.original.format,
@@ -161,7 +166,7 @@ function BasicTableRow({ row }: { row: Row<Course> }) {
 }
 
 export function CoursesTable() {
-  const { data: courses, isLoading } = useGetCourses();
+  const { data: courses, isLoading } = useGetCourses(['author']);
   const [data, setData] = React.useState<Course[]>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =

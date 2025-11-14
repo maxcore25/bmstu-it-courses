@@ -1,3 +1,4 @@
+import { userSchema } from '@/entities/user';
 import { courseFormats, levels } from '@/shared/config';
 import { z } from 'zod';
 
@@ -11,6 +12,7 @@ export const courseSchema = z.object({
   format: z.enum(courseFormats),
   createdAt: z.string(),
   updatedAt: z.string(),
+  author: userSchema.optional(),
 });
 
 export type Course = z.infer<typeof courseSchema>;
