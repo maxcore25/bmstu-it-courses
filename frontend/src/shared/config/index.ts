@@ -22,3 +22,6 @@ export const LOCAL_STORAGE_KEYS = {
 
 export const levels = ['beginner', 'intermediate', 'advanced'] as const;
 export type Level = (typeof levels)[number];
+
+export const courseFormats = ['group', 'individual', 'intensive'] as const;
+export type CourseFormat = (typeof courseFormats)[number];
