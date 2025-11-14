@@ -1,4 +1,4 @@
-import { levels } from '@/shared/config';
+import { levels, roles } from '@/shared/config';
 import { z } from 'zod';
 
 export const userSchema = z.object({
@@ -9,7 +9,7 @@ export const userSchema = z.object({
   email: z.email(),
   phone: z.string().optional(),
   knowledgeLevel: z.enum(levels),
-  role: z.string().min(1),
+  role: z.enum(roles),
   createdAt: z.iso.datetime({ offset: true }),
   updatedAt: z.iso.datetime({ offset: true }),
 });
@@ -19,6 +19,8 @@ export const tutorSchema = userSchema.extend({
   rating: z.number().nonnegative(),
   testimonialsCount: z.number().int().nonnegative(),
 });
+
+export const usersSchema = z.array(userSchema);
 
 export type User = z.infer<typeof userSchema>;
 export type Tutor = z.infer<typeof tutorSchema>;
