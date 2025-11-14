@@ -51,13 +51,17 @@ func (s *userService) CreateUser(req dto.CreateUserRequest) (*model.User, error)
 	}
 
 	user := &model.User{
-		FirstName:      req.FirstName,
-		LastName:       req.LastName,
-		MiddleName:     middleNamePtr,
-		Email:          req.Email,
-		Password:       hashedPassword,
-		Phone:          phonePtr,
-		KnowledgeLevel: model.KnowledgeLevel(req.KnowledgeLevel),
+		FirstName:         req.FirstName,
+		LastName:          req.LastName,
+		MiddleName:        middleNamePtr,
+		Email:             req.Email,
+		Password:          hashedPassword,
+		Phone:             phonePtr,
+		KnowledgeLevel:    model.KnowledgeLevel(req.KnowledgeLevel),
+		Role:              model.UserRole(req.Role),
+		Portfolio:         req.Portfolio,
+		Rating:            req.Rating,
+		TestimonialsCount: req.TestimonialsCount,
 	}
 
 	if err := s.repo.Create(user); err != nil {
