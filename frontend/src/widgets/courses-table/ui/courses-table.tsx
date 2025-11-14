@@ -6,6 +6,8 @@ import { CreateCourseButton } from '@/features/create-course';
 import { DeleteCourseDropdownItem } from '@/features/delete-course';
 import { UpdateCourseDrawer } from '@/features/update-course';
 import { useIsMobile } from '@/shared/lib/hooks';
+import { formatRubleNumber } from '@/shared/lib/utils';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import {
@@ -108,21 +110,24 @@ const columns: ColumnDef<Course>[] = [
   {
     accessorKey: 'format',
     header: 'Format',
-    cell: ({ row }) => row.original.format,
+    cell: ({ row }) => <Badge>{row.original.format}</Badge>,
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Created',
+    accessorKey: 'price',
+    header: 'Price',
+    cell: ({ row }) => formatRubleNumber(row.original.price),
+  },
+  {
+    accessorKey: 'difficulty',
+    header: 'Difficulty',
     cell: ({ row }) => (
-      <span>{new Date(row.original.createdAt).toLocaleString()}</span>
+      <Badge variant='outline'>{row.original.difficulty}</Badge>
     ),
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated',
-    cell: ({ row }) => (
-      <span>{new Date(row.original.updatedAt).toLocaleString()}</span>
-    ),
+    accessorKey: 'duration',
+    header: 'Duration',
+    cell: ({ row }) => row.original.duration,
   },
   {
     id: 'actions',
