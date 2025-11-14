@@ -21,13 +21,23 @@ import (
 )
 
 func SeedSandboxData(db *gorm.DB) error {
-	fmt.Println("▶ Seeding sandbox development data...")
+	fmt.Println("🔄 Seeding sandbox development data...")
 
 	// Instantiate repositories
 	brRepo := branchRepo.NewBranchRepository(db)
 	usrRepo := userRepo.NewUserRepository(db)
 	crsRepo := courseRepo.NewCourseRepository(db)
 	schRepo := scheduleRepo.NewScheduleRepository(db)
+
+	// Check if sandbox data already exists to avoid reseeding
+	branches, err := brRepo.GetAll()
+	if err != nil {
+		return fmt.Errorf("❌ failed to check existing branches: %w", err)
+	}
+	if len(branches) > 0 {
+		fmt.Println("ℹ️  Sandbox data already seeded - skipping")
+		return nil
+	}
 
 	// --- Branch ---
 	branchID := uuid.New()
