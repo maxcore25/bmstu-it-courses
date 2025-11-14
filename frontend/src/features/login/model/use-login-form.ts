@@ -1,7 +1,6 @@
 import { LOCAL_STORAGE_KEYS } from '@/shared/config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { loginFormSchema, LoginFormValues } from './login.schema';
@@ -16,32 +15,27 @@ export const useLoginForm = () => {
       password: '',
     },
   });
-  const { data, error, isSuccess, isError, isPending, mutate } = useLogin();
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, data.accessToken);
-      form.reset();
-      router.push('/');
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(error.message || 'Something went wrong', {
-        description: 'Please try again.',
-        action: {
-          label: 'Close',
-          onClick: () => null,
-        },
-      });
-
-      console.error(error);
-    }
-  }, [isError]);
+  const { mutate, isPending } = useLogin();
 
   function onSubmit(values: LoginFormValues) {
-    mutate(values);
+    mutate(values, {
+      onSuccess: data => {
+        localStorage.setItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, data.accessToken);
+        form.reset();
+        router.push('/admin');
+      },
+      onError: (error: Error) => {
+        toast.error(error.message || 'Something went wrong', {
+          description: 'Please try again.',
+          action: {
+            label: 'Close',
+            onClick: () => null,
+          },
+        });
+
+        console.error(error);
+      },
+    });
   }
 
   return { form, onSubmit, ...form, isPending };
