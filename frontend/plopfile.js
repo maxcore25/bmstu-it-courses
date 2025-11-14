@@ -92,7 +92,8 @@ module.exports = function (plop) {
       {
         type: 'input',
         name: 'name',
-        message: 'Feature name (singular, e.g. checkout):',
+        message:
+          'Feature name (singular/kebab-case, e.g. checkout/create-order):',
       },
     ],
     actions: function (data) {
