@@ -6,6 +6,7 @@ import { CreateUserButton } from '@/features/create-user';
 import { DeleteUserDropdownItem } from '@/features/delete-user';
 import { UpdateUserDrawer } from '@/features/update-user';
 import { useIsMobile } from '@/shared/lib/hooks';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import {
@@ -95,19 +96,31 @@ const columns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'id',
-    header: 'ID',
+    accessorKey: 'fullname',
+    header: 'ФИО',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
-    accessorKey: 'firstName',
-    header: 'ФИО',
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => row.original.email,
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Phone',
+    cell: ({ row }) => row.original.phone ?? '-',
+  },
+  {
+    accessorKey: 'role',
+    header: 'Role',
+    cell: ({ row }) => <Badge>{row.original.role}</Badge>,
+  },
+  {
+    accessorKey: 'knowledgeLevel',
+    header: 'Knowledge Level',
     cell: ({ row }) => (
-      <>
-        {row.original.lastName} {row.original.firstName}{' '}
-        {row.original.middleName}
-      </>
+      <Badge variant='outline'>{row.original.knowledgeLevel}</Badge>
     ),
   },
   {
@@ -404,7 +417,7 @@ function TableCellViewer({ item }: { item: User }) {
     <Drawer direction={isMobile ? 'bottom' : 'right'}>
       <DrawerTrigger asChild>
         <Button variant='link' className='text-foreground w-fit px-0 text-left'>
-          {item.id}
+          {item.lastName} {item.firstName} {item.middleName}
         </Button>
       </DrawerTrigger>
       <DrawerContent>

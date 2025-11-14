@@ -154,7 +154,11 @@ function BasicTableRow({ row }: { row: Row<Order> }) {
 }
 
 export function OrdersTable() {
-  const { data: orders, isLoading } = useGetOrders();
+  const { data: orders, isLoading } = useGetOrders([
+    'client',
+    'course',
+    'branch',
+  ]);
   const [data, setData] = React.useState<Order[]>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
