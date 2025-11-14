@@ -3,7 +3,7 @@
 
 import { Branch, useGetBranches } from '@/entities/branch';
 import { DeleteBranchDropdownItem } from '@/features/delete-branch';
-// import { UpdateBranchDrawer } from '@/features/update-branch';
+import { UpdateBranchDrawer } from '@/features/update-branch';
 import { useIsMobile } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
@@ -134,10 +134,10 @@ const columns: ColumnDef<Branch>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='w-32'>
-            {/* <UpdateBranchDrawer
+            <UpdateBranchDrawer
               branchId={row.original.id}
               initialData={row.original}
-            /> */}
+            />
             <DropdownMenuSeparator />
             <DeleteBranchDropdownItem branchId={row.original.id} />
           </DropdownMenuContent>
