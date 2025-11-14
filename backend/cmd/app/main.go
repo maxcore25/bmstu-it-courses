@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/bootstrap"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/bootstrap"
 
 	authHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
