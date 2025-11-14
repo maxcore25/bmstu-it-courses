@@ -1,4 +1,4 @@
-import { levels } from '@/shared/config';
+import { courseFormats, levels } from '@/shared/config';
 import { z } from 'zod';
 
 export const courseSchema = z.object({
@@ -8,7 +8,7 @@ export const courseSchema = z.object({
   price: z.number(),
   difficulty: z.enum(levels),
   duration: z.string(),
-  format: z.string(),
+  format: z.enum(courseFormats),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
