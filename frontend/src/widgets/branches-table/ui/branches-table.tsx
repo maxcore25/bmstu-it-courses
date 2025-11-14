@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/incompatible-library */
 'use client';
 
 import { Branch, useGetBranches } from '@/entities/branch';
-// import { DeleteBranchDropdownItem } from '@/features/delete-branch';
+import { DeleteBranchDropdownItem } from '@/features/delete-branch';
 // import { UpdateBranchDrawer } from '@/features/update-branch';
 import { useIsMobile } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/button';
@@ -138,7 +139,7 @@ const columns: ColumnDef<Branch>[] = [
               initialData={row.original}
             /> */}
             <DropdownMenuSeparator />
-            {/* <DeleteBranchDropdownItem branchId={row.original.id} /> */}
+            <DeleteBranchDropdownItem branchId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
