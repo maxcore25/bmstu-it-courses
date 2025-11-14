@@ -7,13 +7,8 @@ export async function getCourses(expand?: string[]) {
     const expandParam = expand.map(e => encodeURIComponent(e)).join(',');
     url += `?expand=${expandParam}`;
   }
-  const { data } = await axiosInstance.get(url);
 
-  try {
-    coursesSchema.parse(data);
-  } catch (error) {
-    console.error(error);
-  }
+  const { data } = await axiosInstance.get(url);
 
   return coursesSchema.parse(data);
 }

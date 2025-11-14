@@ -1,3 +1,6 @@
+import { branchSchema } from '@/entities/branch';
+import { courseSchema } from '@/entities/course';
+import { userSchema } from '@/entities/user';
 import { z } from 'zod';
 
 export const orderSchema = z.object({
@@ -9,6 +12,9 @@ export const orderSchema = z.object({
   price: z.number().nonnegative(),
   createdAt: z.iso.datetime({ offset: true }),
   updatedAt: z.iso.datetime({ offset: true }),
+  course: courseSchema.optional(),
+  branch: branchSchema.optional(),
+  client: userSchema.optional(),
 });
 
 export type Order = z.infer<typeof orderSchema>;

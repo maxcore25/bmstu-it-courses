@@ -9,11 +9,5 @@ export async function getSchedules(expand?: string[]) {
   }
   const { data } = await axiosInstance.get(url);
 
-  try {
-    schedulesSchema.parse(data);
-  } catch (error) {
-    console.error(error);
-  }
-
   return schedulesSchema.parse(data);
 }
