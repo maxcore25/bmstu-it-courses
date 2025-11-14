@@ -2,6 +2,7 @@
 'use client';
 
 import { Branch, useGetBranches } from '@/entities/branch';
+import { CreateBranchButton } from '@/features/create-branch';
 import { DeleteBranchDropdownItem } from '@/features/delete-branch';
 import { UpdateBranchDrawer } from '@/features/update-branch';
 import { useIsMobile } from '@/shared/lib/hooks';
@@ -232,6 +233,7 @@ export function BranchesTable() {
       <div className='flex items-center justify-between px-4 lg:px-6'>
         <h2 className='text-2xl leading-none font-semibold'>Branches</h2>
         <div className='flex items-center gap-2'>
+          <CreateBranchButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='sm'>

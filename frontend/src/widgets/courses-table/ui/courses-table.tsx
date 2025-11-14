@@ -2,6 +2,7 @@
 'use client';
 
 import { Course, useGetCourses } from '@/entities/course';
+import { CreateCourseButton } from '@/features/create-course';
 import { DeleteCourseDropdownItem } from '@/features/delete-course';
 import { UpdateCourseDrawer } from '@/features/update-course';
 import { useIsMobile } from '@/shared/lib/hooks';
@@ -232,6 +233,7 @@ export function CoursesTable() {
       <div className='flex items-center justify-between px-4 lg:px-6'>
         <h2 className='text-2xl leading-none font-semibold'>Courses</h2>
         <div className='flex items-center gap-2'>
+          <CreateCourseButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='sm'>
