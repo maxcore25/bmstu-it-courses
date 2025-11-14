@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { UpdateCourseValues } from '../model/update-course.schema';
 import { useUpdateCourseForm } from '../model/use-update-course-form';
 
@@ -163,7 +163,7 @@ export const UpdateCourseDrawer = ({
                 className='mt-6! h-auto w-full gap-2 py-3'
                 disabled={isPending}
               >
-                {isPending ? <Loader /> : null}
+                {isPending ? <Spinner /> : null}
                 Update Course
               </Button>
             </form>

@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { UpdateScheduleValues } from '../model/update-schedule.schema';
 import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
 
@@ -157,7 +157,7 @@ export const UpdateScheduleDrawer = ({
                 className='mt-6! h-auto w-full gap-2 py-3'
                 disabled={isPending}
               >
-                {isPending ? <Loader /> : null}
+                {isPending ? <Spinner /> : null}
                 Update Schedule
               </Button>
             </form>

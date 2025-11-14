@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { useDeleteUser } from '../model/use-delete-user';
 
 interface DeleteUserDropdownItemProps {
@@ -19,7 +19,7 @@ export const DeleteUserDropdownItem = ({
       onClick={() => mutate(userId)}
       disabled={isPending}
     >
-      {isPending ? <Loader /> : null}
+      {isPending ? <Spinner /> : null}
       Delete
     </DropdownMenuItem>
   );

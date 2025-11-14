@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { useDeleteCourse } from '../model/use-delete-course';
 
 interface DeleteCourseDropdownItemProps {
@@ -19,7 +19,7 @@ export const DeleteCourseDropdownItem = ({
       onClick={() => mutate(courseId)}
       disabled={isPending}
     >
-      {isPending ? <Loader /> : null}
+      {isPending ? <Spinner /> : null}
       Delete
     </DropdownMenuItem>
   );

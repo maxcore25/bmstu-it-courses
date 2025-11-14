@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { useDeleteBranch } from '../model/use-delete-topping';
 
 interface DeleteBranchDropdownItemProps {
@@ -19,7 +19,7 @@ export const DeleteBranchDropdownItem = ({
       onClick={() => mutate(branchId)}
       disabled={isPending}
     >
-      {isPending ? <Loader /> : null}
+      {isPending ? <Spinner /> : null}
       Delete
     </DropdownMenuItem>
   );

@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { Loader } from 'lucide-react';
+import { Spinner } from '@/shared/ui/spinner';
 import { UpdateBranchValues } from '../model/update-branch.schema';
 import { useUpdateBranchForm } from '../model/use-update-branch-form';
 
@@ -107,7 +107,7 @@ export const UpdateBranchDrawer = ({
                 className='mt-6! h-auto w-full gap-2 py-3'
                 disabled={isPending}
               >
-                {isPending ? <Loader /> : null}
+                {isPending ? <Spinner /> : null}
                 Update Branch
               </Button>
             </form>
