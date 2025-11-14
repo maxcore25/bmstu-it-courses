@@ -2,13 +2,14 @@ package mapper
 
 import (
 	"github.com/google/uuid"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/dto"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 
 	branchMapper "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/mapper"
 	courseMapper "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/mapper"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/dto"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 )
 
+// NewScheduleResponse creates an ScheduleResponse from model.Schedule, including expanded relations if preloaded.
 func NewScheduleResponse(s *model.Schedule) *dto.ScheduleResponse {
 	resp := &dto.ScheduleResponse{
 		ID:        s.ID,
@@ -22,7 +23,6 @@ func NewScheduleResponse(s *model.Schedule) *dto.ScheduleResponse {
 		UpdatedAt: s.UpdatedAt,
 	}
 
-	// Only include nested if preloaded (expand used)
 	if s.Course.ID != uuid.Nil {
 		resp.Course = courseMapper.NewCourseResponse(&s.Course, false)
 	}
