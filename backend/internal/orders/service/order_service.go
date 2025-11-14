@@ -16,9 +16,9 @@ import (
 )
 
 type OrderService interface {
-	GetOrder(id uuid.UUID) (*model.Order, error)
 	CreateOrder(req *dto.CreateOrderRequest) (*model.Order, error)
-	GetAllOrders() ([]*model.Order, error)
+	GetOrder(id uuid.UUID, expand map[string]bool) (*model.Order, error)
+	GetAllOrders(expand map[string]bool) ([]*model.Order, error)
 	UpdateOrderByID(id uuid.UUID, updates map[string]any) error
 	DeleteOrderByID(id uuid.UUID) error
 }
@@ -29,10 +29,6 @@ type orderService struct {
 
 func NewOrderService(r repository.OrderRepository) OrderService {
 	return &orderService{repo: r}
-}
-
-func (s *orderService) GetOrder(id uuid.UUID) (*model.Order, error) {
-	return s.repo.GetByID(id)
 }
 
 func (s *orderService) CreateOrder(req *dto.CreateOrderRequest) (*model.Order, error) {
@@ -111,7 +107,17 @@ func (s *orderService) CreateOrder(req *dto.CreateOrderRequest) (*model.Order, e
 	return order, nil
 }
 
-func (s *orderService) GetAllOrders() ([]*model.Order, error) {
+func (s *orderService) GetOrder(id uuid.UUID, expand map[string]bool) (*model.Order, error) {
+	if len(expand) > 0 {
+		return s.repo.GetByIDWithExpand(id, expand)
+	}
+	return s.repo.GetByID(id)
+}
+
+func (s *orderService) GetAllOrders(expand map[string]bool) ([]*model.Order, error) {
+	if len(expand) > 0 {
+		return s.repo.GetAllWithExpand(expand)
+	}
 	return s.repo.GetAll()
 }
 

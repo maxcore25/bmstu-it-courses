@@ -2,6 +2,9 @@ package dto
 
 import (
 	"github.com/google/uuid"
+	userDto "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
+	branchDto "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/dto"
+	courseDto "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/dto"
 )
 
 // OrderResponse represents the structure for responding with order data.
@@ -14,4 +17,9 @@ type OrderResponse struct {
 	Price      int64      `json:"price" example:"99900"`
 	CreatedAt  string     `json:"createdAt" example:"2024-04-10T15:04:05Z"`
 	UpdatedAt  string     `json:"updatedAt" example:"2024-04-10T15:04:05Z"`
+
+	// Expandable fields
+	Client *userDto.UserResponse     `json:"client,omitempty"`
+	Course *courseDto.CourseResponse `json:"course,omitempty"`
+	Branch *branchDto.BranchResponse `json:"branch,omitempty"`
 }

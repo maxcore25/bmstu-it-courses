@@ -53,6 +53,7 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 // @Tags Orders
 // @Produce json
 // @Param id path string true "Order ID (uuid)"
+// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course,branch"
 // @Success 200 {object} dto.OrderResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -65,7 +66,9 @@ func (h *OrderHandler) GetOrder(c *gin.Context) {
 		return
 	}
 
-	order, err := h.service.GetOrder(id)
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
+
+	order, err := h.service.GetOrder(id, expand)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "order not found"})
 		return
@@ -80,10 +83,13 @@ func (h *OrderHandler) GetOrder(c *gin.Context) {
 // @Summary Get all orders
 // @Tags Orders
 // @Produce json
+// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course,branch"
 // @Success 200 {array} dto.OrderResponse
 // @Router /orders [get]
 func (h *OrderHandler) GetAllOrders(c *gin.Context) {
-	orders, err := h.service.GetAllOrders()
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
+
+	orders, err := h.service.GetAllOrders(expand)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
