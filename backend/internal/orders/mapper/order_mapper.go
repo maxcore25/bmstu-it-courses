@@ -30,7 +30,7 @@ func NewOrderResponse(o *model.Order) *dto.OrderResponse {
 	}
 
 	if o.Course.ID != uuid.Nil {
-		resp.Course = courseMapper.NewCourseResponse(&o.Course, false)
+		resp.Course = courseMapper.NewCourseResponse(&o.Course)
 	}
 
 	if o.Branch != nil && o.Branch.ID != uuid.Nil {

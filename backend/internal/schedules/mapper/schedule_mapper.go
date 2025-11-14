@@ -24,7 +24,7 @@ func NewScheduleResponse(s *model.Schedule) *dto.ScheduleResponse {
 	}
 
 	if s.Course.ID != uuid.Nil {
-		resp.Course = courseMapper.NewCourseResponse(&s.Course, false)
+		resp.Course = courseMapper.NewCourseResponse(&s.Course)
 	}
 
 	if s.Branch != nil && s.Branch.ID != uuid.Nil {

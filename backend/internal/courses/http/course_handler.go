@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/courses/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/courses/mapper"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/courses/service"
@@ -42,7 +43,7 @@ func (h *CourseHandler) CreateCourse(c *gin.Context) {
 		return
 	}
 
-	resp := mapper.NewCourseResponse(course, false)
+	resp := mapper.NewCourseResponse(course)
 
 	c.JSON(http.StatusCreated, resp)
 }
@@ -52,7 +53,7 @@ func (h *CourseHandler) CreateCourse(c *gin.Context) {
 // @Tags Courses
 // @Produce json
 // @Param id path string true "Course ID (uuid)"
-// @Param include query string false "Include extra related data (allowed: author)" Enums(author)
+// @Param expand query []string false "Relations to expand (author). Example: expand=author"
 // @Success 200 {object} dto.CourseResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -65,15 +66,15 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 		return
 	}
 
-	includeAuthor := httphelper.ShouldInclude(c, "author")
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
 
-	course, err := h.service.GetCourse(id, includeAuthor)
+	course, err := h.service.GetCourse(id, expand)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "course not found"})
 		return
 	}
 
-	resp := mapper.NewCourseResponse(course, includeAuthor)
+	resp := mapper.NewCourseResponse(course)
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -81,13 +82,13 @@ func (h *CourseHandler) GetCourse(c *gin.Context) {
 // @Summary Get all courses
 // @Tags Courses
 // @Produce json
-// @Param include query string false "Include extra related data (allowed: author)" Enums(author)
+// @Param expand query []string false "Relations to expand (author). Example: expand=author"
 // @Success 200 {array} dto.CourseResponse
 // @Router /courses [get]
 func (h *CourseHandler) GetAllCourses(c *gin.Context) {
-	includeAuthor := httphelper.ShouldInclude(c, "author")
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
 
-	courses, err := h.service.GetAllCourses(includeAuthor)
+	courses, err := h.service.GetAllCourses(expand)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -95,7 +96,7 @@ func (h *CourseHandler) GetAllCourses(c *gin.Context) {
 
 	resp := make([]*dto.CourseResponse, len(courses))
 	for i, course := range courses {
-		resp[i] = mapper.NewCourseResponse(course, includeAuthor)
+		resp[i] = mapper.NewCourseResponse(course)
 	}
 
 	c.JSON(http.StatusOK, resp)

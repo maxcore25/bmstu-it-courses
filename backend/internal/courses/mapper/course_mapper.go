@@ -8,8 +8,8 @@ import (
 	authMapper "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/mapper"
 )
 
-// NewCourseResponse creates a CourseResponse from model.Course.
-func NewCourseResponse(c *model.Course, includeAuthor bool) *dto.CourseResponse {
+// NewCourseResponse creates a CourseResponse from model.Course, including expanded relations if preloaded.
+func NewCourseResponse(c *model.Course) *dto.CourseResponse {
 	resp := &dto.CourseResponse{
 		ID:         c.ID,
 		Name:       c.Name,
@@ -22,7 +22,7 @@ func NewCourseResponse(c *model.Course, includeAuthor bool) *dto.CourseResponse 
 		UpdatedAt:  c.UpdatedAt,
 	}
 
-	if includeAuthor && c.Author.ID != uuid.Nil {
+	if c.Author.ID != uuid.Nil {
 		resp.Author = authMapper.NewUserResponse(&c.Author)
 	}
 

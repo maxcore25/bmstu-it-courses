@@ -6,10 +6,19 @@ import (
 	"gorm.io/gorm"
 )
 
+func applyExpansions(db *gorm.DB, expand map[string]bool) *gorm.DB {
+	if expand["author"] {
+		db = db.Preload("Author")
+	}
+	return db
+}
+
 type CourseRepository interface {
 	Create(course *model.Course) error
-	GetByID(id uuid.UUID, preloadAuthor bool) (*model.Course, error)
-	GetAll(preloadAuthor bool) ([]*model.Course, error)
+	GetByID(id uuid.UUID) (*model.Course, error)
+	GetAll() ([]*model.Course, error)
+	GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Course, error)
+	GetAllWithExpand(expand map[string]bool) ([]*model.Course, error)
 	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
 }
@@ -26,27 +35,41 @@ func (r *courseRepository) Create(course *model.Course) error {
 	return r.db.Create(course).Error
 }
 
-func (r *courseRepository) GetByID(id uuid.UUID, preloadAuthor bool) (*model.Course, error) {
-	query := r.db
-	if preloadAuthor {
-		query = query.Preload("Author")
+func (r *courseRepository) GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Course, error) {
+	var s model.Course
+
+	db := applyExpansions(r.db, expand)
+
+	if err := db.First(&s, "id = ?", id).Error; err != nil {
+		return nil, err
 	}
 
+	return &s, nil
+}
+
+func (r *courseRepository) GetAllWithExpand(expand map[string]bool) ([]*model.Course, error) {
+	var courses []*model.Course
+
+	db := applyExpansions(r.db, expand)
+
+	if err := db.Find(&courses).Error; err != nil {
+		return nil, err
+	}
+
+	return courses, nil
+}
+
+func (r *courseRepository) GetByID(id uuid.UUID) (*model.Course, error) {
 	var c model.Course
-	if err := query.First(&c, "id = ?", id).Error; err != nil {
+	if err := r.db.First(&c, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return &c, nil
 }
 
-func (r *courseRepository) GetAll(preloadAuthor bool) ([]*model.Course, error) {
-	query := r.db
-	if preloadAuthor {
-		query = query.Preload("Author")
-	}
-
+func (r *courseRepository) GetAll() ([]*model.Course, error) {
 	var courses []*model.Course
-	if err := query.Find(&courses).Error; err != nil {
+	if err := r.db.Find(&courses).Error; err != nil {
 		return nil, err
 	}
 	return courses, nil
