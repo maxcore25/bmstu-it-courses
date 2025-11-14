@@ -52,7 +52,7 @@ func (h *ScheduleHandler) CreateSchedule(c *gin.Context) {
 // @Tags Schedules
 // @Produce json
 // @Param id path string true "Schedule ID (uuid)"
-// @Param expand query []string false "Relations to expand. Example: expand=course&expand=branch"
+// @Param expand query []string false "Relations to expand (course, branch). Example: expand=course,branch"
 // @Success 200 {object} dto.ScheduleResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
