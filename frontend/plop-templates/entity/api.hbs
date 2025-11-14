@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/shared/api';
-import { {{camelCase name}}Schema, {{plural name}}Schema } from '../model/{{kebabCase name}}.schema';
+import { {{plural name}}Schema } from '../model/{{kebabCase name}}.schema';
 
 export async function get{{pascalCase (plural name)}}() {
   const { data } = await axiosInstance.get('/{{kebabCase (plural name)}}');
