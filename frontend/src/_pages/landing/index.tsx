@@ -1,3 +1,4 @@
+import { CoursesSection } from './ui/courses-section';
 import { HeroSection } from './ui/hero-section';
 import { PublicHeader } from './ui/public-header';
 
@@ -7,6 +8,7 @@ export const LandingPage = () => {
       <PublicHeader />
       <main className='container mx-auto'>
         <HeroSection />
+        <CoursesSection />
       </main>
     </>
   );
