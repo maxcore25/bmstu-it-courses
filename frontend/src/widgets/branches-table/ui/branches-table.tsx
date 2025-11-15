@@ -221,8 +221,9 @@ export function BranchesTable() {
   if (!branches || branches.length === 0) {
     return (
       <div className='w-full flex-col justify-start gap-6'>
-        <div className='flex h-32 items-center justify-center'>
+        <div className='flex h-32 flex-col items-center justify-center gap-2'>
           <div className='text-muted-foreground'>No branches found.</div>
+          <CreateBranchButton />
         </div>
       </div>
     );
