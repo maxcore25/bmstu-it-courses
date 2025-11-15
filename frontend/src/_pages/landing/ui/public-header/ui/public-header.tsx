@@ -16,7 +16,7 @@ export const PublicHeader = () => {
             <span className='truncate text-xl font-medium'>CodeCraft</span>
           </div>
         </div>
-        <div className='flex items-center gap-8'>
+        <div className='flex items-center gap-6'>
           <Button asChild variant='link'>
             <a href='#courses'>Courses</a>
           </Button>
@@ -26,10 +26,10 @@ export const PublicHeader = () => {
           <Button asChild variant='link'>
             <a href='#branches'>Branches</a>
           </Button>
-          <Button asChild>
-            <Link href='/register'>Register</Link>
-          </Button>
         </div>
+        <Button asChild>
+          <Link href='/register'>Register</Link>
+        </Button>
       </div>
     </header>
   );
