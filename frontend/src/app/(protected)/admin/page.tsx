@@ -4,7 +4,7 @@ import { OrdersTable } from '@/widgets/orders-table';
 import { SchedulesTable } from '@/widgets/schedules-table';
 import { UsersTable } from '@/widgets/users-table';
 
-export default function AdminPage() {
+export default function AdminHomePage() {
   return (
     <>
       <BranchesTable />
