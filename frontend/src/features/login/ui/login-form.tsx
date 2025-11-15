@@ -84,9 +84,9 @@ export function LoginForm({
         </Form>
       </CardContent>
       <CardFooter className='justify-center gap-1'>
-        Уже есть аккаунт?
+        Еще нет аккаунта?
         <Button asChild variant='link' className='px-0'>
-          <Link href='/login'>Войти</Link>
+          <Link href='/register'>Зарегистрироваться</Link>
         </Button>
       </CardFooter>
     </Card>
