@@ -24,6 +24,9 @@ export const PublicHeader = () => {
           <Button asChild variant='link'>
             <a href='#branches'>Филиалы</a>
           </Button>
+          <Button asChild variant='link'>
+            <a href='#stats'>О нас</a>
+          </Button>
         </div>
         <div className='flex items-center gap-6'>
           <Button asChild variant='ghost'>
