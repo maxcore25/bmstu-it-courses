@@ -15,6 +15,7 @@ type UserService interface {
 	GetByEmail(email string) (*model.User, error)
 	GetUser(id uuid.UUID) (*model.User, error)
 	GetAllUsers() ([]*model.User, error)
+	GetUsers(filter dto.UserFilter) ([]*model.User, error)
 	UpdateUserByID(id uuid.UUID, updateData map[string]any) error
 	DeleteUserByID(id uuid.UUID) error
 }
@@ -89,6 +90,10 @@ func (s *userService) GetAllUsers() ([]*model.User, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+func (s *userService) GetUsers(filter dto.UserFilter) ([]*model.User, error) {
+	return s.repo.Find(filter)
 }
 
 func (s *userService) UpdateUserByID(id uuid.UUID, updateData map[string]any) error {

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	"gorm.io/gorm"
 )
@@ -11,6 +12,7 @@ type UserRepository interface {
 	GetByID(id uuid.UUID) (*model.User, error)
 	GetByEmail(email string) (*model.User, error)
 	GetAll() ([]*model.User, error)
+	Find(filter dto.UserFilter) ([]*model.User, error)
 	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
 }
@@ -48,6 +50,25 @@ func (r *userRepository) GetAll() ([]*model.User, error) {
 	if err := r.db.Find(&users).Error; err != nil {
 		return nil, err
 	}
+	return users, nil
+}
+
+func (r *userRepository) Find(filter dto.UserFilter) ([]*model.User, error) {
+	db := r.db.Model(&model.User{})
+
+	if filter.Role != nil {
+		db = db.Where("role = ?", *filter.Role)
+	}
+
+	if filter.KnowledgeLevel != nil {
+		db = db.Where("knowledge_level = ?", *filter.KnowledgeLevel)
+	}
+
+	var users []*model.User
+	if err := db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+
 	return users, nil
 }
 
