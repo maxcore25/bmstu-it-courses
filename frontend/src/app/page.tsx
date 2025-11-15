@@ -1,7 +1,12 @@
+import { PublicHeader } from '@/widgets/public-header';
+
 export default function HomePage() {
   return (
-    <div>
-      <h1>home page</h1>
-    </div>
+    <>
+      <PublicHeader />
+      <main className='container mx-auto'>
+        <h1>home page</h1>
+      </main>
+    </>
   );
 }
