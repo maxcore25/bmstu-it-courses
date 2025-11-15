@@ -44,14 +44,13 @@ export const CreateOrderButton = () => {
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
-        <Button>Create Order</Button>
+        <Button>Создать заявку</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Create Order</DrawerTitle>
+          <DrawerTitle>Создать заявку</DrawerTitle>
           <DrawerDescription>
-            Enter the branch, client, course, and schedule IDs for the order to
-            create it.
+            Укажите филиал, клиента, курс и расписание для создания заявки.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
@@ -95,7 +94,7 @@ export const CreateOrderButton = () => {
                 name='clientId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Client ID</FormLabel>
+                    <FormLabel>ID клиента</FormLabel>
                     <FormControl>
                       <Input {...field} className='h-auto py-3' />
                     </FormControl>
@@ -159,7 +158,8 @@ export const CreateOrderButton = () => {
                         ) : (
                           schedules?.map(schedule => (
                             <SelectItem key={schedule.id} value={schedule.id}>
-                              {schedule.startAt} - {schedule.endAt}
+                              {new Date(schedule.startAt).toLocaleString()} -{' '}
+                              {new Date(schedule.endAt).toLocaleString()}
                             </SelectItem>
                           ))
                         )}
@@ -175,14 +175,14 @@ export const CreateOrderButton = () => {
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Create
+                Создать
               </Button>
             </form>
           </Form>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Отмена</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
