@@ -22,10 +22,24 @@ import {
 import { Input } from '@/shared/ui/input';
 import { Spinner } from '@/shared/ui/spinner';
 import { useCreateOrderButton } from '../model/use-create-order-button';
+import { useGetBranches } from '@/entities/branch';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
+import { useGetCourses } from '@/entities/course';
+import { useGetSchedules } from '@/entities/schedule';
 
 export const CreateOrderButton = () => {
   const { form, onSubmit, handleCancel, isPending, isMobile } =
     useCreateOrderButton();
+
+  const { data: branches, isLoading: isLoadingBranches } = useGetBranches();
+  const { data: courses, isLoading: isLoadingCourses } = useGetCourses();
+  const { data: schedules, isLoading: isLoadingSchedules } = useGetSchedules();
 
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
@@ -42,16 +56,36 @@ export const CreateOrderButton = () => {
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
                 name='branchId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Branch ID</FormLabel>
-                    <FormControl>
-                      <Input autoFocus {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Филиал</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите филиал' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingBranches ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          branches?.map(branch => (
+                            <SelectItem key={branch.id} value={branch.id}>
+                              {branch.address}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
@@ -74,10 +108,30 @@ export const CreateOrderButton = () => {
                 name='courseId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Course ID</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Курс</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите курс' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingCourses ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          courses?.map(course => (
+                            <SelectItem key={course.id} value={course.id}>
+                              {course.name}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
@@ -87,10 +141,30 @@ export const CreateOrderButton = () => {
                 name='scheduleId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Schedule ID</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Расписание</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите расписание' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingSchedules ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          schedules?.map(schedule => (
+                            <SelectItem key={schedule.id} value={schedule.id}>
+                              {schedule.startAt} - {schedule.endAt}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
