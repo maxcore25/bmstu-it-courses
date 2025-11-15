@@ -1,2 +1,2 @@
 export { useGetSchedules } from './model/use-get-schedules';
-export { type Schedule } from './model/schedule.schema';
+export { type Schedule, scheduleSchema } from './model/schedule.schema';

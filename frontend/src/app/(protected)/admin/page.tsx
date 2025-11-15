@@ -8,7 +8,12 @@ import { SchedulesTable } from '@/widgets/schedules-table';
 import { UsersTable } from '@/widgets/users-table';
 
 export default function AdminHomePage() {
-  const { data, isLoading } = useGetOrders(['client', 'course', 'branch']);
+  const { data, isLoading } = useGetOrders([
+    'client',
+    'course',
+    'branch',
+    'schedule',
+  ]);
 
   return (
     <>

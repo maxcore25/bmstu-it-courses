@@ -5,6 +5,7 @@ import { Order } from '@/entities/order';
 import { CreateOrderButton } from '@/features/create-order';
 import { DeleteOrderDropdownItem } from '@/features/delete-order';
 import { useIsMobile } from '@/shared/lib/hooks';
+import { formatRubleNumber } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import {
@@ -93,29 +94,31 @@ const columns: ColumnDef<Order>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'id',
-    header: 'ID',
+    accessorKey: 'course',
+    header: 'Course',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
-    accessorKey: 'courseId',
-    header: 'Course ID',
-    cell: ({ row }) => row.original.courseId,
+    accessorKey: 'price',
+    header: 'Price',
+    cell: ({ row }) => formatRubleNumber(row.original.price),
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: 'startAt',
     header: 'Created',
-    cell: ({ row }) => (
-      <span>{new Date(row.original.createdAt).toLocaleString()}</span>
-    ),
+    cell: ({ row }) => {
+      const startAt = row.original.schedule?.startAt;
+      return <span>{startAt ? new Date(startAt).toLocaleString() : ''}</span>;
+    },
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated',
-    cell: ({ row }) => (
-      <span>{new Date(row.original.updatedAt).toLocaleString()}</span>
-    ),
+    accessorKey: 'endAt',
+    header: 'Created',
+    cell: ({ row }) => {
+      const endAt = row.original.schedule?.endAt;
+      return <span>{endAt ? new Date(endAt).toLocaleString() : ''}</span>;
+    },
   },
   {
     id: 'actions',
@@ -398,7 +401,7 @@ function TableCellViewer({ item }: { item: Order }) {
     <Drawer direction={isMobile ? 'bottom' : 'right'}>
       <DrawerTrigger asChild>
         <Button variant='link' className='text-foreground w-fit px-0 text-left'>
-          {item.id}
+          {item.course?.name}
         </Button>
       </DrawerTrigger>
       <DrawerContent>

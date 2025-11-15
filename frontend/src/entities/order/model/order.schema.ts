@@ -1,5 +1,6 @@
 import { branchSchema } from '@/entities/branch';
 import { courseSchema } from '@/entities/course';
+import { scheduleSchema } from '@/entities/schedule';
 import { userSchema } from '@/entities/user';
 import { z } from 'zod';
 
@@ -15,6 +16,7 @@ export const orderSchema = z.object({
   course: courseSchema.optional(),
   branch: branchSchema.optional(),
   client: userSchema.optional(),
+  schedule: scheduleSchema.optional(),
 });
 
 export type Order = z.infer<typeof orderSchema>;
