@@ -1,5 +1,5 @@
 import { Button } from '@/shared/ui/button';
-import { GraduationCap } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 import Link from 'next/link';
 
 export const PublicHeader = () => {
@@ -8,7 +8,7 @@ export const PublicHeader = () => {
       <div className='container mx-auto flex w-full items-center justify-between'>
         <div className='flex items-center gap-2'>
           <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-            <GraduationCap className='size-5' />
+            <Code2 className='size-5' />
           </div>
           <div className='grid flex-1 text-left text-sm leading-tight'>
             <span className='truncate text-xl font-medium'>CodeCraft</span>

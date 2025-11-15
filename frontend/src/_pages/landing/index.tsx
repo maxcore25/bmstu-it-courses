@@ -1,5 +1,6 @@
 import { BranchesSection } from './ui/branches-section';
 import { CoursesSection } from './ui/courses-section';
+import { Footer } from './ui/footer';
 import { HeroSection } from './ui/hero-section';
 import { PublicHeader } from './ui/public-header';
 import { StatsSection } from './ui/stats-section';
@@ -16,6 +17,7 @@ export const LandingPage = () => {
         <BranchesSection />
         <StatsSection />
       </main>
+      <Footer />
     </>
   );
 };
