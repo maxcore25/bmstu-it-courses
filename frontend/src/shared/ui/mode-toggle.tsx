@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { Moon, Sun } from 'lucide-react';
+import { LaptopMinimal, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 export function ModeToggle() {
@@ -24,12 +24,15 @@ export function ModeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
+          <Sun />
           Light
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <Moon />
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
+          <LaptopMinimal />
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

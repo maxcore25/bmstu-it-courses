@@ -1,4 +1,5 @@
 import { Button } from '@/shared/ui/button';
+import { ModeToggle } from '@/shared/ui/mode-toggle';
 import { Code2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -29,6 +30,7 @@ export const PublicHeader = () => {
           </Button>
         </div>
         <div className='flex items-center gap-6'>
+          <ModeToggle />
           <Button asChild variant='ghost'>
             <Link href='/login'>Войти</Link>
           </Button>
