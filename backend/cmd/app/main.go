@@ -8,12 +8,12 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/bootstrap"
 
 	authHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/http"
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	authRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
 	authService "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/service"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/seed"
 
 	branchHttp "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/http"
 	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
@@ -145,7 +145,7 @@ func main() {
 	orderService := orderService.NewOrderService(orderRepo)
 
 	// Run seeds
-	if err := bootstrap.RunSeeds(db); err != nil {
+	if err := seed.RunSeeds(db); err != nil {
 		log.Fatalf("❌ Failed to seed: %v", err)
 		panic(err)
 	}
