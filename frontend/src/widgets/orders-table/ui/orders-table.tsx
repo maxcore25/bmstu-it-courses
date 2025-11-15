@@ -100,13 +100,18 @@ const columns: ColumnDef<Order>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'branch',
+    header: 'Branch',
+    cell: ({ row }) => row.original.branch?.address,
+  },
+  {
     accessorKey: 'price',
     header: 'Price',
     cell: ({ row }) => formatRubleNumber(row.original.price),
   },
   {
     accessorKey: 'startAt',
-    header: 'Created',
+    header: 'Start',
     cell: ({ row }) => {
       const startAt = row.original.schedule?.startAt;
       return <span>{startAt ? new Date(startAt).toLocaleString() : ''}</span>;
@@ -114,7 +119,7 @@ const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'endAt',
-    header: 'Created',
+    header: 'End',
     cell: ({ row }) => {
       const endAt = row.original.schedule?.endAt;
       return <span>{endAt ? new Date(endAt).toLocaleString() : ''}</span>;
@@ -416,23 +421,15 @@ function TableCellViewer({ item }: { item: Order }) {
             </div>
             <div>
               <Label>Course</Label>
-              <div className='mt-1'>{item.courseId}</div>
+              <div className='mt-1'>{item.course?.name}</div>
             </div>
             <div>
               <Label>Branch</Label>
-              <div className='mt-1'>{item.branchId}</div>
-            </div>
-            <div>
-              <Label>Schedule</Label>
-              <div className='mt-1'>{item.scheduleId}</div>
-            </div>
-            <div>
-              <Label>Client</Label>
-              <div className='mt-1'>{item.clientId}</div>
+              <div className='mt-1'>{item.branch?.address}</div>
             </div>
             <div>
               <Label>Price</Label>
-              <div className='mt-1'>{item.price}</div>
+              <div className='mt-1'>{formatRubleNumber(item.price)}</div>
             </div>
             <div>
               <Label>Created</Label>
