@@ -5,6 +5,7 @@ import (
 	userDto "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/dto"
 	branchDto "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/dto"
 	courseDto "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/dto"
+	scheduleDto "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/dto"
 )
 
 // OrderResponse represents the structure for responding with order data.
@@ -19,7 +20,8 @@ type OrderResponse struct {
 	UpdatedAt  string     `json:"updatedAt" example:"2024-04-10T15:04:05Z"`
 
 	// Expandable fields
-	Client *userDto.UserResponse     `json:"client,omitempty"`
-	Course *courseDto.CourseResponse `json:"course,omitempty"`
-	Branch *branchDto.BranchResponse `json:"branch,omitempty"`
+	Client   *userDto.UserResponse         `json:"client,omitempty"`
+	Course   *courseDto.CourseResponse     `json:"course,omitempty"`
+	Branch   *branchDto.BranchResponse     `json:"branch,omitempty"`
+	Schedule *scheduleDto.ScheduleResponse `json:"schedule,omitempty"`
 }

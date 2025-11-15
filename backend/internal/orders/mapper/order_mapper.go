@@ -10,6 +10,7 @@ import (
 	courseMapper "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/mapper"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/model"
+	scheduleMapper "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/mapper"
 )
 
 // NewOrderResponse creates an OrderResponse from model.Order, including expanded relations if preloaded.
@@ -35,6 +36,10 @@ func NewOrderResponse(o *model.Order) *dto.OrderResponse {
 
 	if o.Branch != nil && o.Branch.ID != uuid.Nil {
 		resp.Branch = branchMapper.NewBranchResponse(o.Branch)
+	}
+
+	if o.Schedule != nil && o.Schedule.ID != uuid.Nil {
+		resp.Schedule = scheduleMapper.NewScheduleResponse(o.Schedule)
 	}
 
 	return resp
