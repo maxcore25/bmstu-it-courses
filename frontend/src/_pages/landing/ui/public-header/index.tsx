@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/shared/ui/button';
 import { GraduationCap } from 'lucide-react';
 import Link from 'next/link';
