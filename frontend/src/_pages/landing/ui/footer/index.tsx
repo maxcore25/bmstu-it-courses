@@ -40,8 +40,8 @@ export const Footer = () => {
         <div className='mb-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-6'>
           <div className='lg:col-span-2'>
             <a href='#' className='group mb-4 flex items-center gap-2'>
-              <div className='bg-primary flex h-10 w-10 items-center justify-center rounded-lg transition-transform group-hover:scale-110'>
-                <Code2 className='text-primary-foreground h-6 w-6' />
+              <div className='bg-sidebar-primary text-sidebar-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg transition-transform group-hover:scale-110'>
+                <Code2 className='size-6' />
               </div>
               <span className='text-xl font-bold'>CodeCraft</span>
             </a>
