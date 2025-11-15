@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/incompatible-library */
 'use client';
 
-import { Order, useGetOrders } from '@/entities/order';
+import { Order } from '@/entities/order';
 import { CreateOrderButton } from '@/features/create-order';
 import { DeleteOrderDropdownItem } from '@/features/delete-order';
 import { useIsMobile } from '@/shared/lib/hooks';
@@ -153,12 +153,13 @@ function BasicTableRow({ row }: { row: Row<Order> }) {
   );
 }
 
-export function OrdersTable() {
-  const { data: orders, isLoading } = useGetOrders([
-    'client',
-    'course',
-    'branch',
-  ]);
+export function OrdersTable({
+  orders,
+  isLoading,
+}: {
+  orders: Order[] | undefined;
+  isLoading: boolean;
+}) {
   const [data, setData] = React.useState<Order[]>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -218,8 +219,9 @@ export function OrdersTable() {
   if (!orders || orders.length === 0) {
     return (
       <div className='w-full flex-col justify-start gap-6'>
-        <div className='flex h-32 items-center justify-center'>
+        <div className='flex h-32 flex-col items-center justify-center gap-2'>
           <div className='text-muted-foreground'>No orders found.</div>
+          <CreateOrderButton />
         </div>
       </div>
     );
