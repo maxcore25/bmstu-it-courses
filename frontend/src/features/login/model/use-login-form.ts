@@ -1,3 +1,4 @@
+import { decodePayload } from '@/features/auth/lib/utils';
 import { LOCAL_STORAGE_KEYS } from '@/shared/config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -21,8 +22,17 @@ export const useLoginForm = () => {
     mutate(values, {
       onSuccess: data => {
         localStorage.setItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, data.accessToken);
+
+        const payload = decodePayload(data.accessToken);
+        const role = payload?.role;
+
         form.reset();
-        router.push('/admin');
+
+        if (role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/home');
+        }
       },
       onError: (error: Error) => {
         toast.error(error.message || 'Something went wrong', {
