@@ -60,12 +60,12 @@ func (s *authService) Register(req dto.RegisterRequest) (*dto.AuthTokens, error)
 	}
 
 	// 5. Generate JWTs
-	access, err := s.jwt.GenerateAccessToken(user.ID)
+	access, err := s.jwt.GenerateAccessToken(user.ID, string(user.Role))
 	if err != nil {
 		return nil, err
 	}
 
-	refresh, err := s.jwt.GenerateRefreshToken(user.ID)
+	refresh, err := s.jwt.GenerateRefreshToken(user.ID, string(user.Role))
 	if err != nil {
 		return nil, err
 	}
@@ -96,12 +96,12 @@ func (s *authService) Login(req dto.LoginRequest) (*dto.AuthTokens, error) {
 		return nil, errors.New("invalid email or password")
 	}
 
-	access, err := s.jwt.GenerateAccessToken(user.ID)
+	access, err := s.jwt.GenerateAccessToken(user.ID, string(user.Role))
 	if err != nil {
 		return nil, err
 	}
 
-	refresh, err := s.jwt.GenerateRefreshToken(user.ID)
+	refresh, err := s.jwt.GenerateRefreshToken(user.ID, string(user.Role))
 	if err != nil {
 		return nil, err
 	}
@@ -133,12 +133,14 @@ func (s *authService) Refresh(refreshToken string) (*dto.AuthTokens, error) {
 		return nil, fmt.Errorf("invalid user ID in token: %w", err)
 	}
 
-	access, err := s.jwt.GenerateAccessToken(userID)
+	role := claims.Role
+
+	access, err := s.jwt.GenerateAccessToken(userID, role)
 	if err != nil {
 		return nil, err
 	}
 
-	newRefresh, err := s.jwt.GenerateRefreshToken(userID)
+	newRefresh, err := s.jwt.GenerateRefreshToken(userID, role)
 	if err != nil {
 		return nil, err
 	}
