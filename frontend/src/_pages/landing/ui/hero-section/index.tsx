@@ -6,13 +6,15 @@ export const HeroSection = () => {
           <span className='bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75'></span>
           <span className='bg-primary relative inline-flex h-2 w-2 rounded-full'></span>
         </span>
-        <span className='text-sm font-medium'>Влетай с нами прямо сейчас!</span>
+        <span className='text-sm font-medium'>
+          Влетайте с нами прямо сейчас!
+        </span>
       </div>
 
-      <h1 className='croll-m-20 text-4xl font-extrabold tracking-tight text-balance'>
+      <h1 className='croll-m-20 text-6xl font-extrabold tracking-tight text-balance'>
         Школа IT-курсов CodeCraft
       </h1>
-      <p className='text-muted-foreground max-w-xl text-xl'>
+      <p className='text-muted-foreground mx-auto max-w-xl text-xl'>
         Современная IT-школа CodeCraft — учитесь у экспертов и стройте карьеру
         будущего!
       </p>

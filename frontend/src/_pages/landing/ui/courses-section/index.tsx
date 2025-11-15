@@ -40,7 +40,7 @@ export const CoursesSection = async () => {
           <h2 className='mb-4 text-3xl font-bold md:text-5xl'>
             Изучайте наши курсы
           </h2>
-          <p className='text-muted-foreground text-lg'>
+          <p className='text-muted-foreground text-xl'>
             Выбирайте из широкого спектра курсов, подобранных для ваших
             карьерных целей и уровня навыков.
           </p>
