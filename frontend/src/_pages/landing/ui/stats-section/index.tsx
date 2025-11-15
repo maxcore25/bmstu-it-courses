@@ -9,6 +9,7 @@ import {
   Users,
   Zap,
 } from 'lucide-react';
+import { GridPatternLinearGradient } from '../grid-pattern/linear-grid';
 
 const stats = [
   {
@@ -63,9 +64,9 @@ const stats = [
 
 export const StatsSection = () => {
   return (
-    <section id='stats' className='relative overflow-hidden py-20 md:py-32'>
-      <div className='from-primary/10 via-background to-background absolute inset-0 bg-linear-to-br' />
-      <div className='bg-grid-slate-900/[0.04] absolute inset-0' />
+    <section id='stats' className='relative overflow-hidden py-32'>
+      <GridPatternLinearGradient />
+      <div className='from-primary/5 via-background to-background absolute inset-0 bg-linear-to-br' />
 
       <div className='relative z-10 container mx-auto px-4'>
         <div className='mx-auto mb-16 max-w-3xl text-center'>

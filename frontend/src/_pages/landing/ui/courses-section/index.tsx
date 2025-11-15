@@ -33,7 +33,7 @@ export const CoursesSection = async () => {
   const courses = await getCoursesSSR(['author']);
 
   return (
-    <section id='courses' className='py-20 md:py-32'>
+    <section id='courses' className='pt-32'>
       <div className='container mx-auto px-4'>
         <div className='mx-auto mb-16 max-w-3xl text-center'>
           <Badge className='mb-4'>Учебная программа</Badge>

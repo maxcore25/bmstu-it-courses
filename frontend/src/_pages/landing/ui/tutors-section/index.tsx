@@ -7,7 +7,7 @@ export const TutorsSection = async () => {
   const tutors = await getTutorsSSR();
 
   return (
-    <section id='tutors' className='py-20 md:py-32'>
+    <section id='tutors' className='pt-32'>
       <div className='container mx-auto px-4'>
         <div className='mx-auto mb-16 max-w-3xl text-center'>
           <Badge className='mb-4'>Наши эксперты</Badge>
