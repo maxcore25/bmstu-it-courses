@@ -14,6 +14,7 @@ import Image from 'next/image';
 
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import Link from 'next/link';
 
 let filesCache: string[] | null = null;
 
@@ -90,9 +91,11 @@ export const CoursesSection = async () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className='group/btn w-full'>
-                    Начать учиться
-                    <TrendingUp className='ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1' />
+                  <Button asChild className='group/btn w-full'>
+                    <Link href='/login'>
+                      Начать учиться
+                      <TrendingUp className='ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1' />
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>

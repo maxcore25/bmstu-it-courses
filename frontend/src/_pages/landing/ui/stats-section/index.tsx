@@ -10,6 +10,8 @@ import {
   Zap,
 } from 'lucide-react';
 import { GridPatternLinearGradient } from '../grid-pattern/linear-grid';
+import { Button } from '@/shared/ui/button';
+import Link from 'next/link';
 
 const stats = [
   {
@@ -117,12 +119,18 @@ export const StatsSection = () => {
             карьеру с нашими курсами.
           </p>
           <div className='flex flex-col justify-center gap-4 sm:flex-row'>
-            <button className='bg-background text-foreground hover:bg-background/90 rounded-lg px-8 py-4 font-semibold shadow-lg transition-colors'>
-              Записаться
-            </button>
-            <button className='bg-primary-foreground/10 hover:bg-primary-foreground/20 border-primary-foreground/20 rounded-lg border px-8 py-4 font-semibold backdrop-blur transition-colors'>
-              Запланировать визит
-            </button>
+            <Button
+              asChild
+              className='bg-background text-foreground hover:bg-background/90 h-auto rounded-lg px-8 py-4 text-base font-semibold shadow-lg transition-colors'
+            >
+              <Link href='/login'>Записаться</Link>
+            </Button>
+            <Button
+              asChild
+              className='bg-primary-foreground/10 hover:bg-primary-foreground/20 border-primary-foreground/20 h-auto rounded-lg border px-8 py-4 text-base font-semibold backdrop-blur transition-colors'
+            >
+              <Link href='/login'>Запланировать визит</Link>
+            </Button>
           </div>
         </div>
       </div>
