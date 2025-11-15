@@ -13,7 +13,7 @@ func RegisterOrderRoutes(r *gin.RouterGroup, orderService service.OrderService, 
 
 	orderGroup := r.Group("/orders")
 	{
-		orderGroup.POST("", orderHandler.CreateOrder)
+		orderGroup.POST("", middleware.AuthMiddleware(jwtManager), orderHandler.CreateOrder)
 		orderGroup.GET("", orderHandler.GetAllOrders)
 		orderGroup.GET("/my", middleware.AuthMiddleware(jwtManager), orderHandler.GetMyOrders)
 		orderGroup.GET("/:id", orderHandler.GetOrder)

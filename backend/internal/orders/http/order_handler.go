@@ -24,27 +24,46 @@ func NewOrderHandler(s service.OrderService) *OrderHandler {
 // @Tags Orders
 // @Accept json
 // @Produce json
-// @Param order body dto.CreateOrderRequest true "New order"
-// @Param price query integer true "Order price (at time of order)"
+// @Param order body dto.CreateOrderInput true "New order"
 // @Success 201 {object} dto.OrderResponse
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /orders [post]
 func (h *OrderHandler) CreateOrder(c *gin.Context) {
-	var req dto.CreateOrderRequest
-
-	if !httphelper.BindJSON(c, &req) {
+	// 1. Extract client ID from middleware
+	userID, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user_id not found in context"})
+		return
+	}
+	clientID, ok := userID.(uuid.UUID)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user_id type"})
 		return
 	}
 
-	order, err := h.service.CreateOrder(&req)
+	// 2. Bind public DTO
+	var input dto.CreateOrderInput
+	if !httphelper.BindJSON(c, &input) {
+		return
+	}
+
+	// 3. Convert to internal request
+	req := &dto.CreateOrderRequest{
+		ClientID:   clientID,
+		CourseID:   input.CourseID,
+		ScheduleID: input.ScheduleID,
+		BranchID:   input.BranchID,
+	}
+
+	// 4. Pass to service
+	order, err := h.service.CreateOrder(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	resp := mapper.NewOrderResponse(order)
-
 	c.JSON(http.StatusCreated, resp)
 }
 
