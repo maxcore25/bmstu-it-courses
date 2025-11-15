@@ -16,6 +16,9 @@ func applyExpansions(db *gorm.DB, expand map[string]bool) *gorm.DB {
 	if expand["branch"] {
 		db = db.Preload("Branch")
 	}
+	if expand["schedule"] {
+		db = db.Preload("Schedule")
+	}
 	return db
 }
 

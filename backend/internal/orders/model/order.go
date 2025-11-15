@@ -7,6 +7,7 @@ import (
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	courseModel "github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
+	scheduleModel "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 )
 
 type Order struct {
@@ -16,6 +17,7 @@ type Order struct {
 	CourseID   uuid.UUID `gorm:"type:uuid;not null;index"`
 	Course     courseModel.Course
 	ScheduleID *uuid.UUID `gorm:"type:uuid;index"` // optional, if ordering for a specific schedule
+	Schedule   *scheduleModel.Schedule
 	BranchID   *uuid.UUID `gorm:"type:uuid;index"` // optional duplicate for convenience
 	Branch     *branchModel.Branch
 	Price      int64 `gorm:"not null"` // snapshot of price at time of order

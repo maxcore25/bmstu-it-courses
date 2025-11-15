@@ -72,7 +72,7 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 // @Tags Orders
 // @Security BearerAuth
 // @Produce json
-// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course"
+// @Param expand query []string false "Relations to expand (client, course, branch, schedule). Example: expand=client,course,schedule"
 // @Success 200 {array} dto.OrderResponse
 // @Failure 401 {object} gin.H
 // @Router /orders/my [get]
@@ -105,7 +105,7 @@ func (h *OrderHandler) GetMyOrders(c *gin.Context) {
 // @Tags Orders
 // @Produce json
 // @Param id path string true "Order ID (uuid)"
-// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course,branch"
+// @Param expand query []string false "Relations to expand (client, course, branch, schedule). Example: expand=client,course,branch,schedule"
 // @Success 200 {object} dto.OrderResponse
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -135,7 +135,7 @@ func (h *OrderHandler) GetOrder(c *gin.Context) {
 // @Summary Get all orders
 // @Tags Orders
 // @Produce json
-// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course,branch"
+// @Param expand query []string false "Relations to expand (client, course, branch, schedule). Example: expand=client,course,branch,schedule"
 // @Success 200 {array} dto.OrderResponse
 // @Router /orders [get]
 func (h *OrderHandler) GetAllOrders(c *gin.Context) {
