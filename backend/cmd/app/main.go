@@ -157,7 +157,7 @@ func main() {
 		branchHttp.RegisterBranchRoutes(api, branchService)
 		courseHttp.RegisterCourseRoutes(api, courseService)
 		scheduleHttp.RegisterScheduleRoutes(api, scheduleService)
-		orderHttp.RegisterOrderRoutes(api, orderService)
+		orderHttp.RegisterOrderRoutes(api, orderService, jwtManager)
 	}
 
 	// Swagger docs

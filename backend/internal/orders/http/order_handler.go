@@ -51,11 +51,12 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 // GetMyOrders godoc
 // @Summary Get orders of the authenticated user
 // @Tags Orders
+// @Security BearerAuth
 // @Produce json
 // @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course"
 // @Success 200 {array} dto.OrderResponse
 // @Failure 401 {object} gin.H
-// @Router /orders/me [get]
+// @Router /orders/my [get]
 func (h *OrderHandler) GetMyOrders(c *gin.Context) {
 	uid, exists := c.Get("user_id")
 	if !exists {
