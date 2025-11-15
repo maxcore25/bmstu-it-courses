@@ -1,3 +1,4 @@
+import { BranchesSection } from './ui/branches-section';
 import { CoursesSection } from './ui/courses-section';
 import { HeroSection } from './ui/hero-section';
 import { PublicHeader } from './ui/public-header';
@@ -11,6 +12,7 @@ export const LandingPage = () => {
         <HeroSection />
         <CoursesSection />
         <TutorsSection />
+        <BranchesSection />
       </main>
     </>
   );
