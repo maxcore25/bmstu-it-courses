@@ -20,12 +20,22 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/spinner';
 import { useCreateCourseButton } from '../model/use-create-course-button';
+import { useGetTutors } from '@/entities/user/model/use-get-tutors';
 
 export const CreateCourseButton = () => {
   const { form, onSubmit, handleCancel, isPending, isMobile } =
     useCreateCourseButton();
+
+  const { data: tutors, isLoading: isLoadingTutors } = useGetTutors();
 
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
@@ -60,10 +70,30 @@ export const CreateCourseButton = () => {
                 name='authorId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Author ID</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Автор</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите расписание' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingTutors ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          tutors?.map(tutor => (
+                            <SelectItem key={tutor.id} value={tutor.id}>
+                              {tutor.lastName} {tutor.firstName} ({tutor.email})
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
@@ -74,9 +104,21 @@ export const CreateCourseButton = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Difficulty</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите уровень' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='beginner'>Начальный</SelectItem>
+                        <SelectItem value='intermediate'>Средний</SelectItem>
+                        <SelectItem value='advanced'>Продвинутый</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
@@ -100,9 +142,23 @@ export const CreateCourseButton = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Format</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите уровень' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='group'>Группа</SelectItem>
+                        <SelectItem value='individual'>
+                          Индивидуально
+                        </SelectItem>
+                        <SelectItem value='intensive'>Интенсив</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}

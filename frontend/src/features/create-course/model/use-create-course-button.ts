@@ -12,9 +12,9 @@ export const useCreateCourseButton = () => {
     defaultValues: {
       name: '',
       authorId: '',
-      difficulty: 'beginner',
+      difficulty: undefined,
       duration: '',
-      format: 'group',
+      format: undefined,
       price: 0,
     },
   });
