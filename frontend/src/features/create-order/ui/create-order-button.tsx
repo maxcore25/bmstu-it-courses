@@ -1,5 +1,8 @@
 'use client';
 
+import { useGetBranches } from '@/entities/branch';
+import { useGetCourses } from '@/entities/course';
+import { useGetSchedules } from '@/entities/schedule';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -19,10 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
-import { Spinner } from '@/shared/ui/spinner';
-import { useCreateOrderButton } from '../model/use-create-order-button';
-import { useGetBranches } from '@/entities/branch';
 import {
   Select,
   SelectContent,
@@ -30,8 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { useGetCourses } from '@/entities/course';
-import { useGetSchedules } from '@/entities/schedule';
+import { Spinner } from '@/shared/ui/spinner';
+import { useCreateOrderButton } from '../model/use-create-order-button';
 
 export const CreateOrderButton = () => {
   const { form, onSubmit, handleCancel, isPending, isMobile } =
@@ -85,19 +84,6 @@ export const CreateOrderButton = () => {
                         )}
                       </SelectContent>
                     </Select>
-                    <FormMessage className='h-[20px]' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='clientId'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ID клиента</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}

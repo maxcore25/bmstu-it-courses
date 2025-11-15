@@ -11,7 +11,6 @@ export const useCreateOrderButton = () => {
     resolver: zodResolver(createOrderSchema),
     defaultValues: {
       branchId: '',
-      clientId: '',
       courseId: '',
       scheduleId: '',
     },
