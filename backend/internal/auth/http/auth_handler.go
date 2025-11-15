@@ -1,6 +1,7 @@
 package http
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -76,26 +77,30 @@ func (h *AuthHandler) Login(c *gin.Context) {
 // Refresh godoc
 // @Summary Refresh access token
 // @Tags Auth
-// @Accept json
 // @Produce json
-// @Param refresh body dto.RefreshRequest true "Refresh token request"
 // @Success 200 {object} dto.AuthTokens
 // @Failure 400 {object} gin.H
 // @Failure 401 {object} gin.H
 // @Router /auth/refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {
-	var req dto.RefreshRequest
-	if !httphelper.BindJSON(c, &req) {
+	// Extract token from httpOnly cookie
+	refreshToken, err := httphelper.GetRefreshTokenFromCookie(c)
+	if err != nil {
+		httphelper.JSONError(c, http.StatusBadRequest, errors.New("refresh token cookie missing"))
 		return
 	}
 
-	tokens, err := h.service.Refresh(req.RefreshToken)
+	// Attempt to refresh tokens
+	tokens, err := h.service.Refresh(refreshToken)
 	if err != nil {
 		httphelper.JSONError(c, http.StatusUnauthorized, err)
 		return
 	}
 
+	// Rotate refresh token cookie
 	httphelper.SetRefreshTokenCookie(c, tokens.RefreshToken)
+
+	// Return access token in JSON body
 	httphelper.JSONAccessToken(c, tokens.AccessToken)
 }
 
