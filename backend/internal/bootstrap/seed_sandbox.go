@@ -9,6 +9,7 @@ import (
 
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	userRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 
 	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	branchRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/repository"
@@ -50,6 +51,11 @@ func SeedSandboxData(db *gorm.DB) error {
 		return fmt.Errorf("failed to seed branch: %w", err)
 	}
 
+	hashed, err := utils.HashPassword("qwe123")
+	if err != nil {
+		return fmt.Errorf("failed to hash password: %w", err)
+	}
+
 	// --- Tutor ---
 	tutorID := uuid.New()
 	tutor := &authModel.User{
@@ -57,7 +63,7 @@ func SeedSandboxData(db *gorm.DB) error {
 		FirstName:      "John",
 		LastName:       "Doe",
 		Email:          "tutor@example.com",
-		Password:       "$2a$10$xxxxxx", // bcrypt placeholder
+		Password:       hashed,
 		Role:           authModel.RoleTutor,
 		KnowledgeLevel: authModel.KnowledgeLevelAdvanced,
 		Rating:         floatPtr(4.9),
@@ -73,8 +79,8 @@ func SeedSandboxData(db *gorm.DB) error {
 		ID:             clientID,
 		FirstName:      "Alice",
 		LastName:       "Smith",
-		Email:          "client@example.com",
-		Password:       "$2a$10$xxxxxx",
+		Email:          "client@mail.ru",
+		Password:       hashed,
 		Role:           authModel.RoleClient,
 		KnowledgeLevel: authModel.KnowledgeLevelBeginner,
 	}
