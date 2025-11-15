@@ -1,3 +1,4 @@
+import { levels } from '@/shared/config';
 import { z } from 'zod';
 
 export const passwordSchema = z
@@ -14,7 +15,9 @@ export const passwordSchema = z
 // });
 
 export const registerFormSchema = z.object({
-  name: z.string().trim(),
+  firstName: z.string().trim(),
+  lastName: z.string().trim(),
+  knowledgeLevel: z.enum(levels),
   email: z.email().trim(),
   password: passwordSchema,
 });

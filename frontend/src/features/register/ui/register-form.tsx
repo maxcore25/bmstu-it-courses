@@ -20,9 +20,16 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { PasswordInput } from '@/shared/ui/password-input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/spinner';
-import { useRegisterForm } from '../model/use-register-form';
 import Link from 'next/link';
+import { useRegisterForm } from '../model/use-register-form';
 
 export function RegisterForm({
   className,
@@ -40,13 +47,13 @@ export function RegisterForm({
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-2'}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-4'}>
             <FormField
               control={form.control}
-              name='name'
+              name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Имя</FormLabel>
                   <FormControl>
                     <Input autoFocus {...field} className='h-auto py-3' />
                   </FormControl>
@@ -56,10 +63,48 @@ export function RegisterForm({
             />
             <FormField
               control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Фамилия</FormLabel>
+                  <FormControl>
+                    <Input {...field} className='h-auto py-3' />
+                  </FormControl>
+                  <FormMessage className='h-[20px]' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='knowledgeLevel'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Уровень знаний</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className='h-auto! w-full py-3'>
+                        <SelectValue placeholder='Выберите уровень' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value='beginner'>Начальный</SelectItem>
+                      <SelectItem value='intermediate'>Средний</SelectItem>
+                      <SelectItem value='advanced'>Продвинутый</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage className='h-[20px]' />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Почта</FormLabel>
                   <FormControl>
                     <Input type='email' {...field} className='h-auto py-3' />
                   </FormControl>
@@ -72,7 +117,7 @@ export function RegisterForm({
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} className='h-auto py-3' />
                   </FormControl>
@@ -86,7 +131,7 @@ export function RegisterForm({
               disabled={isPending}
             >
               {isPending ? <Spinner /> : null}
-              Register
+              Зарегистрироваться
             </Button>
           </form>
         </Form>
