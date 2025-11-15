@@ -1,6 +1,7 @@
 package httphelper
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,18 @@ func SetRefreshTokenCookie(c *gin.Context, token string) {
 		false, // secure: true in production (HTTPS)
 		true,  // httpOnly
 	)
+}
+
+// GetRefreshTokenFromCookie returns the refresh token stored in the HTTP-only cookie.
+func GetRefreshTokenFromCookie(c *gin.Context) (string, error) {
+	token, err := c.Cookie(refreshCookieName)
+	if err != nil {
+		return "", err
+	}
+	if token == "" {
+		return "", errors.New("empty refresh token cookie")
+	}
+	return token, nil
 }
 
 // ClearRefreshTokenCookie removes the refresh token cookie.

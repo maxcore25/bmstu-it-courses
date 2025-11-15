@@ -104,17 +104,27 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Param logout body dto.RefreshRequest true "Refresh token request to logout"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
 // @Router /auth/logout [post]
 func (h *AuthHandler) Logout(c *gin.Context) {
-	var req dto.RefreshRequest
-	if !httphelper.BindJSON(c, &req) {
+	// Read refresh token from HTTP-only cookie
+	refreshToken, err := httphelper.GetRefreshTokenFromCookie(c)
+	if err != nil {
+		// cookie missing or invalid
+		c.JSON(http.StatusBadRequest, gin.H{"error": "refresh token cookie not found"})
 		return
 	}
 
-	_ = h.service.Logout(req.RefreshToken)
+	// Try to remove refresh token from store (service should handle missing token gracefully)
+	if err := h.service.Logout(refreshToken); err != nil {
+		// return 500 only on internal error; if token was already gone, service can return nil
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Clear cookie on client
 	httphelper.ClearRefreshTokenCookie(c)
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
