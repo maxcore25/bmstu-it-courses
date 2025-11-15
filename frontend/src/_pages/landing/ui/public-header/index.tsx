@@ -16,18 +16,23 @@ export const PublicHeader = () => {
         </div>
         <div className='flex items-center gap-6'>
           <Button asChild variant='link'>
-            <a href='#courses'>Courses</a>
+            <a href='#courses'>Курсы</a>
           </Button>
           <Button asChild variant='link'>
-            <a href='#tutors'>Tutors</a>
+            <a href='#tutors'>Преподаватели</a>
           </Button>
           <Button asChild variant='link'>
-            <a href='#branches'>Branches</a>
+            <a href='#branches'>Филиалы</a>
           </Button>
         </div>
-        <Button asChild>
-          <Link href='/register'>Register</Link>
-        </Button>
+        <div className='flex items-center gap-6'>
+          <Button asChild variant='ghost'>
+            <Link href='/login'>Войти</Link>
+          </Button>
+          <Button asChild>
+            <Link href='/register'>Регистрация</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );
