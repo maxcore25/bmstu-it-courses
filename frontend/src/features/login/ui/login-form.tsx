@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
@@ -21,6 +22,7 @@ import { Input } from '@/shared/ui/input';
 import { PasswordInput } from '@/shared/ui/password-input';
 import { Spinner } from '@/shared/ui/spinner';
 import { useLoginForm } from '../model/use-login-form';
+import Link from 'next/link';
 
 export function LoginForm({
   className,
@@ -81,6 +83,12 @@ export function LoginForm({
           </form>
         </Form>
       </CardContent>
+      <CardFooter className='justify-center gap-1'>
+        Уже есть аккаунт?
+        <Button asChild variant='link' className='px-0'>
+          <Link href='/login'>Войти</Link>
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
