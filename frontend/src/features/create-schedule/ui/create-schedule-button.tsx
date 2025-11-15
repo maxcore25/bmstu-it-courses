@@ -1,5 +1,7 @@
 'use client';
 
+import { useGetBranches } from '@/entities/branch';
+import { useGetCourses } from '@/entities/course';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -20,12 +22,22 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/spinner';
 import { useCreateScheduleButton } from '../model/use-create-schedule-button';
 
 export const CreateScheduleButton = () => {
   const { form, onSubmit, handleCancel, isPending, isMobile } =
     useCreateScheduleButton();
+
+  const { data: branches, isLoading: isLoadingBranches } = useGetBranches();
+  const { data: courses, isLoading: isLoadingCourses } = useGetCourses();
 
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
@@ -47,10 +59,30 @@ export const CreateScheduleButton = () => {
                 name='branchId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Branch ID</FormLabel>
-                    <FormControl>
-                      <Input autoFocus {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Филиал</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите филиал' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingBranches ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          branches?.map(branch => (
+                            <SelectItem key={branch.id} value={branch.id}>
+                              {branch.address}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
@@ -60,10 +92,30 @@ export const CreateScheduleButton = () => {
                 name='courseId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Course ID</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Курс</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите курс' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingCourses ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          courses?.map(course => (
+                            <SelectItem key={course.id} value={course.id}>
+                              {course.name}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
