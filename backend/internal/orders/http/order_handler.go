@@ -48,6 +48,38 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusCreated, resp)
 }
 
+// GetMyOrders godoc
+// @Summary Get orders of the authenticated user
+// @Tags Orders
+// @Produce json
+// @Param expand query []string false "Relations to expand (client, course, branch). Example: expand=client,course"
+// @Success 200 {array} dto.OrderResponse
+// @Failure 401 {object} gin.H
+// @Router /orders/me [get]
+func (h *OrderHandler) GetMyOrders(c *gin.Context) {
+	uid, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	userID := uid.(uuid.UUID)
+
+	expand := httphelper.ParseExpand(c.QueryArray("expand"))
+
+	orders, err := h.service.GetOrdersByUser(userID, expand)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	resp := make([]*dto.OrderResponse, len(orders))
+	for i, order := range orders {
+		resp[i] = mapper.NewOrderResponse(order)
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
 // GetOrder godoc
 // @Summary Get order by ID
 // @Tags Orders

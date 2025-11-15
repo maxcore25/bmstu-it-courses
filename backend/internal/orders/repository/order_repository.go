@@ -22,6 +22,8 @@ func applyExpansions(db *gorm.DB, expand map[string]bool) *gorm.DB {
 type OrderRepository interface {
 	Create(order *model.Order) error
 	GetByID(id uuid.UUID) (*model.Order, error)
+	GetByUserWithExpand(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error)
+	GetByUser(userID uuid.UUID) ([]*model.Order, error)
 	GetAll() ([]*model.Order, error)
 	GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Order, error)
 	GetAllWithExpand(expand map[string]bool) ([]*model.Order, error)
@@ -44,6 +46,28 @@ func NewOrderRepository(db *gorm.DB) OrderRepository {
 
 func (r *orderRepository) Create(order *model.Order) error {
 	return r.db.Create(order).Error
+}
+
+func (r *orderRepository) GetByUserWithExpand(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error) {
+	var orders []*model.Order
+
+	db := applyExpansions(r.db, expand)
+
+	if err := db.Where("client_id = ?", userID).Find(&orders).Error; err != nil {
+		return nil, err
+	}
+
+	return orders, nil
+}
+
+func (r *orderRepository) GetByUser(userID uuid.UUID) ([]*model.Order, error) {
+	var orders []*model.Order
+
+	if err := r.db.Where("client_id = ?", userID).Find(&orders).Error; err != nil {
+		return nil, err
+	}
+
+	return orders, nil
 }
 
 func (r *orderRepository) GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Order, error) {

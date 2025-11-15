@@ -17,6 +17,7 @@ import (
 
 type OrderService interface {
 	CreateOrder(req *dto.CreateOrderRequest) (*model.Order, error)
+	GetOrdersByUser(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error)
 	GetOrder(id uuid.UUID, expand map[string]bool) (*model.Order, error)
 	GetAllOrders(expand map[string]bool) ([]*model.Order, error)
 	UpdateOrderByID(id uuid.UUID, updates map[string]any) error
@@ -105,6 +106,13 @@ func (s *orderService) CreateOrder(req *dto.CreateOrderRequest) (*model.Order, e
 	}
 
 	return order, nil
+}
+
+func (s *orderService) GetOrdersByUser(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error) {
+	if len(expand) > 0 {
+		return s.repo.GetByUserWithExpand(userID, expand)
+	}
+	return s.repo.GetByUser(userID)
 }
 
 func (s *orderService) GetOrder(id uuid.UUID, expand map[string]bool) (*model.Order, error) {

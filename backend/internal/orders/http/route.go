@@ -13,6 +13,7 @@ func RegisterOrderRoutes(r *gin.RouterGroup, orderService service.OrderService) 
 	{
 		orderGroup.POST("", orderHandler.CreateOrder)
 		orderGroup.GET("", orderHandler.GetAllOrders)
+		orderGroup.GET("/my", orderHandler.GetMyOrders)
 		orderGroup.GET("/:id", orderHandler.GetOrder)
 		orderGroup.PATCH("/:id", orderHandler.UpdateOrderByID)
 		orderGroup.DELETE("/:id", orderHandler.DeleteOrderByID)
