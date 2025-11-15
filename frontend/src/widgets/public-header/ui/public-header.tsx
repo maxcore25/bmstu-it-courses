@@ -20,6 +20,12 @@ export const PublicHeader = () => {
           <Button asChild variant='link'>
             <a href='#courses'>Courses</a>
           </Button>
+          <Button asChild variant='link'>
+            <a href='#tutors'>Tutors</a>
+          </Button>
+          <Button asChild variant='link'>
+            <a href='#branches'>Branches</a>
+          </Button>
           <Button asChild>
             <Link href='/register'>Register</Link>
           </Button>
