@@ -9,7 +9,6 @@ import (
 
 	authModel "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/model"
 	userRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/auth/repository"
-	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 
 	branchModel "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	branchRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/branches/repository"
@@ -19,6 +18,8 @@ import (
 
 	scheduleModel "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 	scheduleRepo "github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/repository"
+
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
 func SeedSandboxData(db *gorm.DB) error {
@@ -36,87 +37,154 @@ func SeedSandboxData(db *gorm.DB) error {
 		return fmt.Errorf("❌ failed to check existing branches: %w", err)
 	}
 	if len(branches) > 0 {
-		fmt.Println("ℹ️  Sandbox data already seeded - skipping")
+		fmt.Println("ℹ️  Sandbox data already seeded — skipping")
 		return nil
 	}
 
-	// --- Branch ---
-	branchID := uuid.New()
-	branch := &branchModel.Branch{
-		ID:      branchID,
-		Address: "Main Campus, 1st Floor",
-		Rooms:   5,
-	}
-	if err := brRepo.Create(branch); err != nil {
-		return fmt.Errorf("failed to seed branch: %w", err)
-	}
-
-	hashed, err := utils.HashPassword("qwe123")
+	// Shared password
+	hashedPass, err := utils.HashPassword("qwe123")
 	if err != nil {
-		return fmt.Errorf("failed to hash password: %w", err)
+		return fmt.Errorf("❌ failed to hash password: %w", err)
 	}
 
-	// --- Tutor ---
-	tutorID := uuid.New()
-	tutor := &authModel.User{
-		ID:             tutorID,
-		FirstName:      "John",
-		LastName:       "Doe",
-		Email:          "tutor@example.com",
-		Password:       hashed,
-		Role:           authModel.RoleTutor,
-		KnowledgeLevel: authModel.KnowledgeLevelAdvanced,
-		Rating:         floatPtr(4.9),
-		Portfolio:      strPtr("10 years in backend engineering..."),
-	}
-	if err := usrRepo.Create(tutor); err != nil {
-		return fmt.Errorf("failed to seed tutor: %w", err)
+	// ---------- FACTORIES ----------
+
+	tutorNames := []struct{ First, Last string }{
+		{"Иван", "Петров"},
+		{"Алексей", "Сидоров"},
+		{"Максим", "Андреев"},
+		{"Дмитрий", "Козлов"},
+		{"Сергей", "Федоров"},
+		{"Николай", "Ильин"},
 	}
 
-	// --- Client ---
-	clientID := uuid.New()
-	client := &authModel.User{
-		ID:             clientID,
-		FirstName:      "Alice",
-		LastName:       "Smith",
-		Email:          "client@mail.ru",
-		Password:       hashed,
-		Role:           authModel.RoleClient,
-		KnowledgeLevel: authModel.KnowledgeLevelBeginner,
+	branchAddresses := []string{
+		"Москва, ул. Ленина, 10",
+		"Москва, пр-т Мира, 45",
+		"Москва, ул. Тверская, 22",
 	}
+
+	courseNames := []string{
+		"Основы Go",
+		"Веб-разработка",
+		"Продвинутый Python",
+		"Основы Linux",
+		"Основы баз данных",
+		"Алгоритмы и структуры данных",
+	}
+
+	// Factory: tutor user
+	newTutor := func(i int) *authModel.User {
+		return &authModel.User{
+			ID:             uuid.New(),
+			FirstName:      tutorNames[i].First,
+			LastName:       tutorNames[i].Last,
+			Email:          fmt.Sprintf("tutor%d@mail.ru", i+1),
+			Password:       hashedPass,
+			Role:           authModel.RoleTutor,
+			KnowledgeLevel: authModel.KnowledgeLevelAdvanced,
+			Rating:         floatPtr(4.5 + 0.1*float64(i)),
+			Portfolio:      strPtr("Опыт преподавания и коммерческой разработки более 5 лет. Занимался построением систем от проектирования до деплоя в продакшн."),
+		}
+	}
+
+	// Factory: client user
+	newClient := func(i int) *authModel.User {
+		return &authModel.User{
+			ID:             uuid.New(),
+			FirstName:      "Клиент",
+			LastName:       fmt.Sprintf("Номер%d", i+1),
+			Email:          fmt.Sprintf("client%d@mail.ru", i+1),
+			Password:       hashedPass,
+			Role:           authModel.RoleClient,
+			KnowledgeLevel: authModel.KnowledgeLevelBeginner,
+		}
+	}
+
+	// Factory: branch
+	newBranch := func(i int) *branchModel.Branch {
+		return &branchModel.Branch{
+			ID:      uuid.New(),
+			Address: branchAddresses[i],
+			Rooms:   3 + i,
+		}
+	}
+
+	// Factory: course (1 tutor → 1 course)
+	newCourse := func(i int, tutorID uuid.UUID) *courseModel.Course {
+		return &courseModel.Course{
+			ID:         uuid.New(),
+			Name:       courseNames[i],
+			Difficulty: authModel.KnowledgeLevelBeginner,
+			Duration:   "8 недель",
+			Price:      35000 + int64(i)*5000,
+			Format:     courseModel.CourseFormatGroup,
+			AuthorID:   tutorID,
+		}
+	}
+
+	// Factory: schedule (1 course → 1 schedule)
+	newSchedule := func(courseID uuid.UUID, branchID uuid.UUID) *scheduleModel.Schedule {
+		return &scheduleModel.Schedule{
+			CourseID: courseID,
+			BranchID: &branchID,
+			StartAt:  time.Now().AddDate(0, 0, 3),
+			EndAt:    time.Now().AddDate(0, 0, 3+60),
+			Capacity: 15,
+			Reserved: 0,
+		}
+	}
+
+	// ---------- INSERT DATA ----------
+
+	// Branches (3)
+	branchIDs := make([]uuid.UUID, 3)
+	for i := range 3 {
+		b := newBranch(i)
+		if err := brRepo.Create(b); err != nil {
+			return fmt.Errorf("❌ failed to seed branch: %w", err)
+		}
+		branchIDs[i] = b.ID
+	}
+
+	// Tutors (6)
+	tutorIDs := make([]uuid.UUID, 6)
+	for i := range 6 {
+		t := newTutor(i)
+		if err := usrRepo.Create(t); err != nil {
+			return fmt.Errorf("❌ failed to seed tutor: %w", err)
+		}
+		tutorIDs[i] = t.ID
+	}
+
+	// One Client
+	client := newClient(0)
 	if err := usrRepo.Create(client); err != nil {
-		return fmt.Errorf("failed to seed client: %w", err)
+		return fmt.Errorf("❌ failed to seed client: %w", err)
 	}
 
-	// --- Course ---
-	courseID := uuid.New()
-	course := &courseModel.Course{
-		ID:         courseID,
-		Name:       "Go Backend Development",
-		Difficulty: authModel.KnowledgeLevelBeginner,
-		Duration:   "10 weeks",
-		Price:      49000,
-		Format:     courseModel.CourseFormatGroup,
-		AuthorID:   tutorID,
-	}
-	if err := crsRepo.Create(course); err != nil {
-		return fmt.Errorf("failed to seed course: %w", err)
+	// Courses (6)
+	courseIDs := make([]uuid.UUID, 6)
+	for i := range 6 {
+		c := newCourse(i, tutorIDs[i])
+		if err := crsRepo.Create(c); err != nil {
+			return fmt.Errorf("❌ failed to seed course: %w", err)
+		}
+		courseIDs[i] = c.ID
 	}
 
-	// --- Schedule ---
-	schedule := &scheduleModel.Schedule{
-		CourseID: courseID,
-		BranchID: &branchID,
-		StartAt:  time.Now().AddDate(0, 0, 7),
-		EndAt:    time.Now().AddDate(0, 0, 7+84),
-		Capacity: 20,
-		Reserved: 2,
-	}
-	if err := schRepo.Create(schedule); err != nil {
-		return fmt.Errorf("failed to seed schedule: %w", err)
+	// Schedules (6)
+	for i := range 6 {
+		// distribute across 3 branches
+		branchID := branchIDs[i%3]
+
+		s := newSchedule(courseIDs[i], branchID)
+		if err := schRepo.Create(s); err != nil {
+			return fmt.Errorf("❌ failed to seed schedule: %w", err)
+		}
 	}
 
-	fmt.Println("✅ Sandbox data seeded")
+	fmt.Println("✅ Sandbox data seeded successfully")
 	return nil
 }
 
