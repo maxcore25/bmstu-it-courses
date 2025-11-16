@@ -1,6 +1,10 @@
 # МГТУ им. Н.Э. Баумана — Курсовая работа на тему "Информационная система компьютерных курсов"
 
-![Превью проекта](./docs/preview.png)
+![Preview](./docs/preview.png)
+
+## Видео
+
+[![Watch the video](./docs/preview.png)](./docs/video.mp4)
 
 ## Инструкция
 
@@ -11,8 +15,8 @@
 
 ### Логин
 
-![Логин](./docs/login.png)
+![Login page](./docs/login.png)
 
 ### Админка
 
-![Админка](./docs/admin.png)
+![Admin page](./docs/admin.png)
