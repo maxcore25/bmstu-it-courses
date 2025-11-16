@@ -77,7 +77,7 @@ const columns: ColumnDef<Order>[] = [
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
+          aria-label='Выбрать все'
         />
       </div>
     ),
@@ -86,7 +86,7 @@ const columns: ColumnDef<Order>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={value => row.toggleSelected(!!value)}
-          aria-label='Select row'
+          aria-label='Выбрать строку'
         />
       </div>
     ),
@@ -95,23 +95,23 @@ const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'course',
-    header: 'Course',
+    header: 'Курс',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
     accessorKey: 'branch',
-    header: 'Branch',
+    header: 'Филиал',
     cell: ({ row }) => row.original.branch?.address,
   },
   {
     accessorKey: 'price',
-    header: 'Price',
+    header: 'Цена',
     cell: ({ row }) => formatRubleNumber(row.original.price),
   },
   {
     accessorKey: 'startAt',
-    header: 'Start',
+    header: 'Начало',
     cell: ({ row }) => {
       const startAt = row.original.schedule?.startAt;
       return <span>{startAt ? new Date(startAt).toLocaleString() : ''}</span>;
@@ -119,7 +119,7 @@ const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'endAt',
-    header: 'End',
+    header: 'Конец',
     cell: ({ row }) => {
       const endAt = row.original.schedule?.endAt;
       return <span>{endAt ? new Date(endAt).toLocaleString() : ''}</span>;
@@ -137,7 +137,7 @@ const columns: ColumnDef<Order>[] = [
               size='icon'
             >
               <IconDotsVertical />
-              <span className='sr-only'>Open menu</span>
+              <span className='sr-only'>Открыть меню</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='w-32'>
@@ -228,7 +228,7 @@ export function OrdersTable({
     return (
       <div className='w-full flex-col justify-start gap-6'>
         <div className='flex h-32 flex-col items-center justify-center gap-2'>
-          <div className='text-muted-foreground'>No orders found.</div>
+          <div className='text-muted-foreground'>Заказы не найдены.</div>
           <CreateOrderButton />
         </div>
       </div>
@@ -238,15 +238,15 @@ export function OrdersTable({
   return (
     <div className='flex w-full flex-col justify-start gap-6'>
       <div className='flex items-center justify-between px-4 lg:px-6'>
-        <h2 className='text-2xl leading-none font-semibold'>Orders</h2>
+        <h2 className='text-2xl leading-none font-semibold'>Заказы</h2>
         <div className='flex items-center gap-2'>
           <CreateOrderButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='sm'>
                 <IconLayoutColumns />
-                <span className='hidden lg:inline'>Customize Columns</span>
-                <span className='lg:hidden'>Columns</span>
+                <span className='hidden lg:inline'>Настроить столбцы</span>
+                <span className='lg:hidden'>Столбцы</span>
                 <IconChevronDown />
               </Button>
             </DropdownMenuTrigger>
@@ -310,7 +310,7 @@ export function OrdersTable({
                     colSpan={columns.length}
                     className='h-24 text-center'
                   >
-                    No results.
+                    Нет результатов.
                   </TableCell>
                 </TableRow>
               )}
@@ -319,13 +319,13 @@ export function OrdersTable({
         </div>
         <div className='flex items-center justify-between px-4'>
           <div className='text-muted-foreground hidden flex-1 text-sm lg:flex'>
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} из{' '}
+            {table.getFilteredRowModel().rows.length} выбранных строк(и).
           </div>
           <div className='flex w-full items-center gap-8 lg:w-fit'>
             <div className='hidden items-center gap-2 lg:flex'>
               <Label htmlFor='rows-per-page' className='text-sm font-medium'>
-                Rows per page
+                Строк на странице
               </Label>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -348,7 +348,7 @@ export function OrdersTable({
               </Select>
             </div>
             <div className='flex w-fit items-center justify-center text-sm font-medium'>
-              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              Страница {table.getState().pagination.pageIndex + 1} из{' '}
               {table.getPageCount()}
             </div>
             <div className='ml-auto flex items-center gap-2 lg:ml-0'>
@@ -358,7 +358,7 @@ export function OrdersTable({
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to first page</span>
+                <span className='sr-only'>Перейти на первую страницу</span>
                 <IconChevronsLeft />
               </Button>
               <Button
@@ -368,7 +368,7 @@ export function OrdersTable({
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to previous page</span>
+                <span className='sr-only'>Перейти на предыдущую страницу</span>
                 <IconChevronLeft />
               </Button>
               <Button
@@ -378,7 +378,7 @@ export function OrdersTable({
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to next page</span>
+                <span className='sr-only'>Перейти на следующую страницу</span>
                 <IconChevronRight />
               </Button>
               <Button
@@ -388,7 +388,7 @@ export function OrdersTable({
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to last page</span>
+                <span className='sr-only'>Перейти на последнюю страницу</span>
                 <IconChevronsRight />
               </Button>
             </div>
@@ -420,25 +420,25 @@ function TableCellViewer({ item }: { item: Order }) {
               <div className='mt-1'>{item.id}</div>
             </div>
             <div>
-              <Label>Course</Label>
+              <Label>Курс</Label>
               <div className='mt-1'>{item.course?.name}</div>
             </div>
             <div>
-              <Label>Branch</Label>
+              <Label>Филиал</Label>
               <div className='mt-1'>{item.branch?.address}</div>
             </div>
             <div>
-              <Label>Price</Label>
+              <Label>Цена</Label>
               <div className='mt-1'>{formatRubleNumber(item.price)}</div>
             </div>
             <div>
-              <Label>Created</Label>
+              <Label>Создано</Label>
               <div className='mt-1'>
                 {new Date(item.createdAt).toLocaleString()}
               </div>
             </div>
             <div>
-              <Label>Updated</Label>
+              <Label>Обновлено</Label>
               <div className='mt-1'>
                 {new Date(item.updatedAt).toLocaleString()}
               </div>
@@ -446,9 +446,8 @@ function TableCellViewer({ item }: { item: Order }) {
           </div>
         </div>
         <DrawerFooter>
-          <Button>Submit</Button>
           <DrawerClose asChild>
-            <Button variant='outline'>Done</Button>
+            <Button variant='outline'>Закрыть</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

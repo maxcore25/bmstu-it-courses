@@ -82,12 +82,12 @@ function ActionsCell({ row }: { row: Row<Branch> }) {
               size='icon'
             >
               <IconDotsVertical />
-              <span className='sr-only'>Open menu</span>
+              <span className='sr-only'>Открыть меню</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='w-32'>
             <DropdownMenuItem onSelect={() => setIsOpen(true)}>
-              Edit
+              Редактировать
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DeleteBranchDropdownItem branchId={row.original.id} />
@@ -115,7 +115,7 @@ const columns: ColumnDef<Branch>[] = [
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
+          aria-label='Выбрать все'
         />
       </div>
     ),
@@ -124,7 +124,7 @@ const columns: ColumnDef<Branch>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={value => row.toggleSelected(!!value)}
-          aria-label='Select row'
+          aria-label='Выбрать строку'
         />
       </div>
     ),
@@ -133,25 +133,25 @@ const columns: ColumnDef<Branch>[] = [
   },
   {
     accessorKey: 'address',
-    header: 'Address',
+    header: 'Адрес',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
     accessorKey: 'rooms',
-    header: 'Rooms',
+    header: 'Комнаты',
     cell: ({ row }) => row.original.rooms,
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created',
+    header: 'Создано',
     cell: ({ row }) => (
       <span>{new Date(row.original.createdAt).toLocaleString()}</span>
     ),
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated',
+    header: 'Обновлено',
     cell: ({ row }) => (
       <span>{new Date(row.original.updatedAt).toLocaleString()}</span>
     ),
@@ -236,7 +236,7 @@ export function BranchesTable() {
     return (
       <div className='w-full flex-col justify-start gap-6'>
         <div className='flex h-32 flex-col items-center justify-center gap-2'>
-          <div className='text-muted-foreground'>No branches found.</div>
+          <div className='text-muted-foreground'>Филиалы не найдены.</div>
           <CreateBranchButton />
         </div>
       </div>
@@ -246,15 +246,15 @@ export function BranchesTable() {
   return (
     <div className='flex w-full flex-col justify-start gap-6'>
       <div className='flex items-center justify-between px-4 lg:px-6'>
-        <h2 className='text-2xl leading-none font-semibold'>Branches</h2>
+        <h2 className='text-2xl leading-none font-semibold'>Филиалы</h2>
         <div className='flex items-center gap-2'>
           <CreateBranchButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='sm'>
                 <IconLayoutColumns />
-                <span className='hidden lg:inline'>Customize Columns</span>
-                <span className='lg:hidden'>Columns</span>
+                <span className='hidden lg:inline'>Настроить столбцы</span>
+                <span className='lg:hidden'>Столбцы</span>
                 <IconChevronDown />
               </Button>
             </DropdownMenuTrigger>
@@ -318,7 +318,7 @@ export function BranchesTable() {
                     colSpan={columns.length}
                     className='h-24 text-center'
                   >
-                    No results.
+                    Нет результатов.
                   </TableCell>
                 </TableRow>
               )}
@@ -327,13 +327,13 @@ export function BranchesTable() {
         </div>
         <div className='flex items-center justify-between px-4'>
           <div className='text-muted-foreground hidden flex-1 text-sm lg:flex'>
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} из{' '}
+            {table.getFilteredRowModel().rows.length} выбранных строк(и).
           </div>
           <div className='flex w-full items-center gap-8 lg:w-fit'>
             <div className='hidden items-center gap-2 lg:flex'>
               <Label htmlFor='rows-per-page' className='text-sm font-medium'>
-                Rows per page
+                Строк на странице
               </Label>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -356,7 +356,7 @@ export function BranchesTable() {
               </Select>
             </div>
             <div className='flex w-fit items-center justify-center text-sm font-medium'>
-              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              Страница {table.getState().pagination.pageIndex + 1} из{' '}
               {table.getPageCount()}
             </div>
             <div className='ml-auto flex items-center gap-2 lg:ml-0'>
@@ -366,7 +366,7 @@ export function BranchesTable() {
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to first page</span>
+                <span className='sr-only'>Перейти на первую страницу</span>
                 <IconChevronsLeft />
               </Button>
               <Button
@@ -376,7 +376,7 @@ export function BranchesTable() {
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to previous page</span>
+                <span className='sr-only'>Перейти на предыдущую страницу</span>
                 <IconChevronLeft />
               </Button>
               <Button
@@ -386,7 +386,7 @@ export function BranchesTable() {
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to next page</span>
+                <span className='sr-only'>Перейти на следующую страницу</span>
                 <IconChevronRight />
               </Button>
               <Button
@@ -396,7 +396,7 @@ export function BranchesTable() {
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to last page</span>
+                <span className='sr-only'>Перейти на последнюю страницу</span>
                 <IconChevronsRight />
               </Button>
             </div>
@@ -424,21 +424,21 @@ function TableCellViewer({ item }: { item: Branch }) {
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <div className='grid grid-cols-2 gap-4'>
             <div>
-              <Label>Address</Label>
+              <Label>Адрес</Label>
               <div className='mt-1'>{item.address}</div>
             </div>
             <div>
-              <Label>Rooms</Label>
+              <Label>Комнаты</Label>
               <div className='mt-1'>{item.rooms}</div>
             </div>
             <div>
-              <Label>Created</Label>
+              <Label>Создано</Label>
               <div className='mt-1'>
                 {new Date(item.createdAt).toLocaleString()}
               </div>
             </div>
             <div>
-              <Label>Updated</Label>
+              <Label>Обновлено</Label>
               <div className='mt-1'>
                 {new Date(item.updatedAt).toLocaleString()}
               </div>
@@ -446,9 +446,8 @@ function TableCellViewer({ item }: { item: Branch }) {
           </div>
         </div>
         <DrawerFooter>
-          <Button>Submit</Button>
           <DrawerClose asChild>
-            <Button variant='outline'>Done</Button>
+            <Button variant='outline'>Закрыть</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

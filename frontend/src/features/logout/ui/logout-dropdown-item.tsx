@@ -22,7 +22,7 @@ export const LogoutDropdownItem = () => {
   return (
     <DropdownMenuItem onClick={handleLogout}>
       <LogOut />
-      Log out
+      Выйти
     </DropdownMenuItem>
   );
 };

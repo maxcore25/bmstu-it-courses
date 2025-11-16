@@ -21,11 +21,11 @@ export const AppHeader = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className='hidden md:block'>
-              <BreadcrumbLink href='#'>Home</BreadcrumbLink>
+              <BreadcrumbLink href='#'>Главная</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className='hidden md:block' />
             <BreadcrumbItem>
-              <BreadcrumbPage>Main</BreadcrumbPage>
+              <BreadcrumbPage>Основная</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

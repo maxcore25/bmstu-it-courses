@@ -20,13 +20,13 @@ const data = {
   },
   navMain: [
     {
-      title: 'Home',
+      title: 'Главная',
       url: '#',
       icon: Home,
       isActive: true,
       items: [
         {
-          title: 'Main',
+          title: 'Основная',
           url: '/',
         },
       ],

@@ -82,12 +82,12 @@ function ActionsCell({ row }: { row: Row<Schedule> }) {
               size='icon'
             >
               <IconDotsVertical />
-              <span className='sr-only'>Open menu</span>
+              <span className='sr-only'>Открыть меню</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='w-32'>
             <DropdownMenuItem onSelect={() => setIsOpen(true)}>
-              Edit
+              Редактировать
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DeleteScheduleDropdownItem scheduleId={row.original.id} />
@@ -115,7 +115,7 @@ const columns: ColumnDef<Schedule>[] = [
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
+          aria-label='Выбрать все'
         />
       </div>
     ),
@@ -124,7 +124,7 @@ const columns: ColumnDef<Schedule>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={value => row.toggleSelected(!!value)}
-          aria-label='Select row'
+          aria-label='Выбрать строку'
         />
       </div>
     ),
@@ -133,18 +133,18 @@ const columns: ColumnDef<Schedule>[] = [
   },
   {
     accessorKey: 'course',
-    header: 'Course',
+    header: 'Курс',
     cell: ({ row }) => <TableCellViewer item={row.original} />,
     enableHiding: false,
   },
   {
     accessorKey: 'branch',
-    header: 'Branch',
+    header: 'Филиал',
     cell: ({ row }) => row.original.branch?.address,
   },
   {
     id: 'availableSeats',
-    header: 'Available Seats',
+    header: 'Доступно мест',
     cell: ({ row }) => {
       const { reserved, capacity } = row.original;
       return (
@@ -156,14 +156,14 @@ const columns: ColumnDef<Schedule>[] = [
   },
   {
     accessorKey: 'startAt',
-    header: 'Start Date',
+    header: 'Дата начала',
     cell: ({ row }) => (
       <span>{new Date(row.original.startAt).toLocaleString()}</span>
     ),
   },
   {
     accessorKey: 'endAt',
-    header: 'End Date',
+    header: 'Дата окончания',
     cell: ({ row }) => (
       <span>{new Date(row.original.endAt).toLocaleString()}</span>
     ),
@@ -248,7 +248,7 @@ export function SchedulesTable() {
     return (
       <div className='w-full flex-col justify-start gap-6'>
         <div className='flex h-32 flex-col items-center justify-center gap-2'>
-          <div className='text-muted-foreground'>No schedules found.</div>
+          <div className='text-muted-foreground'>Расписания не найдены.</div>
           <CreateScheduleButton />
         </div>
       </div>
@@ -258,15 +258,15 @@ export function SchedulesTable() {
   return (
     <div className='flex w-full flex-col justify-start gap-6'>
       <div className='flex items-center justify-between px-4 lg:px-6'>
-        <h2 className='text-2xl leading-none font-semibold'>Schedules</h2>
+        <h2 className='text-2xl leading-none font-semibold'>Расписания</h2>
         <div className='flex items-center gap-2'>
           <CreateScheduleButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' size='sm'>
                 <IconLayoutColumns />
-                <span className='hidden lg:inline'>Customize Columns</span>
-                <span className='lg:hidden'>Columns</span>
+                <span className='hidden lg:inline'>Настроить столбцы</span>
+                <span className='lg:hidden'>Столбцы</span>
                 <IconChevronDown />
               </Button>
             </DropdownMenuTrigger>
@@ -330,7 +330,7 @@ export function SchedulesTable() {
                     colSpan={columns.length}
                     className='h-24 text-center'
                   >
-                    No results.
+                    Нет результатов.
                   </TableCell>
                 </TableRow>
               )}
@@ -339,13 +339,13 @@ export function SchedulesTable() {
         </div>
         <div className='flex items-center justify-between px-4'>
           <div className='text-muted-foreground hidden flex-1 text-sm lg:flex'>
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} из{' '}
+            {table.getFilteredRowModel().rows.length} выбранных строк(и).
           </div>
           <div className='flex w-full items-center gap-8 lg:w-fit'>
             <div className='hidden items-center gap-2 lg:flex'>
               <Label htmlFor='rows-per-page' className='text-sm font-medium'>
-                Rows per page
+                Строк на странице
               </Label>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -368,7 +368,7 @@ export function SchedulesTable() {
               </Select>
             </div>
             <div className='flex w-fit items-center justify-center text-sm font-medium'>
-              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              Страница {table.getState().pagination.pageIndex + 1} из{' '}
               {table.getPageCount()}
             </div>
             <div className='ml-auto flex items-center gap-2 lg:ml-0'>
@@ -378,7 +378,7 @@ export function SchedulesTable() {
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to first page</span>
+                <span className='sr-only'>Перейти на первую страницу</span>
                 <IconChevronsLeft />
               </Button>
               <Button
@@ -388,7 +388,7 @@ export function SchedulesTable() {
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className='sr-only'>Go to previous page</span>
+                <span className='sr-only'>Перейти на предыдущую страницу</span>
                 <IconChevronLeft />
               </Button>
               <Button
@@ -398,7 +398,7 @@ export function SchedulesTable() {
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to next page</span>
+                <span className='sr-only'>Перейти на следующую страницу</span>
                 <IconChevronRight />
               </Button>
               <Button
@@ -408,7 +408,7 @@ export function SchedulesTable() {
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
               >
-                <span className='sr-only'>Go to last page</span>
+                <span className='sr-only'>Перейти на последнюю страницу</span>
                 <IconChevronsRight />
               </Button>
             </div>
@@ -440,29 +440,29 @@ function TableCellViewer({ item }: { item: Schedule }) {
               <div className='mt-1'>{item.id}</div>
             </div>
             <div>
-              <Label>Capacity</Label>
+              <Label>Вместимость</Label>
               <div className='mt-1'>{item.capacity}</div>
             </div>
             <div>
-              <Label>Start Date</Label>
+              <Label>Дата начала</Label>
               <div className='mt-1'>
                 {new Date(item.startAt).toLocaleString()}
               </div>
             </div>
             <div>
-              <Label>End Date</Label>
+              <Label>Дата окончания</Label>
               <div className='mt-1'>
                 {new Date(item.endAt).toLocaleString()}
               </div>
             </div>
             <div>
-              <Label>Created</Label>
+              <Label>Создано</Label>
               <div className='mt-1'>
                 {new Date(item.createdAt).toLocaleString()}
               </div>
             </div>
             <div>
-              <Label>Updated</Label>
+              <Label>Обновлено</Label>
               <div className='mt-1'>
                 {new Date(item.updatedAt).toLocaleString()}
               </div>
@@ -470,9 +470,8 @@ function TableCellViewer({ item }: { item: Schedule }) {
           </div>
         </div>
         <DrawerFooter>
-          <Button>Submit</Button>
           <DrawerClose asChild>
-            <Button variant='outline'>Done</Button>
+            <Button variant='outline'>Закрыть</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

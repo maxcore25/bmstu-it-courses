@@ -37,7 +37,7 @@ export function NavUser() {
   const user = useAuthStore(s => s.user);
   const { setTheme } = useTheme();
 
-  if (!user) return <div>No user data</div>;
+  if (!user) return <div>Нет данных пользователя</div>;
 
   return (
     <SidebarMenu>
@@ -53,7 +53,7 @@ export function NavUser() {
                   src={'https://avatars.githubusercontent.com/u/124599?v=4'}
                   alt={user.firstName}
                 />
-                <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                <AvatarFallback className='rounded-lg'>ИК</AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-medium'>{user.firstName}</span>
@@ -75,7 +75,7 @@ export function NavUser() {
                     src={'https://avatars.githubusercontent.com/u/124599?v=4'}
                     alt={user.firstName}
                   />
-                  <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                  <AvatarFallback className='rounded-lg'>ИК</AvatarFallback>
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-medium'>{user.firstName}</span>
@@ -87,27 +87,27 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />
-                Account
+                Аккаунт
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
+                Уведомления
               </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Toggle theme</DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger>Сменить тему</DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
                     <DropdownMenuItem onClick={() => setTheme('light')}>
                       <Sun />
-                      Light
+                      Светлая
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setTheme('dark')}>
                       <Moon />
-                      Dark
+                      Тёмная
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setTheme('system')}>
                       <LaptopMinimal />
-                      System
+                      Системная
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
