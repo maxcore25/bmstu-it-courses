@@ -6,7 +6,6 @@ export function useGetMe(enabled = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.USER_ME],
     queryFn: getMe,
-    staleTime: 1000 * 60 * 5,
     retry: false,
     enabled,
   });
