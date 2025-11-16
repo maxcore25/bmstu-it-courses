@@ -54,7 +54,7 @@ export const CreateScheduleButton = () => {
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
                 name='branchId'

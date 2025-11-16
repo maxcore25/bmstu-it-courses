@@ -59,9 +59,9 @@ export const UpdateBranchDrawer = ({
     >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Edit Branch</DrawerTitle>
+          <DrawerTitle>Редактировать филиал</DrawerTitle>
           <DrawerDescription>
-            Update the branch information below.
+            Обновите информацию о филиале ниже.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
@@ -75,7 +75,7 @@ export const UpdateBranchDrawer = ({
                 name='address'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Адрес</FormLabel>
                     <FormControl>
                       <Input autoFocus {...field} className='h-auto py-3' />
                     </FormControl>
@@ -89,7 +89,7 @@ export const UpdateBranchDrawer = ({
                 name='rooms'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rooms</FormLabel>
+                    <FormLabel>Количество комнат</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -109,7 +109,7 @@ export const UpdateBranchDrawer = ({
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Update Branch
+                Обновить филиал
               </Button>
             </form>
           </Form>
@@ -117,7 +117,7 @@ export const UpdateBranchDrawer = ({
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant='outline' onClick={handleCancelClick}>
-              Cancel
+              Отмена
             </Button>
           </DrawerClose>
         </DrawerFooter>

@@ -68,9 +68,9 @@ export const UpdateCourseDrawer = ({
     >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Edit Course</DrawerTitle>
+          <DrawerTitle>Редактировать курс</DrawerTitle>
           <DrawerDescription>
-            Update the course information below.
+            Обновите информацию о курсе ниже.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
@@ -84,7 +84,7 @@ export const UpdateCourseDrawer = ({
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Название</FormLabel>
                     <FormControl>
                       <Input autoFocus {...field} className='h-auto py-3' />
                     </FormControl>
@@ -104,7 +104,7 @@ export const UpdateCourseDrawer = ({
                     >
                       <FormControl>
                         <SelectTrigger className='h-auto! w-full py-3'>
-                          <SelectValue placeholder='Выберите расписание' />
+                          <SelectValue placeholder='Выберите автора' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -130,7 +130,7 @@ export const UpdateCourseDrawer = ({
                 name='difficulty'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Difficulty</FormLabel>
+                    <FormLabel>Сложность</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -155,7 +155,7 @@ export const UpdateCourseDrawer = ({
                 name='duration'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel>Длительность</FormLabel>
                     <FormControl>
                       <Input {...field} className='h-auto py-3' />
                     </FormControl>
@@ -168,14 +168,14 @@ export const UpdateCourseDrawer = ({
                 name='format'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Format</FormLabel>
+                    <FormLabel>Формат</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger className='h-auto! w-full py-3'>
-                          <SelectValue placeholder='Выберите уровень' />
+                          <SelectValue placeholder='Выберите формат' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -195,7 +195,7 @@ export const UpdateCourseDrawer = ({
                 name='price'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>Цена</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -214,7 +214,7 @@ export const UpdateCourseDrawer = ({
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Update Course
+                Обновить курс
               </Button>
             </form>
           </Form>
@@ -222,7 +222,7 @@ export const UpdateCourseDrawer = ({
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant='outline' onClick={handleCancelClick}>
-              Cancel
+              Отмена
             </Button>
           </DrawerClose>
         </DrawerFooter>

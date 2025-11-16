@@ -30,24 +30,24 @@ export const CreateBranchButton = () => {
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
-        <Button>Create Branch</Button>
+        <Button>Создать филиал</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Create Branch</DrawerTitle>
+          <DrawerTitle>Создать филиал</DrawerTitle>
           <DrawerDescription>
-            Enter the address and number of rooms for the branch to create it.
+            Введите адрес и количество комнат для создания филиала.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
                 name='address'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Адрес</FormLabel>
                     <FormControl>
                       <Input autoFocus {...field} className='h-auto py-3' />
                     </FormControl>
@@ -60,7 +60,7 @@ export const CreateBranchButton = () => {
                 name='rooms'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rooms</FormLabel>
+                    <FormLabel>Количество комнат</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -85,14 +85,14 @@ export const CreateBranchButton = () => {
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Create
+                Создать
               </Button>
             </form>
           </Form>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Отмена</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

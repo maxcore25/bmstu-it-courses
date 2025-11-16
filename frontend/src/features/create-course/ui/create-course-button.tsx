@@ -40,24 +40,24 @@ export const CreateCourseButton = () => {
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
-        <Button>Create Course</Button>
+        <Button>Создать курс</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Create Course</DrawerTitle>
+          <DrawerTitle>Создать курс</DrawerTitle>
           <DrawerDescription>
-            Enter the details for the course to create it.
+            Введите детали курса для создания нового курса.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Название</FormLabel>
                     <FormControl>
                       <Input autoFocus {...field} className='h-auto py-3' />
                     </FormControl>
@@ -77,7 +77,7 @@ export const CreateCourseButton = () => {
                     >
                       <FormControl>
                         <SelectTrigger className='h-auto! w-full py-3'>
-                          <SelectValue placeholder='Выберите расписание' />
+                          <SelectValue placeholder='Выберите автора' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -103,7 +103,7 @@ export const CreateCourseButton = () => {
                 name='difficulty'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Difficulty</FormLabel>
+                    <FormLabel>Уровень сложности</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -128,7 +128,7 @@ export const CreateCourseButton = () => {
                 name='duration'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel>Длительность</FormLabel>
                     <FormControl>
                       <Input {...field} className='h-auto py-3' />
                     </FormControl>
@@ -141,14 +141,14 @@ export const CreateCourseButton = () => {
                 name='format'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Format</FormLabel>
+                    <FormLabel>Формат</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger className='h-auto! w-full py-3'>
-                          <SelectValue placeholder='Выберите уровень' />
+                          <SelectValue placeholder='Выберите формат' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -168,7 +168,7 @@ export const CreateCourseButton = () => {
                 name='price'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>Цена</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -193,14 +193,14 @@ export const CreateCourseButton = () => {
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Create
+                Создать
               </Button>
             </form>
           </Form>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Отмена</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
