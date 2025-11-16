@@ -103,7 +103,7 @@ export function NavUser() {
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setTheme('dark')}>
                       <Moon />
-                      Тёмная
+                      Темная
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setTheme('system')}>
                       <LaptopMinimal />

@@ -25,15 +25,15 @@ export function ModeToggle() {
       <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           <Sun />
-          Light
+          Светлая
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
           <Moon />
-          Dark
+          Темная
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
           <LaptopMinimal />
-          System
+          Системная
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
