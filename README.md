@@ -1,62 +1,18 @@
 # МГТУ им. Н.Э. Баумана — Курсовая работа на тему "Информационная система компьютерных курсов"
 
-## Start
+![Превью проекта](./docs/preview.png)
 
-1. start
+## Инструкция
 
-```sh
-go mod init github.com/user/bmstu-it-courses/backend
-```
+1. Чтобы запустить бекенд, читайте README.md в `/backend`
+2. Чтобы запустить фронтед, читайте README.md в `/frontend`
 
-2. Install globally
+## Скриншоты
 
-```sh
-# hot reload dev server
-go install github.com/air-verse/air@latest
+### Логин
 
-# Swagger
-go install github.com/swaggo/swag/cmd/swag@latest
+![Логин](./docs/login.png)
 
-# Pretty output for tests
-go install gotest.tools/gotestsum@latest
-```
+### Админка
 
-## Commands
-
-### Only for the first time (if app does not work)
-
-```sh
-# Init air for hot reload dev server
-air init
-
-# Init Swagger API docs
-swag init --parseDependency --parseInternal -g ./cmd/app/main.go
-```
-
-### Windows
-
-```pwsh
-# if you want to see all commands
-.\tasks.ps1 help
-
-# run dev server with hot reaload
-.\tasks.ps1 dev
-```
-
-### Linux
-
-```sh
-make help
-
-make dev
-```
-
-## Tests
-
-```sh
-# Run all tests (stdlib)
-go test ./...
-
-# Run all tests (pretty output)
-gotestsum --format testname
-```
+![Админка](./docs/admin.png)
