@@ -20,7 +20,7 @@ export const DeleteUserDropdownItem = ({
       disabled={isPending}
     >
       {isPending ? <Spinner /> : null}
-      Delete
+      Удалить
     </DropdownMenuItem>
   );
 };

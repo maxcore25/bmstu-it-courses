@@ -191,7 +191,7 @@ export const CreateUserButton = () => {
                       <Input
                         {...field}
                         className='h-auto py-3'
-                        placeholder='Portfolio link or description'
+                        placeholder='Ссылка на портфолио или описание'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -203,7 +203,7 @@ export const CreateUserButton = () => {
                 name='rating'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rating</FormLabel>
+                    <FormLabel>Рейтинг</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -231,7 +231,7 @@ export const CreateUserButton = () => {
                 name='testimonialsCount'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Testimonials Count</FormLabel>
+                    <FormLabel>Количество отзывов</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -245,7 +245,7 @@ export const CreateUserButton = () => {
                           )
                         }
                         className='h-auto py-3'
-                        placeholder='Number of testimonials'
+                        placeholder='Количество отзывов'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -258,14 +258,14 @@ export const CreateUserButton = () => {
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Create
+                Создать пользователя
               </Button>
             </form>
           </Form>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Отмена</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

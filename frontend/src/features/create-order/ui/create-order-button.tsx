@@ -43,13 +43,13 @@ export const CreateOrderButton = () => {
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
-        <Button>Создать заявку</Button>
+        <Button>Создать заказ</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Создать заявку</DrawerTitle>
+          <DrawerTitle>Создать заказ</DrawerTitle>
           <DrawerDescription>
-            Укажите филиал, клиента, курс и расписание для создания заявки.
+            Укажите филиал, клиента, курс и расписание для создания заказа.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>

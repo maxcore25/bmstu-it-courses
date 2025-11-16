@@ -20,7 +20,7 @@ export const DeleteBranchDropdownItem = ({
       disabled={isPending}
     >
       {isPending ? <Spinner /> : null}
-      Delete
+      Удалить
     </DropdownMenuItem>
   );
 };
