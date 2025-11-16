@@ -94,12 +94,6 @@ export const Footer = () => {
               >
                 Политика использования файлов Cookies
               </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-foreground transition-colors'
-              >
-                Доступность
-              </a>
             </div>
           </div>
         </div>

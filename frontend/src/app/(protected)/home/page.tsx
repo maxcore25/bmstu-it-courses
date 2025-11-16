@@ -1,19 +1,10 @@
-'use client';
+import { HomePage } from '@/_pages/home';
+import { Metadata } from 'next';
 
-import { OrdersTable } from '@/widgets/orders-table';
-import { useGetMyOrders } from '@/entities/order';
+export const metadata: Metadata = {
+  title: 'Личный кабинет | CodeCraft',
+};
 
-export default function HomePage() {
-  const { data, isLoading } = useGetMyOrders([
-    'client',
-    'course',
-    'branch',
-    'schedule',
-  ]);
-
-  return (
-    <>
-      <OrdersTable orders={data} isLoading={isLoading} />
-    </>
-  );
+export default function HomeRoute() {
+  return <HomePage />;
 }

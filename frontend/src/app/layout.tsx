@@ -6,7 +6,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'CodeCraft',
-  description: 'A modern IT courses school.',
+  description: 'Современная школа IT-курсов.',
 };
 
 export default function RootLayout({
