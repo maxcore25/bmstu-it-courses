@@ -16,6 +16,7 @@ import { FormatBadge } from '@/shared/ui/format-badge';
 import { readdirSync } from 'fs';
 import Link from 'next/link';
 import { join } from 'path';
+import { LevelBadge } from '@/shared/ui/level-badge';
 
 let filesCache: string[] | null = null;
 
@@ -72,7 +73,7 @@ export const CoursesSection = async () => {
                 <CardHeader>
                   <CardTitle className='text-xl'>{course.name}</CardTitle>
                   <CardDescription className='line-clamp-2'>
-                    Сложность: {course.difficulty}
+                    Сложность: <LevelBadge level={course.difficulty} />
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
