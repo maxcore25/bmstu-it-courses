@@ -4,7 +4,7 @@ import { getTutors } from '../api/get-tutors.api';
 
 export function useGetTutors() {
   return useQuery({
-    queryKey: [QUERY_KEYS.USERS],
+    queryKey: [QUERY_KEYS.USERS, 'tutor'],
     queryFn: getTutors,
   });
 }
