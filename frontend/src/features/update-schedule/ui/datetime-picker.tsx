@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Input } from '@/shared/ui/input';
@@ -21,38 +21,45 @@ export function DatetimePicker({
 }: DatetimePickerProps) {
   const [open, setOpen] = useState(false);
 
-  // local UI state
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [time, setTime] = useState('10:30:00');
+  // --- 1. Derive date & time from the prop (no effects needed)
+  const derived = useMemo(() => {
+    if (!value) return { date: undefined, time: '10:30:00' };
 
-  // Sync form → local UI when editing existing schedule
-  useEffect(() => {
-    if (!value) return;
     const d = new Date(value);
-    setDate(d);
 
-    const hh = d.getHours().toString().padStart(2, '0');
-    const mm = d.getMinutes().toString().padStart(2, '0');
-    const ss = d.getSeconds().toString().padStart(2, '0');
-    setTime(`${hh}:${mm}:${ss}`);
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    const ss = String(d.getSeconds()).padStart(2, '0');
+
+    return {
+      date: d,
+      time: `${hh}:${mm}:${ss}`,
+    };
   }, [value]);
 
-  // Combine date + time → ISO string
-  const updateDatetime = (newDate = date, newTime = time) => {
-    if (!newDate) return;
+  // --- 2. Local overrides when the user interacts
+  const [localDate, setLocalDate] = useState<Date | undefined>(undefined);
+  const [localTime, setLocalTime] = useState<string | undefined>(undefined);
 
-    const [hh, mm, ss] = newTime.split(':').map(Number);
+  const date = localDate ?? derived.date;
+  const time = localTime ?? derived.time;
 
-    const dt = new Date(newDate);
-    dt.setHours(hh, mm, ss);
+  // --- 3. Emit ISO string
+  const update = (d: Date | undefined, t: string) => {
+    if (!d) return;
 
-    onChange(dt.toISOString());
+    const [hh, mm, ss] = t.split(':').map(Number);
+    const result = new Date(d);
+    result.setHours(hh, mm, ss);
+
+    onChange(result.toISOString());
   };
 
   return (
     <div className='flex gap-4'>
       <div className='flex flex-col gap-3'>
         {label ? <Label className='px-1'>{label}</Label> : null}
+
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -70,8 +77,9 @@ export function DatetimePicker({
               selected={date}
               captionLayout='dropdown'
               onSelect={d => {
-                setDate(d);
-                if (d) updateDatetime(d, time);
+                if (!d) return;
+                setLocalDate(d);
+                update(d, time!);
                 setOpen(false);
               }}
             />
@@ -79,6 +87,7 @@ export function DatetimePicker({
         </Popover>
       </div>
 
+      {/* Time */}
       <div className='flex flex-col gap-3'>
         <Label className='px-1'>Время</Label>
         <Input
@@ -88,8 +97,8 @@ export function DatetimePicker({
           className='bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden'
           onChange={e => {
             const newTime = e.target.value;
-            setTime(newTime);
-            updateDatetime(date, newTime);
+            setLocalTime(newTime);
+            update(date!, newTime);
           }}
         />
       </div>
