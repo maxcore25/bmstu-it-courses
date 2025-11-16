@@ -24,6 +24,7 @@ func NewOrderHandler(s service.OrderService) *OrderHandler {
 // @Tags Orders
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param order body dto.CreateOrderInput true "New order"
 // @Success 201 {object} dto.OrderResponse
 // @Failure 400 {object} gin.H
@@ -104,6 +105,7 @@ func (h *OrderHandler) GetMyOrders(c *gin.Context) {
 // @Summary Get order by ID
 // @Tags Orders
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Order ID (uuid)"
 // @Param expand query []string false "Relations to expand (client, course, branch, schedule). Example: expand=client,course,branch,schedule"
 // @Success 200 {object} dto.OrderResponse
@@ -135,6 +137,7 @@ func (h *OrderHandler) GetOrder(c *gin.Context) {
 // @Summary Get all orders
 // @Tags Orders
 // @Produce json
+// @Security BearerAuth
 // @Param expand query []string false "Relations to expand (client, course, branch, schedule). Example: expand=client,course,branch,schedule"
 // @Success 200 {array} dto.OrderResponse
 // @Router /orders [get]
@@ -158,6 +161,7 @@ func (h *OrderHandler) GetAllOrders(c *gin.Context) {
 // @Tags Orders
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Order ID (uuid)"
 // @Param order body map[string]interface{} true "Order update data"
 // @Success 200 {object} gin.H
@@ -187,6 +191,7 @@ func (h *OrderHandler) UpdateOrderByID(c *gin.Context) {
 // @Summary Delete order by ID
 // @Tags Orders
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Order ID (uuid)"
 // @Success 204 {object} nil
 // @Failure 400 {object} gin.H

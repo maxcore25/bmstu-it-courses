@@ -154,9 +154,9 @@ func main() {
 	api := r.Group("/api")
 	{
 		authHttp.RegisterAuthRoutes(api, userService, authService, jwtManager)
-		branchHttp.RegisterBranchRoutes(api, branchService)
-		courseHttp.RegisterCourseRoutes(api, courseService)
-		scheduleHttp.RegisterScheduleRoutes(api, scheduleService)
+		branchHttp.RegisterBranchRoutes(api, branchService, jwtManager)
+		courseHttp.RegisterCourseRoutes(api, courseService, jwtManager)
+		scheduleHttp.RegisterScheduleRoutes(api, scheduleService, jwtManager)
 		orderHttp.RegisterOrderRoutes(api, orderService, jwtManager)
 	}
 

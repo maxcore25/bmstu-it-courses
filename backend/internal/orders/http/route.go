@@ -14,10 +14,10 @@ func RegisterOrderRoutes(r *gin.RouterGroup, orderService service.OrderService, 
 	orderGroup := r.Group("/orders")
 	{
 		orderGroup.POST("", middleware.AuthMiddleware(jwtManager), orderHandler.CreateOrder)
-		orderGroup.GET("", orderHandler.GetAllOrders)
+		orderGroup.GET("", middleware.AuthMiddleware(jwtManager), orderHandler.GetAllOrders)
 		orderGroup.GET("/my", middleware.AuthMiddleware(jwtManager), orderHandler.GetMyOrders)
-		orderGroup.GET("/:id", orderHandler.GetOrder)
-		orderGroup.PATCH("/:id", orderHandler.UpdateOrderByID)
-		orderGroup.DELETE("/:id", orderHandler.DeleteOrderByID)
+		orderGroup.GET("/:id", middleware.AuthMiddleware(jwtManager), orderHandler.GetOrder)
+		orderGroup.PATCH("/:id", middleware.AuthMiddleware(jwtManager), orderHandler.UpdateOrderByID)
+		orderGroup.DELETE("/:id", middleware.AuthMiddleware(jwtManager), orderHandler.DeleteOrderByID)
 	}
 }

@@ -24,6 +24,7 @@ func NewScheduleHandler(s service.ScheduleService) *ScheduleHandler {
 // @Tags Schedules
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param schedule body dto.CreateScheduleRequest true "New schedule"
 // @Success 201 {object} dto.ScheduleResponse
 // @Failure 400 {object} gin.H
@@ -105,6 +106,7 @@ func (h *ScheduleHandler) GetAllSchedules(c *gin.Context) {
 // @Tags Schedules
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Schedule ID (uuid)"
 // @Param schedule body map[string]interface{} true "Schedule update data"
 // @Success 200 {object} gin.H
@@ -134,6 +136,7 @@ func (h *ScheduleHandler) UpdateScheduleByID(c *gin.Context) {
 // @Summary Delete schedule by ID
 // @Tags Schedules
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Schedule ID (uuid)"
 // @Success 204 {object} nil
 // @Failure 400 {object} gin.H

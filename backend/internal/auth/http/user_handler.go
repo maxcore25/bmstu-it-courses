@@ -24,6 +24,7 @@ func NewUserHandler(s service.UserService) *UserHandler {
 // @Tags Users
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param user body dto.CreateUserRequest true "New user"
 // @Success 201 {object} dto.UserResponse
 // @Failure 400 {object} gin.H
@@ -157,6 +158,7 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "User ID (uuid)"
 // @Param user body map[string]interface{} true "User update data"
 // @Success 200 {object} gin.H
@@ -186,6 +188,7 @@ func (h *UserHandler) UpdateUserByID(c *gin.Context) {
 // @Summary Delete user by ID
 // @Tags Users
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "User ID (uuid)"
 // @Success 204 {object} nil
 // @Failure 400 {object} gin.H

@@ -24,6 +24,7 @@ func NewBranchHandler(s service.BranchService) *BranchHandler {
 // @Tags Branches
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param branch body dto.CreateBranchRequest true "New branch"
 // @Success 201 {object} dto.BranchResponse
 // @Failure 400 {object} gin.H
@@ -105,6 +106,7 @@ func (h *BranchHandler) GetAllBranches(c *gin.Context) {
 // @Tags Branches
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Branch ID (uuid)"
 // @Param branch body map[string]interface{} true "Branch update data"
 // @Success 200 {object} gin.H
@@ -134,6 +136,7 @@ func (h *BranchHandler) UpdateBranchByID(c *gin.Context) {
 // @Summary Delete branch by ID
 // @Tags Branches
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Branch ID (uuid)"
 // @Success 204 {object} nil
 // @Failure 400 {object} gin.H

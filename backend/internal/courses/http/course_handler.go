@@ -25,6 +25,7 @@ func NewCourseHandler(s service.CourseService) *CourseHandler {
 // @Tags Courses
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param course body dto.CreateCourseRequest true "New course"
 // @Success 201 {object} dto.CourseResponse
 // @Failure 400 {object} gin.H
@@ -107,6 +108,7 @@ func (h *CourseHandler) GetAllCourses(c *gin.Context) {
 // @Tags Courses
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Course ID (uuid)"
 // @Param course body map[string]interface{} true "Course update data"
 // @Success 200 {object} gin.H
@@ -136,6 +138,7 @@ func (h *CourseHandler) UpdateCourseByID(c *gin.Context) {
 // @Summary Delete course by ID
 // @Tags Courses
 // @Produce json
+// @Security BearerAuth
 // @Param id path string true "Course ID (uuid)"
 // @Success 204 {object} nil
 // @Failure 400 {object} gin.H
