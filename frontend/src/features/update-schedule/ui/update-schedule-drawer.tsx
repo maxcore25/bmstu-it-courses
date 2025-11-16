@@ -10,9 +10,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/shared/ui/drawer';
-import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
 import {
   Form,
   FormControl,
@@ -27,11 +25,15 @@ import { UpdateScheduleValues } from '../model/update-schedule.schema';
 import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
 
 interface UpdateScheduleDrawerProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   scheduleId: string;
   initialData: UpdateScheduleValues;
 }
 
 export const UpdateScheduleDrawer = ({
+  open,
+  onOpenChange,
   scheduleId,
   initialData,
 }: UpdateScheduleDrawerProps) => {
@@ -50,12 +52,11 @@ export const UpdateScheduleDrawer = ({
   };
 
   return (
-    <Drawer direction={isMobile ? 'bottom' : 'right'}>
-      <DrawerTrigger asChild>
-        <DropdownMenuItem onSelect={e => e.preventDefault()}>
-          Edit
-        </DropdownMenuItem>
-      </DrawerTrigger>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? 'bottom' : 'right'}
+    >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
           <DrawerTitle>Edit Schedule</DrawerTitle>
