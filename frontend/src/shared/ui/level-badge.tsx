@@ -6,7 +6,7 @@ type LevelColor = BadgeVariants['variant'];
 type LevelConfig = Record<Level, { color: LevelColor; label: string }>;
 
 const levelConfig: LevelConfig = {
-  beginner: { color: 'success', label: 'Начинающий' },
+  beginner: { color: 'success', label: 'Начальный' },
   intermediate: { color: 'warn', label: 'Средний' },
   advanced: { color: 'destructive-secondary', label: 'Продвинутый' },
 } as const;
