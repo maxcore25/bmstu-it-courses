@@ -1,6 +1,6 @@
 # МГТУ им. Н.Э. Баумана — Курсовая работа на тему "Информационная система компьютерных курсов"
 
-# Start
+## Start
 
 1. start
 
@@ -16,11 +16,14 @@ go install github.com/air-verse/air@latest
 
 # Swagger
 go install github.com/swaggo/swag/cmd/swag@latest
+
+# Pretty output for tests
+go install gotest.tools/gotestsum@latest
 ```
 
-# Commands
+## Commands
 
-## Only for the first time (if app does not work)
+### Only for the first time (if app does not work)
 
 ```sh
 # Init air for hot reload dev server
@@ -30,7 +33,7 @@ air init
 swag init --parseDependency --parseInternal -g ./cmd/app/main.go
 ```
 
-## Windows
+### Windows
 
 ```pwsh
 # if you want to see all commands
@@ -40,10 +43,20 @@ swag init --parseDependency --parseInternal -g ./cmd/app/main.go
 .\tasks.ps1 dev
 ```
 
-## Linux
+### Linux
 
 ```sh
 make help
 
 make dev
+```
+
+## Tests
+
+```sh
+# Run all tests (stdlib)
+go test ./...
+
+# Run all tests (pretty output)
+gotestsum --format testname
 ```
