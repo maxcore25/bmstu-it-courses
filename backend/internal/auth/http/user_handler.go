@@ -160,7 +160,7 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "User ID (uuid)"
-// @Param user body map[string]interface{} true "User update data"
+// @Param user body dto.UpdateUserRequest true "User update data"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -173,7 +173,7 @@ func (h *UserHandler) UpdateUserByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid uuid"})
 		return
 	}
-	var updateData map[string]any
+	var updateData dto.UpdateUserRequest
 	if !httphelper.BindJSON(c, &updateData) {
 		return
 	}

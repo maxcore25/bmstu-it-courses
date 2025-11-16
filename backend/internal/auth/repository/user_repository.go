@@ -13,7 +13,7 @@ type UserRepository interface {
 	GetByEmail(email string) (*model.User, error)
 	GetAll() ([]*model.User, error)
 	Find(filter dto.UserFilter) ([]*model.User, error)
-	UpdateByID(id uuid.UUID, updateData map[string]any) error
+	UpdateByID(id uuid.UUID, updateData dto.UpdateUserRequest) error
 	DeleteByID(id uuid.UUID) error
 }
 
@@ -72,7 +72,7 @@ func (r *userRepository) Find(filter dto.UserFilter) ([]*model.User, error) {
 	return users, nil
 }
 
-func (r *userRepository) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (r *userRepository) UpdateByID(id uuid.UUID, updateData dto.UpdateUserRequest) error {
 	return r.db.Model(&model.User{}).Where("id = ?", id).Updates(updateData).Error
 }
 

@@ -29,7 +29,7 @@ type mockUserRepo struct {
 	errOnFind     error
 
 	updatedID   uuid.UUID
-	updatedData map[string]any
+	updatedData dto.UpdateUserRequest
 	errOnUpdate error
 
 	deletedID   uuid.UUID
@@ -76,7 +76,7 @@ func (m *mockUserRepo) Find(filter dto.UserFilter) ([]*model.User, error) {
 	return m.usersByFilter, nil
 }
 
-func (m *mockUserRepo) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (m *mockUserRepo) UpdateByID(id uuid.UUID, updateData dto.UpdateUserRequest) error {
 	m.updatedID = id
 	m.updatedData = updateData
 	if m.errOnUpdate != nil {
@@ -249,8 +249,9 @@ func TestUpdateUserByID_Success(t *testing.T) {
 	svc := service.NewUserService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"first_name": "Updated",
+	firstName := "Updated"
+	updateData := dto.UpdateUserRequest{
+		FirstName: &firstName,
 	}
 	err := svc.UpdateUserByID(id, updateData)
 	require.NoError(t, err)
@@ -263,8 +264,9 @@ func TestUpdateUserByID_RepoError(t *testing.T) {
 	svc := service.NewUserService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"last_name": "XFail",
+	lastName := "XFail"
+	updateData := dto.UpdateUserRequest{
+		LastName: &lastName,
 	}
 	err := svc.UpdateUserByID(id, updateData)
 	require.Error(t, err)

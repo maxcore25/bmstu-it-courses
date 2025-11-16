@@ -218,7 +218,7 @@ export const UpdateUserDrawer = ({
                     <FormControl>
                       <Input
                         type='number'
-                        min='1'
+                        min='0'
                         max='5'
                         step='0.1'
                         value={field.value ?? ''}

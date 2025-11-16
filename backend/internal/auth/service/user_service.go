@@ -16,7 +16,7 @@ type UserService interface {
 	GetUser(id uuid.UUID) (*model.User, error)
 	GetAllUsers() ([]*model.User, error)
 	GetUsers(filter dto.UserFilter) ([]*model.User, error)
-	UpdateUserByID(id uuid.UUID, updateData map[string]any) error
+	UpdateUserByID(id uuid.UUID, updateData dto.UpdateUserRequest) error
 	DeleteUserByID(id uuid.UUID) error
 }
 
@@ -96,8 +96,7 @@ func (s *userService) GetUsers(filter dto.UserFilter) ([]*model.User, error) {
 	return s.repo.Find(filter)
 }
 
-func (s *userService) UpdateUserByID(id uuid.UUID, updateData map[string]any) error {
-	// Could add additional validation here
+func (s *userService) UpdateUserByID(id uuid.UUID, updateData dto.UpdateUserRequest) error {
 	return s.repo.UpdateByID(id, updateData)
 }
 
