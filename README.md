@@ -4,12 +4,7 @@
 
 ## Видео
 
-<!-- [![Watch the video](./assets/preview.png)](./assets/CodeCraft.mp4) -->
-
-<video src="https://github.com/maxcore25/bmstu-it-courses/blob/main/assets/CodeCraft.mp4" 
-  controls 
-  width="600">
-</video>
+https://github.com/user-attachments/assets/72e9b6f8-0784-4826-8708-e17dd1759aa1
 
 ## Инструкция
 
