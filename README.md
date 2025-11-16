@@ -4,7 +4,12 @@
 
 ## Видео
 
-[![Watch the video](./docs/preview.png)](./docs/CodeCraft.mp4)
+<!-- [![Watch the video](./docs/preview.png)](./docs/CodeCraft.mp4) -->
+
+<video src="https://github.com/maxcore25/bmstu-it-courses/blob/main/docs/CodeCraft.mp4" 
+  controls 
+  width="600">
+</video>
 
 ## Инструкция
 
