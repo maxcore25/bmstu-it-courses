@@ -29,7 +29,7 @@ import {
 } from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/spinner';
 import { useCreateCourseButton } from '../model/use-create-course-button';
-import { useGetTutors } from '@/entities/user/model/use-get-tutors';
+import { useGetTutors } from '@/entities/user';
 
 export const CreateCourseButton = () => {
   const { form, onSubmit, handleCancel, isPending, isMobile } =
