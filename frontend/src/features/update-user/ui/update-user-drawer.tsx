@@ -10,9 +10,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/shared/ui/drawer';
-import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
 import {
   Form,
   FormControl,
@@ -27,11 +25,15 @@ import { UpdateUserValues } from '../model/update-user.schema';
 import { useUpdateUserForm } from '../model/use-update-user-form';
 
 interface UpdateUserDrawerProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   userId: string;
   initialData: UpdateUserValues;
 }
 
 export const UpdateUserDrawer = ({
+  open,
+  onOpenChange,
   userId,
   initialData,
 }: UpdateUserDrawerProps) => {
@@ -50,12 +52,11 @@ export const UpdateUserDrawer = ({
   };
 
   return (
-    <Drawer direction={isMobile ? 'bottom' : 'right'}>
-      <DrawerTrigger asChild>
-        <DropdownMenuItem onSelect={e => e.preventDefault()}>
-          Edit
-        </DropdownMenuItem>
-      </DrawerTrigger>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? 'bottom' : 'right'}
+    >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
           <DrawerTitle>Edit User</DrawerTitle>

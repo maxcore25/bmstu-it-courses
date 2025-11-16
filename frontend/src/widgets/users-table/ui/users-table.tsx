@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/incompatible-library */
 'use client';
 
-import { User, useGetUsers } from '@/entities/user';
+import { useGetUsers, User } from '@/entities/user';
 import { CreateUserButton } from '@/features/create-user';
 import { DeleteUserDropdownItem } from '@/features/delete-user';
 import { UpdateUserDrawer } from '@/features/update-user';
@@ -22,6 +22,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
@@ -67,6 +68,42 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import * as React from 'react';
+
+function ActionsCell({ row }: { row: Row<User> }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <>
+      <div className='flex justify-end'>
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='ghost'
+              className='data-[state=open]:bg-muted text-muted-foreground flex size-8'
+              size='icon'
+            >
+              <IconDotsVertical />
+              <span className='sr-only'>Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='w-32'>
+            <DropdownMenuItem onSelect={() => setIsOpen(true)}>
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DeleteUserDropdownItem userId={row.original.id} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <UpdateUserDrawer
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        userId={row.original.id}
+        initialData={row.original}
+      />
+    </>
+  );
+}
 
 const columns: ColumnDef<User>[] = [
   {
@@ -139,30 +176,7 @@ const columns: ColumnDef<User>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => (
-      <div className='flex justify-end'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant='ghost'
-              className='data-[state=open]:bg-muted text-muted-foreground flex size-8'
-              size='icon'
-            >
-              <IconDotsVertical />
-              <span className='sr-only'>Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-32'>
-            <UpdateUserDrawer
-              userId={row.original.id}
-              initialData={row.original}
-            />
-            <DropdownMenuSeparator />
-            <DeleteUserDropdownItem userId={row.original.id} />
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    ),
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ];
 
