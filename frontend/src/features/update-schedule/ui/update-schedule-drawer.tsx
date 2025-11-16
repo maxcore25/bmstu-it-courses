@@ -23,6 +23,15 @@ import { Input } from '@/shared/ui/input';
 import { Spinner } from '@/shared/ui/spinner';
 import { UpdateScheduleValues } from '../model/update-schedule.schema';
 import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
+import { useGetBranches } from '@/entities/branch';
+import { useGetCourses } from '@/entities/course';
 
 interface UpdateScheduleDrawerProps {
   open: boolean;
@@ -37,11 +46,13 @@ export const UpdateScheduleDrawer = ({
   scheduleId,
   initialData,
 }: UpdateScheduleDrawerProps) => {
+  const isMobile = useIsMobile();
   const { form, onSubmit, handleCancel, isPending } = useUpdateScheduleForm(
     scheduleId,
     initialData
   );
-  const isMobile = useIsMobile();
+  const { data: branches, isLoading: isLoadingBranches } = useGetBranches();
+  const { data: courses, isLoading: isLoadingCourses } = useGetCourses();
 
   const handleFormSubmit = (values: UpdateScheduleValues) => {
     onSubmit(values);
@@ -59,9 +70,9 @@ export const UpdateScheduleDrawer = ({
     >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Edit Schedule</DrawerTitle>
+          <DrawerTitle>Редактировать расписание</DrawerTitle>
           <DrawerDescription>
-            Update the schedule information below.
+            Обновите информацию о расписании ниже.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
@@ -75,21 +86,40 @@ export const UpdateScheduleDrawer = ({
                 name='branchId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Branch ID</FormLabel>
-                    <FormControl>
-                      <Input autoFocus {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Филиал</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите филиал' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingBranches ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          branches?.map(branch => (
+                            <SelectItem key={branch.id} value={branch.id}>
+                              {branch.address}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='capacity'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Capacity</FormLabel>
+                    <FormLabel>Вместимость</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -102,27 +132,45 @@ export const UpdateScheduleDrawer = ({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='courseId'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Course ID</FormLabel>
-                    <FormControl>
-                      <Input {...field} className='h-auto py-3' />
-                    </FormControl>
+                    <FormLabel>Курс</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='h-auto! w-full py-3'>
+                          <SelectValue placeholder='Выберите курс' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {isLoadingCourses ? (
+                          <SelectItem disabled value=''>
+                            Загрузка...
+                          </SelectItem>
+                        ) : (
+                          courses?.map(course => (
+                            <SelectItem key={course.id} value={course.id}>
+                              {course.name}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className='h-[20px]' />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='startAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Start At</FormLabel>
+                    <FormLabel>Дата и время начала</FormLabel>
                     <FormControl>
                       <Input
                         type='datetime-local'
@@ -134,13 +182,12 @@ export const UpdateScheduleDrawer = ({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='endAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>End At</FormLabel>
+                    <FormLabel>Дата и время окончания</FormLabel>
                     <FormControl>
                       <Input
                         type='datetime-local'
@@ -152,14 +199,13 @@ export const UpdateScheduleDrawer = ({
                   </FormItem>
                 )}
               />
-
               <Button
                 type='submit'
                 className='mt-6! h-auto w-full gap-2 py-3'
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Update Schedule
+                Обновить расписание
               </Button>
             </form>
           </Form>
@@ -167,7 +213,7 @@ export const UpdateScheduleDrawer = ({
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant='outline' onClick={handleCancelClick}>
-              Cancel
+              Отмена
             </Button>
           </DrawerClose>
         </DrawerFooter>
