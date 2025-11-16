@@ -1,5 +1,7 @@
 'use client';
 
+import { useGetBranches } from '@/entities/branch';
+import { useGetCourses } from '@/entities/course';
 import { useIsMobile } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/button';
 import {
@@ -20,9 +22,6 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { Spinner } from '@/shared/ui/spinner';
-import { UpdateScheduleValues } from '../model/update-schedule.schema';
-import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
 import {
   Select,
   SelectContent,
@@ -30,8 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { useGetBranches } from '@/entities/branch';
-import { useGetCourses } from '@/entities/course';
+import { Spinner } from '@/shared/ui/spinner';
+import { UpdateScheduleValues } from '../model/update-schedule.schema';
+import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
+import { DatetimePicker } from './datetime-picker';
 
 interface UpdateScheduleDrawerProps {
   open: boolean;
@@ -170,12 +171,11 @@ export const UpdateScheduleDrawer = ({
                 name='startAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Дата и время начала</FormLabel>
                     <FormControl>
-                      <Input
-                        type='datetime-local'
-                        {...field}
-                        className='h-auto py-3'
+                      <DatetimePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                        label='Дата'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -187,12 +187,11 @@ export const UpdateScheduleDrawer = ({
                 name='endAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Дата и время окончания</FormLabel>
                     <FormControl>
-                      <Input
-                        type='datetime-local'
-                        {...field}
-                        className='h-auto py-3'
+                      <DatetimePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                        label='Дата'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
