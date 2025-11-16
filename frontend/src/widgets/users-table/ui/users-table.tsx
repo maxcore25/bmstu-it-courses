@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Label } from '@/shared/ui/label';
+import { RoleBadge } from '@/shared/ui/role-badge';
 import {
   Select,
   SelectContent,
@@ -151,7 +152,7 @@ const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'role',
     header: 'Role',
-    cell: ({ row }) => <Badge>{row.original.role}</Badge>,
+    cell: ({ row }) => <RoleBadge role={row.original.role} />,
   },
   {
     accessorKey: 'knowledgeLevel',
