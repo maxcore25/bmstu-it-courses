@@ -1,4 +1,4 @@
-.PHONY: dev build run swag help
+.PHONY: dev build run swag test help
 
 dev:
 	@echo "Generating Swagger docs..."
@@ -28,10 +28,15 @@ swag:
 	@swag init --parseDependency --parseInternal -g ./cmd/app/main.go
 	@echo "Swagger docs generated"
 
+test:
+	@echo "Running tests with gotestsum..."
+	gotestsum --format testname
+
 help:
 	@echo "Available commands:"
 	@echo "  dev    - Start Air hot reload (with Swagger hot reload)"
 	@echo "  build  - Build Go app into ./bin/app (Swagger updated first)"
 	@echo "  run    - Run Go app (no reload)"
 	@echo "  swag   - Generate Swagger docs"
+	@echo "  test   - Run tests with gotestsum"
 	@echo "  help   - Show this help"

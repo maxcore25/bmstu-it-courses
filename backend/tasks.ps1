@@ -31,11 +31,17 @@ function Run {
     go run ./cmd/app
 }
 
+function Test {
+    Write-Host "Running tests with gotestsum..." -ForegroundColor Cyan
+    gotestsum --format testname
+}
+
 function Help {
     Write-Host "Available commands:" -ForegroundColor Yellow    
     Write-Host "  dev      - Start Air hot reload (with Swagger hot reload)"
     Write-Host "  build    - Build Go app into ./bin/app (Swagger updated first)"
     Write-Host "  run      - Run Go app (no reload)"
+    Write-Host "  test     - Run tests with gotestsum"
     Write-Host "  help     - Show this help"
 }
 
@@ -43,6 +49,7 @@ switch ($Command.ToLower()) {
     "dev"   { Dev }
     "build" { Build }
     "run"   { Run }
+    "test"  { Test }
     "swag"  { Swagger }
     "help"  { Help }
     default {
