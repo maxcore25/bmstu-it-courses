@@ -1,12 +1,20 @@
 'use client';
 
-import { useState, useMemo } from 'react';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import { enUS, Locale, ru } from 'date-fns/locale';
 import { ChevronDownIcon } from 'lucide-react';
+import { useMemo, useState } from 'react';
+
+const localeMap: Record<string, Locale> = {
+  'ru-RU': ru,
+  ru: ru,
+  'en-US': enUS,
+  en: enUS,
+};
 
 interface DatetimePickerProps {
   value?: string; // ISO string
@@ -20,6 +28,11 @@ export function DatetimePicker({
   label,
 }: DatetimePickerProps) {
   const [open, setOpen] = useState(false);
+
+  const userLocale =
+    (typeof navigator !== 'undefined' && navigator.language) || 'en-US';
+
+  const dfnsLocale = useMemo(() => localeMap[userLocale] || enUS, [userLocale]);
 
   // --- 1. Derive date & time from the prop (no effects needed)
   const derived = useMemo(() => {
@@ -73,6 +86,7 @@ export function DatetimePicker({
 
           <PopoverContent className='w-auto p-0' align='start'>
             <Calendar
+              locale={dfnsLocale}
               mode='single'
               selected={date}
               captionLayout='dropdown'
