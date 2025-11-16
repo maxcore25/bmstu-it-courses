@@ -28,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Label } from '@/shared/ui/label';
+import { LevelBadge } from '@/shared/ui/level-badge';
 import {
   Select,
   SelectContent,
@@ -157,9 +158,7 @@ const columns: ColumnDef<Course>[] = [
   {
     accessorKey: 'difficulty',
     header: 'Difficulty',
-    cell: ({ row }) => (
-      <Badge variant='outline'>{row.original.difficulty}</Badge>
-    ),
+    cell: ({ row }) => <LevelBadge level={row.original.difficulty} />,
   },
   {
     accessorKey: 'duration',

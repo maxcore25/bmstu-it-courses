@@ -1,6 +1,7 @@
 import { getTutorsSSR } from '@/entities/user/api/get-tutors-ssr.api';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
+import { LevelBadge } from '@/shared/ui/level-badge';
 import { Star, User } from 'lucide-react';
 
 export const TutorsSection = async () => {
@@ -44,7 +45,7 @@ export const TutorsSection = async () => {
               <CardContent className='p-6'>
                 <h3 className='mb-1 flex gap-1 text-lg font-bold'>
                   {`${tutor.firstName} ${tutor.lastName}`}
-                  <Badge variant='outline'>{tutor.knowledgeLevel}</Badge>
+                  <LevelBadge level={tutor.knowledgeLevel} />
                 </h3>
                 <div className='mb-3 flex items-center gap-1'>
                   <Star className='size-4' />

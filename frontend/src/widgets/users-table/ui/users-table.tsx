@@ -6,7 +6,6 @@ import { CreateUserButton } from '@/features/create-user';
 import { DeleteUserDropdownItem } from '@/features/delete-user';
 import { UpdateUserDrawer } from '@/features/update-user';
 import { useIsMobile } from '@/shared/lib/hooks';
-import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import {
@@ -27,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Label } from '@/shared/ui/label';
+import { LevelBadge } from '@/shared/ui/level-badge';
 import { RoleBadge } from '@/shared/ui/role-badge';
 import {
   Select,
@@ -157,9 +157,7 @@ const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'knowledgeLevel',
     header: 'Knowledge Level',
-    cell: ({ row }) => (
-      <Badge variant='outline'>{row.original.knowledgeLevel}</Badge>
-    ),
+    cell: ({ row }) => <LevelBadge level={row.original.knowledgeLevel} />,
   },
   {
     accessorKey: 'createdAt',
