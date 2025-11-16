@@ -20,6 +20,9 @@ const badgeVariants = cva(
         success:
           'border-transparent [a&]:hover:bg-green-100/90 text-green-700 bg-green-100',
 
+        'destructive-secondary':
+          'border-transparent [a&]:hover:bg-red-100/90 text-red-700 bg-red-100',
+
         'warn-outline':
           'border-yellow-500 text-yellow-600 bg-transparent [a&]:hover:bg-yellow-50',
         'info-outline':
