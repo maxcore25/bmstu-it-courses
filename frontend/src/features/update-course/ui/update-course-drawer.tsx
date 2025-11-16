@@ -10,9 +10,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/shared/ui/drawer';
-import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
 import {
   Form,
   FormControl,
@@ -27,11 +25,15 @@ import { UpdateCourseValues } from '../model/update-course.schema';
 import { useUpdateCourseForm } from '../model/use-update-course-form';
 
 interface UpdateCourseDrawerProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   courseId: string;
   initialData: UpdateCourseValues;
 }
 
 export const UpdateCourseDrawer = ({
+  open,
+  onOpenChange,
   courseId,
   initialData,
 }: UpdateCourseDrawerProps) => {
@@ -50,12 +52,11 @@ export const UpdateCourseDrawer = ({
   };
 
   return (
-    <Drawer direction={isMobile ? 'bottom' : 'right'}>
-      <DrawerTrigger asChild>
-        <DropdownMenuItem onSelect={e => e.preventDefault()}>
-          Edit
-        </DropdownMenuItem>
-      </DrawerTrigger>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? 'bottom' : 'right'}
+    >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
           <DrawerTitle>Edit Course</DrawerTitle>
