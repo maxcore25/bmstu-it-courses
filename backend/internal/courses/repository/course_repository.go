@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/courses/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/courses/model"
 	"gorm.io/gorm"
 )
@@ -19,7 +20,7 @@ type CourseRepository interface {
 	GetAll() ([]*model.Course, error)
 	GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Course, error)
 	GetAllWithExpand(expand map[string]bool) ([]*model.Course, error)
-	UpdateByID(id uuid.UUID, updateData map[string]any) error
+	UpdateByID(id uuid.UUID, updateData dto.UpdateCourseRequest) error
 	DeleteByID(id uuid.UUID) error
 }
 
@@ -75,7 +76,7 @@ func (r *courseRepository) GetAll() ([]*model.Course, error) {
 	return courses, nil
 }
 
-func (r *courseRepository) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (r *courseRepository) UpdateByID(id uuid.UUID, updateData dto.UpdateCourseRequest) error {
 	return r.db.Model(&model.Course{}).Where("id = ?", id).Updates(updateData).Error
 }
 

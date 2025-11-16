@@ -13,7 +13,7 @@ type CourseService interface {
 	CreateCourse(req *dto.CreateCourseRequest) (*model.Course, error)
 	GetCourse(id uuid.UUID, expand map[string]bool) (*model.Course, error)
 	GetAllCourses(expand map[string]bool) ([]*model.Course, error)
-	UpdateCourseByID(id uuid.UUID, updates map[string]any) error
+	UpdateCourseByID(id uuid.UUID, updates dto.UpdateCourseRequest) error
 	DeleteCourseByID(id uuid.UUID) error
 }
 
@@ -55,7 +55,7 @@ func (s *courseService) GetAllCourses(expand map[string]bool) ([]*model.Course, 
 	return s.repo.GetAll()
 }
 
-func (s *courseService) UpdateCourseByID(id uuid.UUID, updates map[string]any) error {
+func (s *courseService) UpdateCourseByID(id uuid.UUID, updates dto.UpdateCourseRequest) error {
 	return s.repo.UpdateByID(id, updates)
 }
 

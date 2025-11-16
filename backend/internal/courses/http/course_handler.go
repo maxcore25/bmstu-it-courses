@@ -110,7 +110,7 @@ func (h *CourseHandler) GetAllCourses(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Course ID (uuid)"
-// @Param course body map[string]interface{} true "Course update data"
+// @Param course body dto.UpdateCourseRequest true "Course update data"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -123,11 +123,11 @@ func (h *CourseHandler) UpdateCourseByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid uuid"})
 		return
 	}
-	var updateData map[string]any
-	if !httphelper.BindJSON(c, &updateData) {
+	var req dto.UpdateCourseRequest
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
-	if err := h.service.UpdateCourseByID(id, updateData); err != nil {
+	if err := h.service.UpdateCourseByID(id, req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
