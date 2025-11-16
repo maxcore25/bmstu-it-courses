@@ -4,7 +4,7 @@
 
 ## Видео
 
-[![Watch the video](./docs/preview.png)](./docs/video.mp4)
+[![Watch the video](./docs/preview.png)](./docs/CodeCraft.mp4)
 
 ## Инструкция
 
