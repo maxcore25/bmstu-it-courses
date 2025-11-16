@@ -30,9 +30,9 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/spinner';
+import { DatetimePicker } from '../../../shared/ui/datetime-picker';
 import { UpdateScheduleValues } from '../model/update-schedule.schema';
 import { useUpdateScheduleForm } from '../model/use-update-schedule-form';
-import { DatetimePicker } from './datetime-picker';
 
 interface UpdateScheduleDrawerProps {
   open: boolean;
@@ -175,7 +175,7 @@ export const UpdateScheduleDrawer = ({
                       <DatetimePicker
                         value={field.value}
                         onChange={field.onChange}
-                        label='Дата'
+                        label='Дата начала'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -191,7 +191,7 @@ export const UpdateScheduleDrawer = ({
                       <DatetimePicker
                         value={field.value}
                         onChange={field.onChange}
-                        label='Дата'
+                        label='Дата окончания'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />

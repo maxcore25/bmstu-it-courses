@@ -3,6 +3,7 @@
 import { useGetBranches } from '@/entities/branch';
 import { useGetCourses } from '@/entities/course';
 import { Button } from '@/shared/ui/button';
+import { DatetimePicker } from '@/shared/ui/datetime-picker';
 import {
   Drawer,
   DrawerClose,
@@ -42,13 +43,13 @@ export const CreateScheduleButton = () => {
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
-        <Button>Create Schedule</Button>
+        <Button>Создать расписание</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className='gap-1'>
-          <DrawerTitle>Create Schedule</DrawerTitle>
+          <DrawerTitle>Создать расписание</DrawerTitle>
           <DrawerDescription>
-            Enter the required information to create the schedule.
+            Введите необходимую информацию для создания расписания.
           </DrawerDescription>
         </DrawerHeader>
         <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
@@ -125,7 +126,7 @@ export const CreateScheduleButton = () => {
                 name='capacity'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Capacity</FormLabel>
+                    <FormLabel>Вместимость</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -149,12 +150,11 @@ export const CreateScheduleButton = () => {
                 name='startAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Start At</FormLabel>
                     <FormControl>
-                      <Input
-                        type='datetime-local'
-                        {...field}
-                        className='h-auto py-3'
+                      <DatetimePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                        label='Дата начала'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -166,12 +166,11 @@ export const CreateScheduleButton = () => {
                 name='endAt'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>End At</FormLabel>
                     <FormControl>
-                      <Input
-                        type='datetime-local'
-                        {...field}
-                        className='h-auto py-3'
+                      <DatetimePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                        label='Дата окончания'
                       />
                     </FormControl>
                     <FormMessage className='h-[20px]' />
@@ -184,14 +183,14 @@ export const CreateScheduleButton = () => {
                 disabled={isPending}
               >
                 {isPending ? <Spinner /> : null}
-                Create
+                Создать
               </Button>
             </form>
           </Form>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>Отмена</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
