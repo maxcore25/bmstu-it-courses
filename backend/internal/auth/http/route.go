@@ -20,12 +20,15 @@ func RegisterAuthRoutes(r *gin.RouterGroup, userService service.UserService, aut
 	}
 
 	userGroup := r.Group("/users")
+	userGroup.GET("", userHandler.GetAllUsers)
+	userGroup.GET("/:id", userHandler.GetUser)
+
+	protected := userGroup.Group("")
+	protected.Use(middleware.AuthMiddleware(jwtManager))
 	{
-		userGroup.POST("", middleware.AuthMiddleware(jwtManager), userHandler.CreateUser)
-		userGroup.GET("", userHandler.GetAllUsers)
-		userGroup.GET("/me", middleware.AuthMiddleware(jwtManager), userHandler.GetCurrentUser)
-		userGroup.GET("/:id", userHandler.GetUser)
-		userGroup.PATCH("/:id", middleware.AuthMiddleware(jwtManager), userHandler.UpdateUserByID)
-		userGroup.DELETE("/:id", middleware.AuthMiddleware(jwtManager), userHandler.DeleteUserByID)
+		protected.POST("", userHandler.CreateUser)
+		protected.GET("/me", userHandler.GetCurrentUser)
+		protected.PATCH("/:id", userHandler.UpdateUserByID)
+		protected.DELETE("/:id", userHandler.DeleteUserByID)
 	}
 }

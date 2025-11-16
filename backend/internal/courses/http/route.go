@@ -7,16 +7,21 @@ import (
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/shared/utils"
 )
 
-// RegisterCourseRoutes registers the course routes with the provided gin router group.
 func RegisterCourseRoutes(r *gin.RouterGroup, courseService service.CourseService, jwtManager *utils.JWTManager) {
 	courseHandler := NewCourseHandler(courseService)
 
 	courseGroup := r.Group("/courses")
+	courseGroup.GET("", courseHandler.GetAllCourses)
+	courseGroup.GET("/:id", courseHandler.GetCourse)
+
+	protected := courseGroup.Group("")
+	protected.Use(
+		middleware.AuthMiddleware(jwtManager),
+		middleware.RoleMiddleware("admin"),
+	)
 	{
-		courseGroup.POST("", middleware.AuthMiddleware(jwtManager), courseHandler.CreateCourse)
-		courseGroup.GET("", courseHandler.GetAllCourses)
-		courseGroup.GET("/:id", courseHandler.GetCourse)
-		courseGroup.PATCH("/:id", middleware.AuthMiddleware(jwtManager), courseHandler.UpdateCourseByID)
-		courseGroup.DELETE("/:id", middleware.AuthMiddleware(jwtManager), courseHandler.DeleteCourseByID)
+		protected.POST("", courseHandler.CreateCourse)
+		protected.PATCH("/:id", courseHandler.UpdateCourseByID)
+		protected.DELETE("/:id", courseHandler.DeleteCourseByID)
 	}
 }

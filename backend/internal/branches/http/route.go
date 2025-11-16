@@ -11,11 +11,17 @@ func RegisterBranchRoutes(r *gin.RouterGroup, branchService service.BranchServic
 	branchHandler := NewBranchHandler(branchService)
 
 	branchGroup := r.Group("/branches")
+	branchGroup.GET("", branchHandler.GetAllBranches)
+	branchGroup.GET("/:id", branchHandler.GetBranch)
+
+	protected := branchGroup.Group("")
+	protected.Use(
+		middleware.AuthMiddleware(jwtManager),
+		middleware.RoleMiddleware("admin"),
+	)
 	{
-		branchGroup.POST("", middleware.AuthMiddleware(jwtManager), branchHandler.CreateBranch)
-		branchGroup.GET("", branchHandler.GetAllBranches)
-		branchGroup.GET("/:id", branchHandler.GetBranch)
-		branchGroup.PATCH("/:id", middleware.AuthMiddleware(jwtManager), branchHandler.UpdateBranchByID)
-		branchGroup.DELETE("/:id", middleware.AuthMiddleware(jwtManager), branchHandler.DeleteBranchByID)
+		protected.POST("", branchHandler.CreateBranch)
+		protected.PATCH("/:id", branchHandler.UpdateBranchByID)
+		protected.DELETE("/:id", branchHandler.DeleteBranchByID)
 	}
 }
