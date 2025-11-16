@@ -10,9 +10,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/shared/ui/drawer';
-import { DropdownMenuItem } from '@/shared/ui/dropdown-menu';
 import {
   Form,
   FormControl,
@@ -27,11 +25,15 @@ import { UpdateBranchValues } from '../model/update-branch.schema';
 import { useUpdateBranchForm } from '../model/use-update-branch-form';
 
 interface UpdateBranchDrawerProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   branchId: string;
   initialData: UpdateBranchValues;
 }
 
 export const UpdateBranchDrawer = ({
+  open,
+  onOpenChange,
   branchId,
   initialData,
 }: UpdateBranchDrawerProps) => {
@@ -50,12 +52,11 @@ export const UpdateBranchDrawer = ({
   };
 
   return (
-    <Drawer direction={isMobile ? 'bottom' : 'right'}>
-      <DrawerTrigger asChild>
-        <DropdownMenuItem onSelect={e => e.preventDefault()}>
-          Edit
-        </DropdownMenuItem>
-      </DrawerTrigger>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? 'bottom' : 'right'}
+    >
       <DrawerContent>
         <DrawerHeader className='gap-1'>
           <DrawerTitle>Edit Branch</DrawerTitle>

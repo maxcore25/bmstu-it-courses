@@ -21,6 +21,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
@@ -66,6 +67,42 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import * as React from 'react';
+
+function ActionsCell({ row }: { row: Row<Branch> }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <>
+      <div className='flex justify-end'>
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='ghost'
+              className='data-[state=open]:bg-muted text-muted-foreground flex size-8'
+              size='icon'
+            >
+              <IconDotsVertical />
+              <span className='sr-only'>Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='w-32'>
+            <DropdownMenuItem onSelect={() => setIsOpen(true)}>
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DeleteBranchDropdownItem branchId={row.original.id} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <UpdateBranchDrawer
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        branchId={row.original.id}
+        initialData={row.original}
+      />
+    </>
+  );
+}
 
 const columns: ColumnDef<Branch>[] = [
   {
@@ -121,30 +158,7 @@ const columns: ColumnDef<Branch>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => (
-      <div className='flex justify-end'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant='ghost'
-              className='data-[state=open]:bg-muted text-muted-foreground flex size-8'
-              size='icon'
-            >
-              <IconDotsVertical />
-              <span className='sr-only'>Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-32'>
-            <UpdateBranchDrawer
-              branchId={row.original.id}
-              initialData={row.original}
-            />
-            <DropdownMenuSeparator />
-            <DeleteBranchDropdownItem branchId={row.original.id} />
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    ),
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ];
 
