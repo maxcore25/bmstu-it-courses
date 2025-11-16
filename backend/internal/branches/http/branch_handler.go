@@ -108,7 +108,7 @@ func (h *BranchHandler) GetAllBranches(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Branch ID (uuid)"
-// @Param branch body map[string]interface{} true "Branch update data"
+// @Param branch body dto.UpdateBranchRequest true "Branch update data"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -121,11 +121,13 @@ func (h *BranchHandler) UpdateBranchByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid uuid"})
 		return
 	}
-	var updateData map[string]any
-	if !httphelper.BindJSON(c, &updateData) {
+
+	var req dto.UpdateBranchRequest
+	if !httphelper.BindJSON(c, &req) {
 		return
 	}
-	if err := h.service.UpdateBranchByID(id, updateData); err != nil {
+
+	if err := h.service.UpdateBranchByID(id, req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

@@ -24,7 +24,7 @@ type mockBranchRepo struct {
 	errOnGetAll error
 
 	errOnUpdate error
-	updatedData map[string]any
+	updatedData dto.UpdateBranchRequest
 	updatedID   uuid.UUID
 
 	errOnDelete error
@@ -54,7 +54,7 @@ func (m *mockBranchRepo) GetAll() ([]*model.Branch, error) {
 	return m.allBranches, nil
 }
 
-func (m *mockBranchRepo) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (m *mockBranchRepo) UpdateByID(id uuid.UUID, updateData dto.UpdateBranchRequest) error {
 	m.updatedID = id
 	m.updatedData = updateData
 	if m.errOnUpdate != nil {
@@ -151,9 +151,11 @@ func TestUpdateBranchByID_Success(t *testing.T) {
 	svc := branches_service.NewBranchService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"address": "NewAddr",
-		"rooms":   10,
+	newAddress := "NewAddr"
+	newRooms := 10
+	updateData := dto.UpdateBranchRequest{
+		Address: &newAddress,
+		Rooms:   &newRooms,
 	}
 	err := svc.UpdateBranchByID(id, updateData)
 	require.NoError(t, err)
@@ -165,9 +167,11 @@ func TestUpdateBranchByID_RepoError(t *testing.T) {
 	svc := branches_service.NewBranchService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"address": "fail",
-		"rooms":   0,
+	addr := "fail"
+	rooms := 0
+	updateData := dto.UpdateBranchRequest{
+		Address: &addr,
+		Rooms:   &rooms,
 	}
 	err := svc.UpdateBranchByID(id, updateData)
 	require.Error(t, err)

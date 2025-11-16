@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/branches/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/branches/model"
 	"gorm.io/gorm"
 )
@@ -10,7 +11,7 @@ type BranchRepository interface {
 	Create(branch *model.Branch) error
 	GetByID(id uuid.UUID) (*model.Branch, error)
 	GetAll() ([]*model.Branch, error)
-	UpdateByID(id uuid.UUID, updateData map[string]any) error
+	UpdateByID(id uuid.UUID, updateData dto.UpdateBranchRequest) error
 	DeleteByID(id uuid.UUID) error
 }
 
@@ -42,7 +43,7 @@ func (r *branchRepository) GetAll() ([]*model.Branch, error) {
 	return branches, nil
 }
 
-func (r *branchRepository) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (r *branchRepository) UpdateByID(id uuid.UUID, updateData dto.UpdateBranchRequest) error {
 	return r.db.Model(&model.Branch{}).Where("id = ?", id).Updates(updateData).Error
 }
 

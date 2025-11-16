@@ -13,7 +13,7 @@ type BranchService interface {
 	CreateBranch(req dto.CreateBranchRequest) (*model.Branch, error)
 	GetBranch(id uuid.UUID) (*model.Branch, error)
 	GetAllBranches() ([]*model.Branch, error)
-	UpdateBranchByID(id uuid.UUID, updateData map[string]any) error
+	UpdateBranchByID(id uuid.UUID, updateData dto.UpdateBranchRequest) error
 	DeleteBranchByID(id uuid.UUID) error
 }
 
@@ -55,7 +55,7 @@ func (s *branchService) GetAllBranches() ([]*model.Branch, error) {
 	return branches, nil
 }
 
-func (s *branchService) UpdateBranchByID(id uuid.UUID, updateData map[string]any) error {
+func (s *branchService) UpdateBranchByID(id uuid.UUID, updateData dto.UpdateBranchRequest) error {
 	// Could add validation here (e.g., allowed fields)
 	return s.repo.UpdateByID(id, updateData)
 }
