@@ -28,7 +28,7 @@ type mockScheduleRepo struct {
 	errOnGetAllExp  error
 
 	errOnUpdate error
-	updatedData map[string]any
+	updatedData dto.UpdateScheduleRequest
 	updatedID   uuid.UUID
 
 	errOnDelete error
@@ -74,7 +74,7 @@ func (m *mockScheduleRepo) GetAllWithExpand(expand map[string]bool) ([]*model.Sc
 	return m.allSchedulesExp, nil
 }
 
-func (m *mockScheduleRepo) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (m *mockScheduleRepo) UpdateByID(id uuid.UUID, updateData dto.UpdateScheduleRequest) error {
 	m.updatedID = id
 	m.updatedData = updateData
 	if m.errOnUpdate != nil {
@@ -237,8 +237,9 @@ func TestUpdateScheduleByID_Success(t *testing.T) {
 	svc := schedules_service.NewScheduleService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"capacity": 22,
+	capacity := 22
+	updateData := dto.UpdateScheduleRequest{
+		Capacity: &capacity,
 	}
 	err := svc.UpdateScheduleByID(id, updateData)
 	require.NoError(t, err)
@@ -251,8 +252,9 @@ func TestUpdateScheduleByID_RepoError(t *testing.T) {
 	svc := schedules_service.NewScheduleService(mockRepo)
 
 	id := uuid.New()
-	updateData := map[string]any{
-		"capacity": 0,
+	capacity := 0
+	updateData := dto.UpdateScheduleRequest{
+		Capacity: &capacity,
 	}
 	err := svc.UpdateScheduleByID(id, updateData)
 	require.Error(t, err)

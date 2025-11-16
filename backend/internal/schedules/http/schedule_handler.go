@@ -108,7 +108,7 @@ func (h *ScheduleHandler) GetAllSchedules(c *gin.Context) {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Schedule ID (uuid)"
-// @Param schedule body map[string]interface{} true "Schedule update data"
+// @Param schedule body dto.UpdateScheduleRequest true "Schedule update data"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
@@ -121,7 +121,7 @@ func (h *ScheduleHandler) UpdateScheduleByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid uuid"})
 		return
 	}
-	var updateData map[string]any
+	var updateData dto.UpdateScheduleRequest
 	if !httphelper.BindJSON(c, &updateData) {
 		return
 	}

@@ -12,7 +12,7 @@ type ScheduleService interface {
 	CreateSchedule(req *dto.CreateScheduleRequest) (*model.Schedule, error)
 	GetSchedule(id uuid.UUID, expand map[string]bool) (*model.Schedule, error)
 	GetAllSchedules(expand map[string]bool) ([]*model.Schedule, error)
-	UpdateScheduleByID(id uuid.UUID, updates map[string]any) error
+	UpdateScheduleByID(id uuid.UUID, updates dto.UpdateScheduleRequest) error
 	DeleteScheduleByID(id uuid.UUID) error
 }
 
@@ -53,7 +53,7 @@ func (s *scheduleService) GetAllSchedules(expand map[string]bool) ([]*model.Sche
 	return s.repo.GetAll()
 }
 
-func (s *scheduleService) UpdateScheduleByID(id uuid.UUID, updates map[string]any) error {
+func (s *scheduleService) UpdateScheduleByID(id uuid.UUID, updates dto.UpdateScheduleRequest) error {
 	return s.repo.UpdateByID(id, updates)
 }
 

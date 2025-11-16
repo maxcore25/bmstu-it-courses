@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/schedules/model"
 	"gorm.io/gorm"
 )
@@ -22,7 +23,7 @@ type ScheduleRepository interface {
 	GetAll() ([]*model.Schedule, error)
 	GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Schedule, error)
 	GetAllWithExpand(expand map[string]bool) ([]*model.Schedule, error)
-	UpdateByID(id uuid.UUID, updateData map[string]any) error
+	UpdateByID(id uuid.UUID, updateData dto.UpdateScheduleRequest) error
 	DeleteByID(id uuid.UUID) error
 }
 
@@ -78,7 +79,7 @@ func (r *scheduleRepository) GetAll() ([]*model.Schedule, error) {
 	return schedules, nil
 }
 
-func (r *scheduleRepository) UpdateByID(id uuid.UUID, updateData map[string]any) error {
+func (r *scheduleRepository) UpdateByID(id uuid.UUID, updateData dto.UpdateScheduleRequest) error {
 	return r.db.Model(&model.Schedule{}).Where("id = ?", id).Updates(updateData).Error
 }
 
