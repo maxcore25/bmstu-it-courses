@@ -1,12 +1,12 @@
 # МГТУ им. Н.Э. Баумана — Курсовая работа на тему "Информационная система компьютерных курсов"
 
-![Preview](./docs/preview.png)
+![Preview](./assets/preview.png)
 
 ## Видео
 
-<!-- [![Watch the video](./docs/preview.png)](./docs/CodeCraft.mp4) -->
+<!-- [![Watch the video](./assets/preview.png)](./assets/CodeCraft.mp4) -->
 
-<video src="https://github.com/maxcore25/bmstu-it-courses/blob/main/docs/CodeCraft.mp4" 
+<video src="https://github.com/maxcore25/bmstu-it-courses/blob/main/assets/CodeCraft.mp4" 
   controls 
   width="600">
 </video>
@@ -20,8 +20,8 @@
 
 ### Логин
 
-![Login page](./docs/login.png)
+![Login page](./assets/login.png)
 
 ### Админка
 
-![Admin page](./docs/admin.png)
+![Admin page](./assets/admin.png)
