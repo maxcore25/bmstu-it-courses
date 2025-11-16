@@ -12,9 +12,10 @@ import {
 import { Clock, TrendingUp, Users } from 'lucide-react';
 import Image from 'next/image';
 
+import { FormatBadge } from '@/shared/ui/format-badge';
 import { readdirSync } from 'fs';
-import { join } from 'path';
 import Link from 'next/link';
+import { join } from 'path';
 
 let filesCache: string[] | null = null;
 
@@ -65,7 +66,7 @@ export const CoursesSection = async () => {
                     fill
                   />
                   <div className='absolute top-4 right-4'>
-                    <Badge variant='secondary'>{course.format}</Badge>
+                    <FormatBadge format={course.format} />
                   </div>
                 </div>
                 <CardHeader>

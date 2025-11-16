@@ -7,7 +7,6 @@ import { DeleteCourseDropdownItem } from '@/features/delete-course';
 import { UpdateCourseDrawer } from '@/features/update-course';
 import { useIsMobile } from '@/shared/lib/hooks';
 import { formatRubleNumber } from '@/shared/lib/utils';
-import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import {
@@ -27,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import { FormatBadge } from '@/shared/ui/format-badge';
 import { Label } from '@/shared/ui/label';
 import { LevelBadge } from '@/shared/ui/level-badge';
 import {
@@ -148,7 +148,7 @@ const columns: ColumnDef<Course>[] = [
   {
     accessorKey: 'format',
     header: 'Format',
-    cell: ({ row }) => <Badge>{row.original.format}</Badge>,
+    cell: ({ row }) => <FormatBadge format={row.original.format} />,
   },
   {
     accessorKey: 'price',
