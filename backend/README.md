@@ -22,6 +22,16 @@ make dev
 
 При запуске бекенда добавляются таблицы и начальные тестовые данные.
 
+4. Опционально можно запустить тесты:
+
+```sh
+# Windows
+.\tasks.ps1 test
+
+# Linux
+make test
+```
+
 ---
 
 ## Start
@@ -83,4 +93,12 @@ go test ./...
 
 # Run all tests (pretty output)
 gotestsum --format testname
+
+# or
+
+# Windows
+.\tasks.ps1 test
+
+# Linux
+make test
 ```
