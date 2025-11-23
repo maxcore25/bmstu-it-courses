@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/model"
 	"gorm.io/gorm"
 )
@@ -29,6 +30,7 @@ type OrderRepository interface {
 	GetByUser(userID uuid.UUID) ([]*model.Order, error)
 	GetAll() ([]*model.Order, error)
 	GetByIDWithExpand(id uuid.UUID, expand map[string]bool) (*model.Order, error)
+	GetOrdersMetadata(userID uuid.UUID) (*dto.OrdersMetadata, error)
 	GetAllWithExpand(expand map[string]bool) ([]*model.Order, error)
 	UpdateByID(id uuid.UUID, updateData map[string]any) error
 	DeleteByID(id uuid.UUID) error
@@ -49,6 +51,45 @@ func NewOrderRepository(db *gorm.DB) OrderRepository {
 
 func (r *orderRepository) Create(order *model.Order) error {
 	return r.db.Create(order).Error
+}
+
+func (r *orderRepository) GetOrdersMetadata(userID uuid.UUID) (*dto.OrdersMetadata, error) {
+	// Query user role by id
+	var user struct {
+		ID   uuid.UUID
+		Role string
+	}
+	if err := r.db.Raw("SELECT id, role FROM users WHERE id = ?", userID).Scan(&user).Error; err != nil {
+		return nil, err
+	}
+
+	var ordersCount int64
+	var totalSum int64
+
+	db := r.db.Model(&model.Order{})
+
+	if user.Role == "admin" {
+		// Admin: all orders and their sum
+		if err := db.Count(&ordersCount).Error; err != nil {
+			return nil, err
+		}
+		if err := db.Select("COALESCE(SUM(price),0)").Scan(&totalSum).Error; err != nil {
+			return nil, err
+		}
+	} else {
+		// Not admin: only for this user's orders
+		if err := db.Where("client_id = ?", userID).Count(&ordersCount).Error; err != nil {
+			return nil, err
+		}
+		if err := db.Where("client_id = ?", userID).Select("COALESCE(SUM(price),0)").Scan(&totalSum).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	return &dto.OrdersMetadata{
+		TotalSum: totalSum,
+		Count:    int(ordersCount),
+	}, nil
 }
 
 func (r *orderRepository) GetByUserWithExpand(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error) {

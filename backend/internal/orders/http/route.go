@@ -16,6 +16,7 @@ func RegisterOrderRoutes(r *gin.RouterGroup, orderService service.OrderService, 
 	protected.Use(middleware.AuthMiddleware(jwtManager))
 	{
 		protected.POST("", orderHandler.CreateOrder)
+		protected.GET("/total", orderHandler.GetOrdersMetadata)
 		protected.GET("", orderHandler.GetAllOrders)
 		protected.GET("/my", orderHandler.GetMyOrders)
 		protected.GET("/:id", orderHandler.GetOrder)

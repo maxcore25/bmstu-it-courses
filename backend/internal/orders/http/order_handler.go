@@ -68,6 +68,33 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusCreated, resp)
 }
 
+// GetOrdersMetadata godoc
+// @Summary Get summary metadata of all orders
+// @Tags Orders
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} dto.OrdersMetadata
+// @Failure 500 {object} gin.H
+// @Router /orders/metadata [get]
+func (h *OrderHandler) GetOrdersMetadata(c *gin.Context) {
+	// 1. Extract user ID from middleware (for role check: admin vs user-specific)
+	uid, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	userID := uid.(uuid.UUID)
+
+	// 2. Use service to get orders metadata
+	metadata, err := h.service.GetOrdersMetadata(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, metadata)
+}
+
 // GetMyOrders godoc
 // @Summary Get orders of the authenticated user
 // @Tags Orders

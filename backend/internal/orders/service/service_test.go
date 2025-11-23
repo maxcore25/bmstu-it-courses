@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
 
+	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/dto"
 	"github.com/maxcore25/bmstu-it-courses/backend/internal/orders/model"
 	orders_service "github.com/maxcore25/bmstu-it-courses/backend/internal/orders/service"
 )
@@ -15,6 +16,9 @@ import (
 type mockOrderRepo struct {
 	created     *model.Order
 	errOnCreate error
+
+	metadata      *dto.OrdersMetadata
+	errOnMetadata error
 
 	ordersByUser   []*model.Order
 	errOnGetByUser error
@@ -51,6 +55,13 @@ func (m *mockOrderRepo) Create(order *model.Order) error {
 	order.ID = uuid.New()
 	m.created = order
 	return nil
+}
+
+func (m *mockOrderRepo) GetOrdersMetadata(userID uuid.UUID) (*dto.OrdersMetadata, error) {
+	if m.errOnMetadata != nil {
+		return nil, m.errOnMetadata
+	}
+	return m.metadata, nil
 }
 
 func (m *mockOrderRepo) GetByUser(userID uuid.UUID) ([]*model.Order, error) {

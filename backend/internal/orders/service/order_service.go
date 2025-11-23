@@ -20,6 +20,7 @@ type OrderService interface {
 	GetOrdersByUser(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error)
 	GetOrder(id uuid.UUID, expand map[string]bool) (*model.Order, error)
 	GetAllOrders(expand map[string]bool) ([]*model.Order, error)
+	GetOrdersMetadata(userID uuid.UUID) (*dto.OrdersMetadata, error)
 	UpdateOrderByID(id uuid.UUID, updates map[string]any) error
 	DeleteOrderByID(id uuid.UUID) error
 }
@@ -106,6 +107,10 @@ func (s *orderService) CreateOrder(req *dto.CreateOrderRequest) (*model.Order, e
 	}
 
 	return order, nil
+}
+
+func (s *orderService) GetOrdersMetadata(userID uuid.UUID) (*dto.OrdersMetadata, error) {
+	return s.repo.GetOrdersMetadata(userID)
 }
 
 func (s *orderService) GetOrdersByUser(userID uuid.UUID, expand map[string]bool) ([]*model.Order, error) {
