@@ -22,3 +22,10 @@ export const orderSchema = z.object({
 export type Order = z.infer<typeof orderSchema>;
 
 export const ordersSchema = z.array(orderSchema);
+
+export const ordersMetadataSchema = z.object({
+  count: z.number().int().nonnegative(),
+  totalSum: z.number().nonnegative(),
+});
+
+export type OrdersMetadata = z.infer<typeof ordersMetadataSchema>;
