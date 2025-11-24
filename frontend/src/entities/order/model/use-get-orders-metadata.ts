@@ -4,7 +4,7 @@ import { getOrdersMetadata } from '../api/get-orders-metadata.api';
 
 export function useGetOrdersMetadata() {
   return useQuery({
-    queryKey: [QUERY_KEYS.ORDERS_METADATA],
+    queryKey: [QUERY_KEYS.ORDERS],
     queryFn: getOrdersMetadata,
   });
 }

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/incompatible-library */
 'use client';
 
-import { Order } from '@/entities/order';
+import { Order, useGetOrdersMetadata } from '@/entities/order';
 import { CreateOrderButton } from '@/features/create-order';
 import { DeleteOrderDropdownItem } from '@/features/delete-order';
 import { useIsMobile } from '@/shared/lib/hooks';
@@ -168,6 +168,8 @@ export function OrdersTable({
   orders: Order[] | undefined;
   isLoading: boolean;
 }) {
+  const { data: metadata, isLoading: isLoadingMetadata } =
+    useGetOrdersMetadata();
   const [data, setData] = React.useState<Order[]>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -238,7 +240,16 @@ export function OrdersTable({
   return (
     <div className='flex w-full flex-col justify-start gap-6'>
       <div className='flex items-center justify-between px-4 lg:px-6'>
-        <h2 className='text-2xl leading-none font-semibold'>Заказы</h2>
+        <div className='flex items-baseline gap-2'>
+          <h2 className='text-2xl leading-none font-semibold'>Заказы</h2>
+          {isLoadingMetadata && <Skeleton className='h-full w-[200px]' />}
+          {metadata && (
+            <div className='text-muted-foreground'>
+              (Всего заказов {metadata.count} на сумму{' '}
+              {formatRubleNumber(metadata.totalSum)})
+            </div>
+          )}
+        </div>
         <div className='flex items-center gap-2'>
           <CreateOrderButton />
           <DropdownMenu>

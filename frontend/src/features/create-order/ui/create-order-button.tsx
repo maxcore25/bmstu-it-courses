@@ -40,6 +40,11 @@ export const CreateOrderButton = () => {
   const { data: courses, isLoading: isLoadingCourses } = useGetCourses();
   const { data: schedules, isLoading: isLoadingSchedules } = useGetSchedules();
 
+  // Find selected course object for price display
+  const selectedCourseId = form.watch('courseId');
+  const selectedCourse =
+    courses?.find(course => course.id === selectedCourseId) ?? null;
+
   return (
     <Drawer direction={isMobile ? 'bottom' : 'right'} onClose={handleCancel}>
       <DrawerTrigger asChild>
@@ -162,6 +167,11 @@ export const CreateOrderButton = () => {
               >
                 {isPending ? <Spinner /> : null}
                 Создать
+                {selectedCourse ? (
+                  <div className='text-muted-foreground'>
+                    {`(${selectedCourse.price?.toLocaleString?.('ru-RU') ?? selectedCourse.price} ₽)`}
+                  </div>
+                ) : null}
               </Button>
             </form>
           </Form>
