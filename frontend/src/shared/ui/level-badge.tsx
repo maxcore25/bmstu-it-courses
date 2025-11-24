@@ -1,5 +1,6 @@
 import { Badge, type BadgeProps, type BadgeVariants } from '@/shared/ui/badge';
 import { Level } from '../config';
+import { cn } from '../lib/utils';
 
 type LevelColor = BadgeVariants['variant'];
 
@@ -40,7 +41,11 @@ export function LevelBadge(props: LevelBadgeProps) {
   }
 
   return (
-    <Badge variant={computedVariant} className={className} {...rest}>
+    <Badge
+      variant={computedVariant}
+      className={cn('h-fit', className)}
+      {...rest}
+    >
       {children ?? config.label}
     </Badge>
   );
